@@ -6,5 +6,8 @@ module.exports = {
       symlinks: false,
     },
   },
+  devServer: {
+    https: true,
+  },
   transpileDependencies: ["@coreui/utils", "@coreui/vue"],
 };

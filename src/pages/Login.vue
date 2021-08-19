@@ -31,8 +31,12 @@
                 </CInput>
                 <CRow>
                   <CCol col="12" class="text-center">
-                    <CButton type="submit" color="primary" class="px-4"
-                      >ورود</CButton
+                    <CButton type="submit" color="primary" class="px-4">
+                      <CSpinner
+                        class="ml-2"
+                        v-if="requestInProgress"
+                        size="sm"
+                      />ورود</CButton
                     >
                   </CCol>
                 </CRow>
@@ -51,6 +55,7 @@ export default {
   name: "Login",
   data() {
     return {
+      requestInProgress: false,
       username: "",
       password: "",
     };
@@ -64,33 +69,22 @@ export default {
     },
     async login() {
       if (!this.validatepassword || !this.validateusername) return;
+      this.requestInProgress = true;
       try {
         const { data } = await Login({
           username: this.username,
           password: this.password,
         });
-
-        if (data.Token) {
+        if (data.token) {
           localStorage.setItem(
             process.env.VUE_APP_ENV_APPLICATION_TOKEN_KEY,
-            data.Token
+            data.token
           );
           this.$store.dispatch("setAdminInfo", data, { root: true });
+          this.$router.push({ name: "adminDashboard" });
         }
-      } catch (ex) {
-        debugger;
-        this.$store.dispatch(
-          "addAlert",
-          {
-            messageHeader: "خطا",
-            type: "danger",
-            messageBody: ex.message || "خطایی رخ داده لطفا دوباره تلاش کنید",
-            autoHide: true,
-            timeout: 3000,
-          },
-          { root: true }
-        );
-      }
+      } catch (ex) {}
+      this.requestInProgress = false;
     },
   },
 };

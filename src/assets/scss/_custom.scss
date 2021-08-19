@@ -1,1 +1,6 @@
 // Here you can add other styles
+.disabled-btn {
+  opacity: 0.35 !important;
+  pointer-events: none !important;
+  box-shadow: none !important;
+}

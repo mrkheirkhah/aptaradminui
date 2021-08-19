@@ -18,6 +18,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import "./assets/styles/font-shabnam.css";
 export default {
   name: "App",
   computed: {
@@ -25,13 +26,14 @@ export default {
       alerts: "getAlerts",
     }),
   },
+  created() {
+    let htmlEl = document.querySelector("html");
+    htmlEl.setAttribute("dir", "rtl");
+    htmlEl.setAttribute("lang", "fa");
+  },
 };
 </script>
 
 <style lang="scss">
 @import "assets/scss/style";
-
-body {
-  direction: rtl;
-}
 </style>
