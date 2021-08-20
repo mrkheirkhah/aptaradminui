@@ -1,6 +1,7 @@
 const addPageMixin = {
   data() {
     return {
+      data: {},
       performingAction: false,
     };
   },
@@ -8,21 +9,26 @@ const addPageMixin = {
     async addInfo() {
       this.performingAction = true;
       const self = this;
-      for (const key in this.data) {
-        if (!this.keysToPost.includes(key)) {
-          delete this.data[key];
+      for (const key in self.data) {
+        if (!self.keysToPost.includes(key)) {
+          delete self.data[key];
         }
       }
       try {
-        await this.addInfoMethod({ ...self.data });
-        this.redirectToStore();
+        await self.addInfoMethod({ ...self.data });
+        self.redirectToStore();
       } catch (ex) {}
-      this.performingAction = false;
+      self.performingAction = false;
     },
 
     redirectToStore() {
       setTimeout(() => this.$router.push({ name: this.storePageName }), 2000);
     },
+  },
+  created() {
+    for (const field of this.fields) {
+      this.data[field.name] = null;
+    }
   },
 };
 

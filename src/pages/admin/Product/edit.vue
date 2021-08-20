@@ -1,218 +1,29 @@
 <template>
-  <!-- eslint-disable vue/valid-v-model  -->
-  <CCard>
-    <CCardHeader>
-      <slot name="header">
-        <div class="d-flex align-items-center justify-content-between">
-          <div>
-            <CIcon name="cil-basket" />
-            {{ data.title }}
-          </div>
-          <CButton
-            color="info"
-            size="sm"
-            class="m-2"
-            link
-            exact
-            to="/admin/product/"
-          >
-            <CIcon name="cil-basket" class="ml-1" />
-            همه محصولات
-          </CButton>
-        </div>
-      </slot>
-    </CCardHeader>
-    <CCardBody>
-      <CRow>
-        <CCol sm="6">
-          <CInput
-            :value="data.title"
-            @input="(e) => (data.title = e)"
-            label="نام"
-            placeholder="نام"
-          />
-        </CCol>
-        <CCol sm="6">
-          <CInput
-            :value="data.path"
-            @input="(e) => (data.path = e)"
-            label="مسیر"
-            placeholder="مسیر"
-          />
-        </CCol>
-        <CCol sm="6">
-          <CInput
-            :value="data.parameter"
-            @input="(e) => (data.parameter = e)"
-            label="پارامتر"
-            placeholder="پارامتر"
-          />
-        </CCol>
-        <CCol sm="6">
-          <CInput
-            :value="data.categoryID"
-            @input="(e) => (data.categoryID = e)"
-            label="کد دسته بندی"
-            placeholder="کد دسته بندی"
-          />
-        </CCol>
-
-        <CCol sm="6">
-          <CInput
-            :value="data.serverID"
-            @input="(e) => (data.serverID = e)"
-            label="آیدی سرور"
-            placeholder="آیدی سرور"
-          />
-        </CCol>
-
-        <CCol sm="6">
-          <CInput
-            :value="data.stock"
-            @input="(e) => (data.stock = e)"
-            label="موجودی"
-            placeholder="موجودی"
-          />
-        </CCol>
-        <CCol sm="6">
-          <CInput
-            :value="data.price"
-            @input="(e) => (data.price = e)"
-            label="قیمت"
-            placeholder="قیمت"
-          />
-        </CCol>
-        <CCol sm="6">
-          <CInput
-            :value="data.softwareName"
-            @input="(e) => (data.softwareName = e)"
-            label="نام نرم‌افزار"
-            placeholder="نام نرم‌افزار"
-          />
-        </CCol>
-        <CCol sm="6">
-          <CInput
-            :value="data.softwareInstalledPath"
-            @input="(e) => (data.softwareInstalledPath = e)"
-            label="مسیر نصب"
-            placeholder="مسیر نصب"
-          />
-        </CCol>
-        <CCol sm="6">
-          <CInput
-            :value="data.shortDescription"
-            @input="(e) => (data.shortDescription = e)"
-            label="توضیحات کوتاه"
-            placeholder="توضیحات کوتاه"
-          />
-        </CCol>
-        <CCol sm="12">
-          <CTextarea
-            :value="data.longDescription"
-            @input="(e) => (data.longDescription = e)"
-            label="توضیحات"
-            placeholder="توضیحات..."
-            rows="4"
-          />
-        </CCol>
-        <CCol sm="6" class="my-3">
-          <div class="d-flex justify-center align-items-center">
-            نرم‌افزار کل: {{ data.allSoftware ? "فعال" : "غیر‌فعال" }}
-            <CSwitch
-              class="mr-2"
-              :checked="data.allSoftware"
-              color="success"
-              v-bind="{ variant: '3d' }"
-              value="success"
-              @update:checked="(status) => (data.allSoftware = status)"
-            />
-          </div>
-        </CCol>
-        <CCol sm="6" class="my-3">
-          <div class="d-flex justify-center align-items-center">
-            مجوز فراخوانی exe:
-            {{ data.allowExecuteExe ? "فعال" : "غیر‌فعال" }}
-            <CSwitch
-              class="mr-2"
-              :checked="data.allowExecuteExe"
-              color="success"
-              v-bind="{ variant: '3d' }"
-              value="success"
-              @update:checked="(status) => (data.allowExecuteExe = status)"
-            />
-          </div>
-        </CCol>
-        <CCol sm="6" class="my-3">
-          <div class="d-flex justify-center align-items-center">
-            وضعیت کالا: {{ data.isActive ? "فعال" : "غیر‌فعال" }}
-            <CSwitch
-              class="mr-2"
-              :checked="data.isActive"
-              color="success"
-              v-bind="{ variant: '3d' }"
-              value="success"
-              @update:checked="(status) => (data.isActive = status)"
-            />
-          </div>
-        </CCol>
-        <CCol sm="6" class="my-3">
-          <div class="d-flex justify-center align-items-center">
-            قابلیت فروش:
-            {{ data.hasStock ? "فعال" : "غیر‌فعال" }}
-            <CSwitch
-              class="mr-2"
-              :checked="data.hasStock"
-              color="success"
-              v-bind="{ variant: '3d' }"
-              value="success"
-              @update:checked="(status) => (data.hasStock = status)"
-            />
-          </div>
-        </CCol>
-      </CRow>
-      <CRow class="mt-3">
-        <CCol sm="6">
-          <CButton
-            :class="{ 'disabled-btn': performingAction }"
-            color="success"
-            style="width: 100%"
-            @click="updateInfo"
-          >
-            <CIcon v-if="!performingAction" size="sm" name="cil-save" />
-            <CSpinner v-else size="sm" />
-            ذخیره
-          </CButton></CCol
-        >
-
-        <CCol sm="6">
-          <CButton
-            :class="{ 'disabled-btn': performingAction }"
-            color="danger"
-            @click="deleteInfo"
-            style="width: 100%"
-            v-bind="{ variant: 'outline' }"
-            ><CIcon v-if="!performingAction" size="sm" name="cil-trash" />
-            <CSpinner v-else size="sm" />
-            حذف اکانت
-          </CButton></CCol
-        >
-      </CRow>
-    </CCardBody>
-  </CCard>
+  <EditDataCard
+    title="title"
+    icon="cil-basket"
+    store-icon="cil-basket"
+    store-link="/admin/product/"
+    store-name="همه محصولات"
+    :fields="fields"
+    storePageName="storeProducts"
+    :fetchInfoMethod="getProduct"
+    :updateInfoMethod="updateProduct"
+    :deleteInfoMethod="deleteProduct"
+    :keysToPost="keysToPost"
+  />
 </template>
 
 <script>
 import { getProduct, updateProduct, deleteProduct } from "@/services/product";
-import editPageMixin from "../../../mixins/editPage";
+import EditDataCard from "../../../components/base/EditDataCard.vue";
 export default {
-  mixins: [editPageMixin],
+  components: { EditDataCard },
   data() {
     return {
-      fetchInfoMethod: getProduct,
-      updateInfoMethod: updateProduct,
-      deleteInfoMethod: deleteProduct,
-      storePageName: "storeProducts",
-      showPass: false,
+      getProduct,
+      updateProduct,
+      deleteProduct,
       keysToPost: [
         "title",
         "path",
@@ -231,25 +42,103 @@ export default {
         "softwareInstalledPath",
         "productID",
       ],
-      data: {
-        title: "",
-        path: "",
-        parameter: "",
-        categoryID: "",
-        isActive: false,
-        allSoftware: false,
-        allowExecuteExe: false,
-        serverID: "",
-        hasStock: false,
-        stock: "",
-        price: "",
-        shortDescription: "",
-        longDescription: "",
-        softwareName: "",
-        softwareInstalledPath: "",
-        productID: 0,
-      },
     };
+  },
+  computed: {
+    serversArr() {
+      return this.$store.state.serversArray.map((serverObj) => ({
+        label: serverObj.title,
+        value: serverObj.id,
+      }));
+    },
+    categoriesArr() {
+      return this.$store.state.categoriesArray.map((categoryObj) => ({
+        label: categoryObj.title,
+        value: categoryObj.id,
+      }));
+    },
+    fields() {
+      const self = this;
+      return [
+        {
+          name: "title",
+          type: "text",
+          persianLabel: "نام",
+          col: "6",
+        },
+        {
+          name: "path",
+          type: "text",
+          persianLabel: "مسیر",
+          col: "6",
+        },
+        { name: "parameter", type: "text", persianLabel: "پارامتر", col: "6" },
+        {
+          name: "categoryID",
+          type: "option",
+          options: self.categoriesArr,
+          persianLabel: "کد دسته بندی",
+          col: "6",
+        },
+        {
+          name: "serverID",
+          type: "option",
+          options: self.serversArr,
+          persianLabel: "آیدی سرور",
+          col: "6",
+        },
+        { name: "stock", type: "text", persianLabel: "موجودی", col: "6" },
+        { name: "price", type: "text", persianLabel: "قیمت", col: "6" },
+        {
+          name: "softwareName",
+          type: "text",
+          persianLabel: "نام نرم‌افزار",
+          col: "6",
+        },
+        {
+          name: "softwareInstalledPath",
+          type: "text",
+          persianLabel: "مسیر نصب",
+          col: "6",
+        },
+        {
+          name: "shortDescription",
+          type: "text",
+          persianLabel: "توضیحات کوتاه",
+          col: "6",
+        },
+        {
+          name: "longDescription",
+          type: "textarea",
+          persianLabel: "توضیحات",
+          col: "12",
+        },
+        {
+          name: "allSoftware",
+          type: "switch",
+          persianLabel: "نرم‌افزار کل",
+          col: "6",
+        },
+        {
+          name: "allowExecuteExe",
+          type: "switch",
+          persianLabel: "مجوز فراخوانی exe",
+          col: "6",
+        },
+        {
+          name: "isActive",
+          type: "switch",
+          persianLabel: "وضعیت کالا",
+          col: "6",
+        },
+        {
+          name: "hasStock",
+          type: "switch",
+          persianLabel: "قابلیت فروش",
+          col: "6",
+        },
+      ];
+    },
   },
 };
 </script>

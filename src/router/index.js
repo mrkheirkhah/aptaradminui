@@ -96,6 +96,257 @@ function configRoutes() {
             },
           ],
         },
+        {
+          path: "category",
+          redirect: "/admin/category/store",
+          name: "category",
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+            {
+              path: "store",
+              name: "storeCategory",
+              component: () => import("@/pages/admin/Category/store"),
+            },
+            {
+              path: "add",
+              name: "addCategory",
+              component: () => import("@/pages/admin/Category/add"),
+            },
+            {
+              path: "show/:id(\\d+)",
+              name: "showCategory",
+              component: () => import("@/pages/admin/Category/show"),
+            },
+            {
+              path: "edit/:id",
+              name: "editCategory",
+              component: () => import("@/pages/admin/Category/edit"),
+            },
+          ],
+        },
+        {
+          path: "server",
+          redirect: "/admin/server/store",
+          name: "server",
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+            {
+              path: "store",
+              name: "storeServer",
+              component: () => import("@/pages/admin/Server/store"),
+            },
+            {
+              path: "add",
+              name: "addServer",
+              component: () => import("@/pages/admin/Server/add"),
+            },
+            {
+              path: "show/:id(\\d+)",
+              name: "showServer",
+              component: () => import("@/pages/admin/Server/show"),
+            },
+            {
+              path: "edit/:id",
+              name: "editServer",
+              component: () => import("@/pages/admin/Server/edit"),
+            },
+          ],
+        },
+        {
+          path: "optiontype",
+          redirect: "/admin/optiontype/store",
+          name: "optiontype",
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+            {
+              path: "store",
+              name: "storeOptionType",
+              component: () => import("@/pages/admin/OptionType/store"),
+            },
+            {
+              path: "add",
+              name: "addOptionType",
+              component: () => import("@/pages/admin/OptionType/add"),
+            },
+            {
+              path: "show/:id(\\d+)",
+              name: "showOptionType",
+              component: () => import("@/pages/admin/OptionType/show"),
+            },
+            {
+              path: "edit/:id",
+              name: "editOptionType",
+              component: () => import("@/pages/admin/OptionType/edit"),
+            },
+          ],
+        },
+        {
+          path: "option",
+          redirect: "/admin/option/store",
+          name: "option",
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+            {
+              path: "store",
+              name: "storeOption",
+              component: () => import("@/pages/admin/Option/store"),
+            },
+            {
+              path: "add",
+              name: "addOption",
+              component: () => import("@/pages/admin/Option/add"),
+            },
+            {
+              path: "show/:id(\\d+)",
+              name: "showOption",
+              component: () => import("@/pages/admin/Option/show"),
+            },
+            {
+              path: "edit/:id",
+              name: "editOption",
+              component: () => import("@/pages/admin/Option/edit"),
+            },
+          ],
+        },
+        {
+          path: "subscription",
+          redirect: "/admin/subscription/store",
+          name: "subscription",
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+            {
+              path: "store",
+              name: "storeSubscription",
+              component: () => import("@/pages/admin/Subscription/store"),
+            },
+            {
+              path: "add",
+              name: "addSubscription",
+              component: () => import("@/pages/admin/Subscription/add"),
+            },
+            {
+              path: "show/:id(\\d+)",
+              name: "showSubscription",
+              component: () => import("@/pages/admin/Subscription/show"),
+            },
+            {
+              path: "edit/:id",
+              name: "editSubscription",
+              component: () => import("@/pages/admin/Subscription/edit"),
+            },
+          ],
+        },
+        {
+          path: "paytype",
+          redirect: "/admin/paytype/store",
+          name: "paytype",
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+            {
+              path: "store",
+              name: "storePayType",
+              component: () => import("@/pages/admin/PayType/store"),
+            },
+            {
+              path: "show/:id(\\d+)",
+              name: "showPayType",
+              component: () => import("@/pages/admin/PayType/show"),
+            },
+            {
+              path: "edit/:id",
+              name: "editPayType",
+              component: () => import("@/pages/admin/PayType/edit"),
+            },
+          ],
+        },
+        {
+          path: "productoption",
+          redirect: "/admin/productoption/store",
+          name: "productoption",
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+            {
+              path: "store",
+              name: "storeProductOption",
+              component: () => import("@/pages/admin/Product/Option/store"),
+            },
+            {
+              path: "add",
+              name: "addProductOption",
+              component: () => import("@/pages/admin/Product/Option/add"),
+            },
+            {
+              path: "show/:id(\\d+)",
+              name: "showProductOption",
+              component: () => import("@/pages/admin/Product/Option/show"),
+            },
+            {
+              path: "edit/:id",
+              name: "editProductOption",
+              component: () => import("@/pages/admin/Product/Option/edit"),
+            },
+          ],
+        },
+        {
+          path: "productprice",
+          redirect: "/admin/productprice/store",
+          name: "productprice",
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+            {
+              path: "store",
+              name: "storeProductPrice",
+              component: () => import("@/pages/admin/Product/Price/store"),
+            },
+            {
+              path: "add",
+              name: "addProductPrice",
+              component: () => import("@/pages/admin/Product/Price/add"),
+            },
+            {
+              path: "show/:id(\\d+)",
+              name: "showProductPrice",
+              component: () => import("@/pages/admin/Product/Price/show"),
+            },
+            {
+              path: "edit/:id",
+              name: "editProductPrice",
+              component: () => import("@/pages/admin/Product/Price/edit"),
+            },
+          ],
+        },
       ],
     },
     {

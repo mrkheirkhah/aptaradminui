@@ -29,7 +29,7 @@
 
 <script>
 import { getAllProducts, updateProduct } from "@/services/product";
-import ProductTableWrapper from "@/components/ProductTableWrapper.vue";
+import ProductTableWrapper from "@/components/TableWrappers/ProductTableWrapper.vue";
 import storePageMixin from "../../../mixins/storePage";
 export default {
   components: { ProductTableWrapper },

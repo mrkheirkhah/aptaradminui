@@ -51,3 +51,7 @@ export const changeObjKeysFromPascalToCamel = (data) => {
     return (string.charAt(0).toLowerCase() + string.slice(1)).toString();
   }
 };
+
+export const properStatus = (data) => {
+  return data ? "فعال" : "غیر‌فعال";
+};

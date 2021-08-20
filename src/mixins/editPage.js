@@ -1,8 +1,7 @@
 const editPageMixin = {
   data() {
-    return { performingAction: false };
+    return { data: {}, performingAction: false };
   },
-  computed: {},
   methods: {
     async fetchInfo() {
       const self = this;
@@ -18,13 +17,13 @@ const editPageMixin = {
     async updateInfo() {
       this.performingAction = true;
       const self = this;
-      for (const key in this.userData) {
-        if (!this.keysToPost.includes(key)) {
-          delete this.userData[key];
+      for (const key in self.data) {
+        if (!self.keysToPost.includes(key)) {
+          delete self.data[key];
         }
       }
       try {
-        await this.updateInfoMethod({ ...self.userData });
+        await self.updateInfoMethod({ ...self.data });
         self.redirectToStore();
       } catch (ex) {}
       self.performingAction = false;
@@ -33,7 +32,7 @@ const editPageMixin = {
       this.performingAction = true;
       const self = this;
       try {
-        await this.deleteInfoMethod({ personID: self.userData.personID });
+        await self.deleteInfoMethod({ personID: self.data.personID });
         self.redirectToStore();
       } catch (ex) {}
       self.performingAction = false;

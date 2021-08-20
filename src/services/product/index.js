@@ -192,3 +192,7 @@ export const updateProduct = (data) => {
 export const deleteProduct = (data) => {
   return userApiClient.delete("​/Product", data);
 };
+
+export const catalog = () => {
+  return userApiClient.get("/Product/Catalog");
+};
