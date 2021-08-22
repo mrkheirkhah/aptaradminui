@@ -5,6 +5,7 @@
     store-icon="cil-applications"
     store-link="/admin/paytype/"
     store-name="انواع اشتراک"
+    deleteIdField="payTypeID"
     :fields="fields"
     storePageName="storePayType"
     :fetchInfoMethod="getOne"

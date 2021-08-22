@@ -2,15 +2,15 @@
 import userApiClient from "./";
 
 export const add = (data) => {
-  return userApiClient.post("​/Category", data);
+  return userApiClient.post("/Category", data);
 };
 
 export const update = (data) => {
-  return userApiClient.put("​/Category", data);
+  return userApiClient.put("/Category", data);
 };
 
 export const remove = (data) => {
-  return userApiClient.delete("​/Category", data);
+  return userApiClient.delete("/Category", data);
 };
 
 export const getAll = (data) => {
@@ -67,7 +67,7 @@ export const catalog = () => {
   //     title: "مذهبی",
   //   },
   // ]);
-  return userApiClient.get("/Category​/Catalog");
+  return userApiClient.get("/Category/Catalog");
 };
 
 export const getOne = (categoryId) => {

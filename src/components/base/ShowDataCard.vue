@@ -27,7 +27,23 @@
         <CCardBody>
           <CRow>
             <template v-for="field in fieldsToShow">
-              <CCol :sm="field.col" :key="field.filedName">
+              <CCol
+                :sm="field.col"
+                :key="field.filedName"
+                v-if="field.type === 'image'"
+              >
+                <CImg
+                  :src="field.data"
+                  block
+                  :alt="field.persianName"
+                  width="100%"
+                  height="auto"
+                  :fluidGrow="true"
+                  align="center"
+                  class="mb-2"
+                />
+              </CCol>
+              <CCol :sm="field.col" :key="field.filedName" v-else>
                 <div>
                   <p class="text-bold">
                     <strong>{{ field.persianName }} :</strong>

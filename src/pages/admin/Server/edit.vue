@@ -6,6 +6,7 @@
     store-link="/admin/server/"
     store-name="همه سرورها"
     :fields="fields"
+    deleteIdField="serverID"
     storePageName="storeServer"
     :fetchInfoMethod="getOne"
     :updateInfoMethod="update"

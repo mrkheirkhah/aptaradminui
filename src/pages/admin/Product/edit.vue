@@ -6,6 +6,7 @@
     store-link="/admin/product/"
     store-name="همه محصولات"
     :fields="fields"
+    deleteIdField="productID"
     storePageName="storeProducts"
     :fetchInfoMethod="getProduct"
     :updateInfoMethod="updateProduct"

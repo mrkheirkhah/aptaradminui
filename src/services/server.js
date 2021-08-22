@@ -2,15 +2,15 @@
 import userApiClient from "./";
 
 export const add = (data) => {
-  return userApiClient.post("​/Server", data);
+  return userApiClient.post("/Server", data);
 };
 
 export const update = (data) => {
-  return userApiClient.put("​/Server", data);
+  return userApiClient.put("/Server", data);
 };
 
 export const remove = (data) => {
-  return userApiClient.delete("​/Server", data);
+  return userApiClient.delete("/Server", data);
 };
 
 export const getAll = (data) => {
@@ -142,7 +142,7 @@ export const catalog = () => {
   //     title: "matlab",
   //   },
   // ]);
-  return userApiClient.get("/Server​/Catalog");
+  return userApiClient.get("/Server/Catalog");
 };
 
 export const getOne = (serverId) => {

@@ -6,6 +6,7 @@
     store-link="/admin/productprice/"
     store-name="همه قیمت محصولات"
     :fields="fields"
+    deleteIdField="productPriceID"
     storePageName="storeProductPrice"
     :fetchInfoMethod="getOne"
     :updateInfoMethod="update"
@@ -33,7 +34,7 @@ export default {
         "realPrice",
         "priority",
         "isActive",
-        "productOptionID",
+        "productPriceID",
       ],
     };
   },

@@ -14,8 +14,17 @@ const addPageMixin = {
           delete self.data[key];
         }
       }
+      let formData = { ...self.data };
+      if (self.keysToPost.includes("file")) {
+        formData = new FormData();
+        for (const key in self.data) {
+          if (key === "file") {
+            formData.set(key, self.$refs.productImage[0].state.item(0));
+          } else formData.set(key, self.data[key]);
+        }
+      }
       try {
-        await self.addInfoMethod({ ...self.data });
+        await self.addInfoMethod(formData);
         self.redirectToStore();
       } catch (ex) {}
       self.performingAction = false;

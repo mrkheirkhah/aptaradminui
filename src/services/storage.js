@@ -2,15 +2,15 @@
 import userApiClient from "./";
 
 export const add = (data) => {
-  return userApiClient.post("​/Storage", data);
+  return userApiClient.post("/Storage", data);
 };
 
 export const update = (data) => {
-  return userApiClient.put("​/Storage", data);
+  return userApiClient.put("/Storage", data);
 };
 
 export const remove = (data) => {
-  return userApiClient.delete("​/Storage", data);
+  return userApiClient.delete("/Storage", data);
 };
 
 export const getAll = (data) => {

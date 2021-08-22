@@ -5,6 +5,7 @@
     store-icon="cil-applications"
     store-link="/admin/subscription/"
     store-name="همه اشتراک‌ها"
+    deleteIdField="subscriptionID"
     :fields="fields"
     storePageName="storeSubscription"
     :fetchInfoMethod="getOne"

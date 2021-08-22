@@ -2,7 +2,7 @@
 import userApiClient from "../";
 
 export const update = (data) => {
-  return userApiClient.put("​/PayType", data);
+  return userApiClient.put("/PayType", data);
 };
 
 export const getAll = (data) => {

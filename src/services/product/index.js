@@ -182,15 +182,15 @@ export const getProduct = (productId) => {
 };
 
 export const addProduct = (data) => {
-  return userApiClient.post("​/Product", data);
+  return userApiClient.post("/Product", data);
 };
 
 export const updateProduct = (data) => {
-  return userApiClient.put("​/Product", data);
+  return userApiClient.put("/Product", data);
 };
 
 export const deleteProduct = (data) => {
-  return userApiClient.delete("​/Product", data);
+  return userApiClient.delete("/Product", data);
 };
 
 export const catalog = () => {

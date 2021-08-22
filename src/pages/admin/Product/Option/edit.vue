@@ -6,6 +6,7 @@
     store-link="/admin/productoption/"
     store-name="همه تنظیمات محصولات"
     :fields="fields"
+    deleteIdField="productOptionID"
     storePageName="storeProductOption"
     :fetchInfoMethod="getOne"
     :updateInfoMethod="update"

@@ -527,13 +527,13 @@ export const getOne = (productPrice) => {
 };
 
 export const add = (data) => {
-  return userApiClient.post("​/ProductPrice", data);
+  return userApiClient.post("/ProductPrice", data);
 };
 
 export const update = (data) => {
-  return userApiClient.put("​/ProductPrice", data);
+  return userApiClient.put("/ProductPrice", data);
 };
 
 export const remove = (data) => {
-  return userApiClient.delete("​/ProductPrice", data);
+  return userApiClient.delete("/ProductPrice", data);
 };

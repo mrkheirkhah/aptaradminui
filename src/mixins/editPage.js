@@ -22,8 +22,12 @@ const editPageMixin = {
           delete self.data[key];
         }
       }
+      const formData = new FormData();
+      for (const key in self.data) {
+        formData.append(key, self.data[key]);
+      }
       try {
-        await self.updateInfoMethod({ ...self.data });
+        await self.updateInfoMethod(formData);
         self.redirectToStore();
       } catch (ex) {}
       self.performingAction = false;
@@ -31,8 +35,11 @@ const editPageMixin = {
     async deleteInfo() {
       this.performingAction = true;
       const self = this;
+      const dataToSend = {};
+      dataToSend[self.deleteIdField] = self.data[self.deleteIdField];
+      debugger;
       try {
-        await self.deleteInfoMethod({ personID: self.data.personID });
+        await self.deleteInfoMethod(dataToSend);
         self.redirectToStore();
       } catch (ex) {}
       self.performingAction = false;

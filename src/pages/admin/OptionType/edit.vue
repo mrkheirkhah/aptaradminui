@@ -5,6 +5,7 @@
     store-icon="cil-applications"
     store-link="/admin/optiontype/"
     store-name="انواع تنظیمات"
+    deleteIdField="optionTypeID"
     :fields="fields"
     storePageName="storeOptionType"
     :fetchInfoMethod="getOne"

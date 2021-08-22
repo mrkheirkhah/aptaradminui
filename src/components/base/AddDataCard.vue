@@ -22,7 +22,7 @@
       </slot>
     </CCardHeader>
     <CCardBody>
-      <form @submit.prevent="addInfo">
+      <form @submit.prevent="handleSubmit">
         <CRow>
           <template v-for="field in fields">
             <CCol :sm="field.col" :key="field.name">
@@ -84,6 +84,15 @@
                   @update:checked="(status) => (data[field.name] = status)"
                 />
               </div>
+
+              <!-- file input  -->
+              <CInputFile
+                v-if="field.type === 'file' || field.type === 'file'"
+                :label="field.persianLabel"
+                :ref="field.refName"
+                horizontal
+                custom
+              />
             </CCol>
           </template>
         </CRow>
@@ -151,6 +160,11 @@ export default {
     return {
       showPass: false,
     };
+  },
+  methods: {
+    handleSubmit() {
+      this.addInfo.call(this);
+    },
   },
 };
 </script>

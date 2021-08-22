@@ -4,6 +4,7 @@ Vue.use(Router);
 
 const router = new Router({
   mode: "history",
+  base: "/ui/",
   linkActiveClass: "active",
   scrollBehavior: () => ({ y: 0 }),
   routes: configRoutes(),
@@ -21,6 +22,7 @@ export default router;
 
 function configRoutes() {
   return [
+    { path: "/", redirect: "/admin/dashboard", name: "main" },
     {
       path: "/admin",
       redirect: "/admin/dashboard",
@@ -344,6 +346,33 @@ function configRoutes() {
               path: "edit/:id",
               name: "editProductPrice",
               component: () => import("@/pages/admin/Product/Price/edit"),
+            },
+          ],
+        },
+        {
+          path: "productimage",
+          redirect: "/admin/productimage/store",
+          name: "productImage",
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+            {
+              path: "store",
+              name: "storeProductImage",
+              component: () => import("@/pages/admin/Product/Image/store"),
+            },
+            {
+              path: "add",
+              name: "addProductImage",
+              component: () => import("@/pages/admin/Product/Image/add"),
+            },
+            {
+              path: "show/:id(\\d+)",
+              name: "showProductImage",
+              component: () => import("@/pages/admin/Product/Image/show"),
             },
           ],
         },

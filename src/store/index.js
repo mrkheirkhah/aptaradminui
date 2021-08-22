@@ -12,6 +12,7 @@ import * as subscription from "../services/subscription";
 import * as product from "../services/product";
 import * as payType from "../services/pay/type";
 import * as option from "../services/option/index";
+import * as productImage from "../services/product/images";
 
 const state = {
   sidebarShow: "responsive",
@@ -27,6 +28,7 @@ const state = {
   subscriptionsArray: [],
   productsArray: [],
   optionsArray: [],
+  productImageTypesArray: [],
 };
 
 const getters = {
@@ -86,6 +88,9 @@ const mutations = {
   SET_OPTIONS(state, data) {
     state.optionsArray = data;
   },
+  SET_PRODUCT_IMAGE_TYPES(state, data) {
+    state.productImageTypesArray = data;
+  },
 };
 
 const actions = {
@@ -136,6 +141,10 @@ const actions = {
     const data = await option.catalog();
     commit("SET_OPTIONS", data);
   },
+  async fetchProductImageTypes({ commit }) {
+    const data = await productImage.catalog();
+    commit("SET_PRODUCT_IMAGE_TYPES", data);
+  },
   async fetchBaseInfo({ dispatch }) {
     dispatch("fetchStates", null, { root: true });
     dispatch("fetchServers", null, { root: true });
@@ -146,6 +155,7 @@ const actions = {
     dispatch("fetchSubscriptions", null, { root: true });
     dispatch("fetchProducts", null, { root: true });
     dispatch("fetchOptions", null, { root: true });
+    dispatch("fetchProductImageTypes", null, { root: true });
   },
 };
 

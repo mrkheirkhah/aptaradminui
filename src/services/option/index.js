@@ -2,15 +2,15 @@
 import userApiClient from "../";
 
 export const add = (data) => {
-  return userApiClient.post("​/Option/All", data);
+  return userApiClient.post("​/Option", data);
 };
 
 export const update = (data) => {
-  return userApiClient.put("​/Option", data);
+  return userApiClient.put("/Option", data);
 };
 
 export const remove = (data) => {
-  return userApiClient.delete("​/Option", data);
+  return userApiClient.delete("/Option", data);
 };
 
 export const getAll = (data) => {
@@ -140,7 +140,7 @@ export const catalog = () => {
   //     title: "test",
   //   },
   // ]);
-  return userApiClient.get("/Option​/Catalog");
+  return userApiClient.get("/Option/Catalog");
 };
 
 export const getOne = (optionId) => {

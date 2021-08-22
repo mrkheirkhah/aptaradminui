@@ -2,15 +2,15 @@
 import userApiClient from "../";
 
 export const add = (data) => {
-  return userApiClient.post("​/OptionType/All", data);
+  return userApiClient.post("/OptionType", data);
 };
 
 export const update = (data) => {
-  return userApiClient.put("​/OptionType", data);
+  return userApiClient.put("/OptionType", data);
 };
 
 export const remove = (data) => {
-  return userApiClient.delete("​/OptionType", data);
+  return userApiClient.delete("/OptionType", data);
 };
 
 export const getAll = (data) => {
@@ -54,7 +54,7 @@ export const catalog = () => {
   //     title: "Hard Disk",
   //   },
   // ]);
-  return userApiClient.get("/OptionType​/Catalog");
+  return userApiClient.get("/OptionType/Catalog");
 };
 
 export const getOne = (optionTypeId) => {
@@ -66,5 +66,5 @@ export const getOne = (optionTypeId) => {
   //   },
   // });
 
-  return userApiClient.get(`/OptionType​/${optionTypeId}`);
+  return userApiClient.get(`/OptionType/${optionTypeId}`);
 };

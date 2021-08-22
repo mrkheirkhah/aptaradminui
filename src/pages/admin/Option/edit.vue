@@ -4,6 +4,7 @@
     icon="cil-applications"
     store-icon="cil-applications"
     store-link="/admin/option/"
+    deleteIdField="optionID"
     store-name="همه تنظیمات"
     :fields="fields"
     storePageName="storeOption"

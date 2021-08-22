@@ -1,5 +1,6 @@
 module.exports = {
   lintOnSave: false,
+  publicPath: "/ui/",
   runtimeCompiler: true,
   configureWebpack: {
     resolve: {
@@ -7,7 +8,7 @@ module.exports = {
     },
   },
   devServer: {
-    https: true,
+    https: false,
   },
   transpileDependencies: ["@coreui/utils", "@coreui/vue"],
 };

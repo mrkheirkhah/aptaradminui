@@ -22,7 +22,7 @@
       </slot>
     </CCardHeader>
     <CCardBody>
-      <form @submit.prevent="updateInfo">
+      <form @submit.prevent="handleSubmit">
         <CRow>
           <template v-for="field in fields">
             <CCol :sm="field.col" :key="field.name">
@@ -167,11 +167,17 @@ export default {
       type: Array,
       required: true,
     },
+    deleteIdField: String,
   },
   data() {
     return {
       showPass: false,
     };
+  },
+  methods: {
+    handleSubmit() {
+      this.updateInfo.call(this);
+    },
   },
 };
 </script>

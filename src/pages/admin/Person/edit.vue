@@ -6,6 +6,7 @@
     store-link="/admin/person/"
     store-name="همه کاربران"
     :fields="fields"
+    deleteIdField="personID"
     storePageName="storePersons"
     :fetchInfoMethod="getPerson"
     :updateInfoMethod="updatePerson"

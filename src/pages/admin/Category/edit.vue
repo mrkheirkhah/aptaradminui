@@ -6,6 +6,7 @@
     store-link="/admin/category/"
     store-name="همه کاربران"
     :fields="fields"
+    deleteIdField="personID"
     storePageName="storeCategory"
     :fetchInfoMethod="getOne"
     :updateInfoMethod="update"

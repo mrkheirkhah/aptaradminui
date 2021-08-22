@@ -299,7 +299,7 @@ export const getPerson = (personId) => {
 };
 
 export const addPerson = (data) => {
-  return userApiClient.post("​/Person", data);
+  return userApiClient.post("/Person", data);
 };
 
 export const updatePerson = (data) => {

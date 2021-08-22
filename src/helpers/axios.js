@@ -28,7 +28,7 @@ export const addAxiosInterceptors = (axiosInstance) => {
     (error) => {
       const { title, data, status } = error.response;
       const errmessage = title || error.message;
-      if (status === 401) Router.push({ name: "Login" });
+      // if (status === 401) Router.push({ name: "Login" });
       if (Array.isArray(data) && data.length > 0) {
         for (const message of data) {
           Store.dispatch(

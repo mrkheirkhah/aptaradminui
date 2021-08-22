@@ -8,7 +8,11 @@ const showPageMixin = {
       const self = this;
       try {
         const { data } = await this.fetchInfoMethod(self.$route.params.id);
-        self.data = { ...data };
+        if (!Array.isArray(data)) {
+          self.data = { ...data };
+        } else if (Array.isArray(data)) {
+          self.data = data;
+        }
       } catch (ex) {}
       this.loader.hide();
     },

@@ -35,15 +35,24 @@ const storePageMixin = {
     async fetchInitialData() {
       try {
         const { data } = await this.fetchAll(this.options);
-        data.data.map((dataObj) => {
-          for (const key in dataObj) {
-            if (dataObj[key] === null) {
-              dataObj[key] = "";
+        if (!Array.isArray(data)) {
+          data.data.map((dataObj) => {
+            for (const key in dataObj) {
+              if (dataObj[key] === null) {
+                dataObj[key] = "";
+              }
             }
-          }
-          return dataObj;
-        });
-        this.gridData = { ...data };
+            return dataObj;
+          });
+          this.gridData = { ...data };
+        } else if (data && Array.isArray(data)) {
+          this.gridData = {
+            index: 0,
+            size: data.length,
+            count: data.length,
+            data: data,
+          };
+        }
       } catch (ex) {
         console.log(ex);
       }

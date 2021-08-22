@@ -2,15 +2,15 @@
 import userApiClient from "../";
 
 export const add = (data) => {
-  return userApiClient.post("​/Subscription", data);
+  return userApiClient.post("/Subscription", data);
 };
 
 export const update = (data) => {
-  return userApiClient.put("​/Subscription", data);
+  return userApiClient.put("/Subscription", data);
 };
 
 export const remove = (data) => {
-  return userApiClient.delete("​/Subscription", data);
+  return userApiClient.delete("/Subscription", data);
 };
 
 export const getAll = (data) => {
@@ -66,7 +66,7 @@ export const catalog = () => {
   //     title: "شش ماهه",
   //   },
   // ]);
-  return userApiClient.get("/Subscription​/Catalog");
+  return userApiClient.get("/Subscription/Catalog");
 };
 
 export const getOne = (subscriptionId) => {
