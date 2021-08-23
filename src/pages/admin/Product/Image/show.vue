@@ -5,7 +5,7 @@
         :key="imageData.id"
         :title="'محصول با کد: ' + imageData.id"
         icon="cil-applications"
-        store-link="/admin/productimgage/"
+        store-link="/admin/productimage/"
         store-name="همه عکس‌های محصولات"
         :fieldsToShow="fieldsToShow[imageData.id]"
       />
@@ -52,7 +52,6 @@ export default {
     fieldsToShow() {
       const self = this;
       const fileds = {};
-      debugger;
       for (const imageData of this.data) {
         fileds[imageData.id] = [
           {
@@ -80,7 +79,7 @@ export default {
             filedName: "thumbnail",
             persianName: "وضعیت",
             type: "image",
-            data: "http://admin.aptar.ir​" + imageData.thumbnail,
+            data: "http://admin.aptar.ir" + imageData.thumbnail,
             col: "12",
           },
         ];

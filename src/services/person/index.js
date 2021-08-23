@@ -303,9 +303,9 @@ export const addPerson = (data) => {
 };
 
 export const updatePerson = (data) => {
-  return userApiClient.put("​/Person", data);
+  return userApiClient.put("/Person", data);
 };
 
 export const deletePerson = (data) => {
-  return userApiClient.delete("​/Person", data);
+  return userApiClient.delete("/Person", data);
 };

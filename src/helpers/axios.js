@@ -1,9 +1,15 @@
 import Store from "../store/index";
 import Router from "../router";
+import { getRequestHeaders } from "../utils";
 import { changeObjKeysFromPascalToCamel } from "../utils";
 
 export const addAxiosInterceptors = (axiosInstance) => {
   axiosInstance.interceptors.request.use((request) => {
+    if (request.url === "/User/Post") {
+      request.headers = { ...getRequestHeaders(false) };
+    } else {
+      request.headers = { ...getRequestHeaders(true) };
+    }
     return request;
   });
 
@@ -11,17 +17,18 @@ export const addAxiosInterceptors = (axiosInstance) => {
   axiosInstance.interceptors.response.use(
     (response) => {
       const { status, statusText } = response;
-      Store.dispatch(
-        "addAlert",
-        {
-          messageHeader: getToastHeaderBasedOnStatusCode(status),
-          type: getToastColorBasedOnStatusCode(status),
-          messageBody: getToastMessageBasedOnStatusCode(status) || statusText,
-          autoHide: true,
-          timeout: 3000,
-        },
-        { root: true }
-      );
+      if (status !== 200)
+        Store.dispatch(
+          "addAlert",
+          {
+            messageHeader: getToastHeaderBasedOnStatusCode(status),
+            type: getToastColorBasedOnStatusCode(status),
+            messageBody: getToastMessageBasedOnStatusCode(status) || statusText,
+            autoHide: true,
+            timeout: 3000,
+          },
+          { root: true }
+        );
       response.data = changeObjKeysFromPascalToCamel(response.data);
       return response;
     },

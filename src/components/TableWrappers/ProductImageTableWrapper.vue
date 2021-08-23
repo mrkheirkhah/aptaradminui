@@ -8,15 +8,16 @@
             {{ caption }}
           </div>
           <CButton
+            v-if="addNewLink && addNewLink !== ''"
             color="success"
             size="sm"
             class="m-2"
             link
             exact
-            to="/admin/product/add"
+            :to="addNewLink"
           >
-            <CIcon name="cil-basket" class="ml-1" />
-            اضافه کردن محصول جدید
+            <CIcon name="cil-user-plus" class="ml-1" />
+            اضافه کردن {{ caption }} جدید
           </CButton>
         </div>
       </slot>
@@ -45,21 +46,8 @@
         @update:table-filter-value="tableFilterChange"
         @update:column-filter-value="columnFilterChange"
       >
-        <template #price="{ item }">
-          <td>{{ (+item.price).toLocaleString() }}</td>
-        </template>
         <template #actions="{ item }">
           <td>
-            <CButton
-              name="cil-pencil"
-              @click="$emit('edit-action', item)"
-              size="sm"
-              v-bind="{ variant: 'ghost' }"
-              color="info"
-              class="btn-brand"
-            >
-              <CIcon size="sm" name="cil-pencil" />
-            </CButton>
             <CButton
               name="cil-options"
               size="sm"
@@ -69,26 +57,6 @@
               class="btn-brand"
             >
               <CIcon size="sm" name="cil-options" />
-            </CButton>
-            <CButton
-              name="cil-dollar"
-              size="sm"
-              v-bind="{ variant: 'ghost' }"
-              @click="$emit('show-price-action', item)"
-              color="info"
-              class="btn-brand"
-            >
-              <CIcon size="sm" name="cil-dollar" />
-            </CButton>
-            <CButton
-              name="cil-settings"
-              size="sm"
-              v-bind="{ variant: 'ghost' }"
-              @click="$emit('show-setting-action', item)"
-              color="info"
-              class="btn-brand"
-            >
-              <CIcon size="sm" name="cil-settings" />
             </CButton>
           </td>
         </template>
@@ -106,21 +74,10 @@
               v-bind="{ variant: '3d' }"
               value="success"
               @update:checked="
-                (status) =>
-                  $emit('toggle-product-state', { status, userData: item })
+                (status) => $emit('toggle-data-state', { status, data: item })
               "
             />
           </td>
-        </template>
-        <template #isActive-filter>
-          <CSwitch
-            class="mr-2"
-            :checked="isActiveColumnFilter"
-            color="success"
-            v-bind="{ variant: '3d' }"
-            value="success"
-            @update:checked="(status) => (isActiveColumnFilter = status)"
-          />
         </template>
         <template #createDate-filter>
           <date-picker
@@ -132,6 +89,12 @@
             label=""
             v-model="range"
           />
+        </template>
+        <template #price="{ item }">
+          <td>{{ (+item.price).toLocaleString() }}</td>
+        </template>
+        <template #realPrice="{ item }">
+          <td>{{ (+item.realPrice).toLocaleString() }}</td>
         </template>
         <template #createDate="{ item }">
           <td>
@@ -170,25 +133,12 @@ export default {
     small: Boolean,
     fixed: Boolean,
     dark: Boolean,
+    addNewLink: String,
   },
   data() {
     return {
       range: [],
-      columnFilters: null,
-      isActiveColumnFilter: false,
     };
-  },
-  watch: {
-    range(newVal) {
-      if (!this.columnFilters) this.columnFilters = {};
-      this.columnFilters.createDate = newVal;
-      this.$emit("column-filter-change", this.columnFilters);
-    },
-    isActiveColumnFilter(newVal) {
-      if (!this.columnFilters) this.columnFilters = {};
-      this.columnFilters.isActive = newVal;
-      this.$emit("column-filter-change", this.columnFilters);
-    },
   },
   methods: {
     pageChange(pageNumber) {
@@ -201,7 +151,6 @@ export default {
       this.$emit("table-filter-change", keyword);
     },
     columnFilterChange(keyWordsMappedWithColumnNamesObject) {
-      this.columnFilters = keyWordsMappedWithColumnNamesObject;
       this.$emit("column-filter-change", keyWordsMappedWithColumnNamesObject);
     },
   },

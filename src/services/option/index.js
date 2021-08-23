@@ -2,7 +2,7 @@
 import userApiClient from "../";
 
 export const add = (data) => {
-  return userApiClient.post("​/Option", data);
+  return userApiClient.post("/Option", data);
 };
 
 export const update = (data) => {

@@ -80,10 +80,13 @@ export default {
             process.env.VUE_APP_ENV_APPLICATION_TOKEN_KEY,
             data.token
           );
+          localStorage.setItem("username", this.username);
           this.$store.dispatch("setAdminInfo", data, { root: true });
-          this.$router.push({ name: "adminDashboard" });
+          setTimeout(() => this.$router.push({ name: "adminDashboard" }), 1000);
         }
-      } catch (ex) {}
+      } catch (ex) {
+        console.log(ex);
+      }
       this.requestInProgress = false;
     },
   },

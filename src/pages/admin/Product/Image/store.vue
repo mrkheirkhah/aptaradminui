@@ -3,7 +3,7 @@
     <CCol md="12">
       <CRow>
         <CCol sm="12">
-          <DefaultTableWrapper
+          <ProductImageTableWrapper
             :items="getGridData"
             :fields="getGridFields"
             hover
@@ -27,11 +27,11 @@
 </template>
 
 <script>
-import DefaultTableWrapper from "@/components/TableWrappers/DefaultTableWrapper.vue";
+import ProductImageTableWrapper from "@/components/TableWrappers/ProductImageTableWrapper.vue";
 import { catalog } from "@/services/product";
 import storePageMixin from "@/mixins/storePage";
 export default {
-  components: { DefaultTableWrapper },
+  components: { ProductImageTableWrapper },
   mixins: [storePageMixin],
   data() {
     return {
@@ -47,7 +47,7 @@ export default {
     };
   },
   methods: {
-    moreAction({ productOptionID: id }) {
+    moreAction({ id }) {
       this.$router.push({ name: "showProductImage", params: { id } });
     },
     updateAction() {

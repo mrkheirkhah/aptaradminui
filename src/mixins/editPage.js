@@ -22,9 +22,12 @@ const editPageMixin = {
           delete self.data[key];
         }
       }
-      const formData = new FormData();
-      for (const key in self.data) {
-        formData.append(key, self.data[key]);
+      let formData = { ...self.data };
+      if (self.keysToPost.includes("file")) {
+        formData = new FormData();
+        for (const key in self.data) {
+          formData.set(key, self.data[key]);
+        }
       }
       try {
         await self.updateInfoMethod(formData);
@@ -37,7 +40,6 @@ const editPageMixin = {
       const self = this;
       const dataToSend = {};
       dataToSend[self.deleteIdField] = self.data[self.deleteIdField];
-      debugger;
       try {
         await self.deleteInfoMethod(dataToSend);
         self.redirectToStore();

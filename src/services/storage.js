@@ -139,7 +139,7 @@ export const catalog = () => {
   //     title: "200 گیگ",
   //   },
   // ]);
-  return userApiClient.get("/Storage​/Catalog");
+  return userApiClient.get("/Storage/Catalog");
 };
 
 export const getOne = (storageId) => {

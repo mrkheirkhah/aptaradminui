@@ -89,6 +89,16 @@
             />
           </td>
         </template>
+        <template #isActive-filter>
+          <CSwitch
+            class="mr-2"
+            :checked="isActiveColumnFilter"
+            color="success"
+            v-bind="{ variant: '3d' }"
+            value="success"
+            @update:checked="(status) => (isActiveColumnFilter = status)"
+          />
+        </template>
         <template #createDate-filter>
           <date-picker
             range
@@ -148,7 +158,21 @@ export default {
   data() {
     return {
       range: [],
+      columnFilters: null,
+      isActiveColumnFilter: false,
     };
+  },
+  watch: {
+    range(newVal) {
+      if (!this.columnFilters) this.columnFilters = {};
+      this.columnFilters.createDate = newVal;
+      this.$emit("column-filter-change", this.columnFilters);
+    },
+    isActiveColumnFilter(newVal) {
+      if (!this.columnFilters) this.columnFilters = {};
+      this.columnFilters.isActive = newVal;
+      this.$emit("column-filter-change", this.columnFilters);
+    },
   },
   methods: {
     pageChange(pageNumber) {
@@ -161,6 +185,7 @@ export default {
       this.$emit("table-filter-change", keyword);
     },
     columnFilterChange(keyWordsMappedWithColumnNamesObject) {
+      this.columnFilters = keyWordsMappedWithColumnNamesObject;
       this.$emit("column-filter-change", keyWordsMappedWithColumnNamesObject);
     },
   },

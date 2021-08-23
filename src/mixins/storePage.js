@@ -70,8 +70,32 @@ const storePageMixin = {
         console.log(ex);
       }
     },
-    getProperFilterType() {
-      return "Contains";
+    getProperFilterType(key, val) {
+      const fieldType = typeof val;
+      switch (fieldType) {
+        case "string":
+          return "Contains";
+        case "boolean":
+          return "Equals";
+        // case "string":
+        // return "StartsWith";
+        // case "string":
+        // return "EndsWith";
+        // case "string":
+        // return "Equals";
+        // case "number":
+        // return "GreaterThan";
+        // case "number":
+        // return "GreaterThanOrEqual";
+        // case "number":
+        // return "LessThan";
+        // case "number":
+        // return "LessThanOrEqual";
+        // case "number":
+        // return "NotEqual";
+        default:
+          return "Contains";
+      }
     },
     pageChange(pageNumber) {
       const lastPage = this.fetchOptions.Index + 1;
@@ -92,10 +116,13 @@ const storePageMixin = {
     columnFilterChange(keyWordsMappedWithColumnNamesObject) {
       this.fetchOptions.filters = [];
       for (const key in keyWordsMappedWithColumnNamesObject) {
-        if (key === "index") continue;
+        if (key === "index" || key === "actions") continue;
         this.fetchOptions.filters.push({
           column: key,
-          type: this.getProperFilterType(key),
+          type: this.getProperFilterType(
+            key,
+            keyWordsMappedWithColumnNamesObject[key]
+          ),
           value: keyWordsMappedWithColumnNamesObject[key],
         });
       }

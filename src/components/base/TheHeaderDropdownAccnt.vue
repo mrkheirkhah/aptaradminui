@@ -7,11 +7,15 @@
   >
     <template #toggler>
       <CHeaderNavLink>
-        {{ $store.state.adminUser.UserName || "No User" }}
+        {{
+          $store.state.adminUser.UserName ||
+          usernameInLocalStorage() ||
+          "No User"
+        }}
       </CHeaderNavLink>
     </template>
     <CDropdownHeader tag="div" class="text-center" color="light">
-      <strong>Account</strong>
+      <strong>حساب ادمین</strong>
     </CDropdownHeader>
     <!-- <CDropdownItem>
       <CIcon name="cil-bell" /> Updates
@@ -22,7 +26,7 @@
       <CBadge color="success" class="mfs-auto">{{ itemsCount }}</CBadge>
     </CDropdownItem> -->
     <CDropdownItem @click="logout">
-      <CIcon name="cil-lock-locked" /> Logout
+      <CIcon class="ml-3 mr-0" name="cil-lock-locked" /> خروج
     </CDropdownItem>
   </CDropdown>
 </template>
@@ -38,7 +42,11 @@ export default {
   methods: {
     logout() {
       localStorage.removeItem(process.env.VUE_APP_ENV_APPLICATION_TOKEN_KEY);
+      localStorage.removeItem("username");
       window.location.reload();
+    },
+    usernameInLocalStorage() {
+      return localStorage.getItem("username");
     },
   },
 };
