@@ -43,13 +43,6 @@ export default {
       const self = this;
       return [
         {
-          filedName: "subscriptionID",
-          persianName: "کد اشتراک",
-          type: "text",
-          data: self.data.subscriptionID,
-          col: "6",
-        },
-        {
           filedName: "subscriptionTypeID",
           persianName: "نوع اشتراک",
           type: "option",

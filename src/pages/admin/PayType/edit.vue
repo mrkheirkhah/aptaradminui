@@ -4,7 +4,7 @@
     icon="cil-applications"
     store-icon="cil-applications"
     store-link="/admin/paytype/"
-    store-name="انواع اشتراک"
+    store-name="نوع اشتراک"
     deleteIdField="payTypeID"
     :fields="fields"
     storePageName="storePayType"

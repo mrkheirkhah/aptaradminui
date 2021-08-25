@@ -1,10 +1,10 @@
 <template>
   <AddDataCard
-    title="ثبت تنظیمات جدید"
+    title="ثبت آپشن جدید"
     icon="cil-applications"
     store-icon="cil-applications"
     store-link="/admin/option/"
-    store-name="همه تنظیمات"
+    store-name="همه آپشن ها"
     :fields="fields"
     storePageName="storeOption"
     :addInfoMethod="add"
@@ -35,7 +35,7 @@ export default {
       return [
         {
           name: "optionTypeID",
-          persianLabel: "نوع تنظیمات",
+          persianLabel: "نوع آپشن",
           type: "option",
           options: self.optionTypesObjectMappedById,
           col: "6",

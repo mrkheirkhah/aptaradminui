@@ -13,12 +13,14 @@
             fixed
             :caption="gridTitle"
             addNewLink="/admin/productprice/add"
+            @pagination-change="paginationChange"
             @page-change="pageChange"
             @sorter-change="sorterChange"
             @column-filter-change="columnFilterChange"
             @more-action="moreAction"
             @toggle-data-state="updateAction"
             @edit-action="editAction"
+            @delete-action="deleteInfo"
           />
         </CCol>
       </CRow>
@@ -28,7 +30,7 @@
 
 <script>
 import DefaultTableWrapper from "@/components/TableWrappers/DefaultTableWrapper.vue";
-import { update, getAll } from "@/services/product/prices";
+import { update, getAll, remove } from "@/services/product/prices";
 import storePageMixin from "@/mixins/storePage";
 export default {
   components: { DefaultTableWrapper },
@@ -36,6 +38,8 @@ export default {
   data() {
     return {
       fetchAll: getAll,
+      deleteInfoMethod: remove,
+      deleteIdField: "productPriceID",
       keysToPost: [
         "productID",
         "subscriptionID",
@@ -48,7 +52,6 @@ export default {
       ],
       showColumns: [
         { key: "index", label: "#" },
-        { key: "productPriceID", label: "کد" },
         { key: "price", label: "قیمت" },
         { key: "realPrice", label: "قیمت واقعی" },
         { key: "priority", label: "اولویت" },

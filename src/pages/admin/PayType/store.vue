@@ -14,11 +14,13 @@
             :caption="gridTitle"
             addNewLink=""
             @page-change="pageChange"
+            @pagination-change="paginationChange"
             @sorter-change="sorterChange"
             @column-filter-change="columnFilterChange"
             @more-action="moreAction"
             @toggle-data-state="updateAction"
             @edit-action="editAction"
+            @delete-action="deleteInfo"
           />
         </CCol>
       </CRow>
@@ -36,15 +38,16 @@ export default {
   data() {
     return {
       fetchAll: getAll,
+      deleteInfoMethod: () => alert("امکان حذف وجود ندارد"),
+      deleteIdField: "payTypeID",
       keysToPost: ["title", "isActive", "payTypeID"],
       showColumns: [
         { key: "index", label: "#" },
-        { key: "payTypeID", label: "کد" },
         { key: "title", label: "نام" },
         { key: "isActive", label: "فعال" },
         { key: "actions", label: "عملیات" },
       ],
-      gridTitle: "انواع پرداخت",
+      gridTitle: "نوع پرداخت",
     };
   },
   methods: {

@@ -129,13 +129,6 @@ export default {
           col: "12",
         },
         {
-          filedName: "caption",
-          persianName: "زیرنویس",
-          type: "",
-          data: self.data.caption,
-          col: "12",
-        },
-        {
           filedName: "isActive",
           persianName: "وضعیت حساب",
           type: "",

@@ -4,7 +4,7 @@
     icon="cil-applications"
     store-icon="cil-applications"
     store-link="/admin/optiontype/"
-    store-name="انواع تنظیمات"
+    store-name="نوع آپشن ها"
     :fields="fields"
     storePageName="storeOptionType"
     :addInfoMethod="add"

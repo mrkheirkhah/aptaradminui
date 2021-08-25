@@ -13,12 +13,14 @@
             fixed
             :caption="gridTitle"
             addNewLink="/admin/subscription/add"
+            @pagination-change="paginationChange"
             @page-change="pageChange"
             @sorter-change="sorterChange"
             @column-filter-change="columnFilterChange"
             @more-action="moreAction"
             @toggle-data-state="updateAction"
             @edit-action="editAction"
+            @delete-action="deleteInfo"
           />
         </CCol>
       </CRow>
@@ -28,7 +30,7 @@
 
 <script>
 import DefaultTableWrapper from "@/components/TableWrappers/DefaultTableWrapper.vue";
-import { update, getAll } from "../../../services/subscription";
+import { update, getAll, remove } from "../../../services/subscription";
 import storePageMixin from "../../../mixins/storePage";
 export default {
   components: { DefaultTableWrapper },
@@ -36,6 +38,8 @@ export default {
   data() {
     return {
       fetchAll: getAll,
+      deleteInfoMethod: remove,
+      deleteIdField: "subscriptionID",
       keysToPost: [
         "title",
         "value",
@@ -45,10 +49,9 @@ export default {
       ],
       showColumns: [
         { key: "index", label: "#" },
-        { key: "subscriptionID", label: "کد" },
         { key: "title", label: "نام" },
         { key: "value", label: "مقدار" },
-        { key: "subscriptionTypeID", label: "نوع تنظیمات" },
+        { key: "subscriptionTypeID", label: "نوع آپشن" },
         { key: "isActive", label: "فعال" },
         { key: "actions", label: "عملیات" },
       ],

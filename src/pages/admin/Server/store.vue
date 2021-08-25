@@ -13,12 +13,14 @@
             fixed
             :caption="gridTitle"
             addNewLink="/admin/server/add"
+            @pagination-change="paginationChange"
             @page-change="pageChange"
             @sorter-change="sorterChange"
             @column-filter-change="columnFilterChange"
             @more-action="moreAction"
             @toggle-user-account-state="updateAction"
             @edit-action="editAction"
+            @delete-action="deleteInfo"
           />
         </CCol>
       </CRow>
@@ -28,7 +30,7 @@
 
 <script>
 import DefaultTableWrapper from "@/components/TableWrappers/DefaultTableWrapper.vue";
-import { update, getAll } from "../../../services/server";
+import { update, getAll, remove } from "../../../services/server";
 import storePageMixin from "../../../mixins/storePage";
 export default {
   components: { DefaultTableWrapper },
@@ -36,6 +38,8 @@ export default {
   data() {
     return {
       fetchAll: getAll,
+      deleteInfoMethod: remove,
+      deleteIdField: "serverID",
       keysToPost: [
         "title",
         "loadBalance",
@@ -48,7 +52,7 @@ export default {
       ],
       showColumns: [
         { key: "index", label: "#" },
-        { key: "serverID", label: "کد" },
+        { key: "title", label: "عنوان" },
         { key: "loadBalance", label: "لود بالانس" },
         { key: "address", label: "آدرس" },
         { key: "ip", label: "آی پی" },

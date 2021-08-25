@@ -41,7 +41,7 @@ const editPageMixin = {
       const dataToSend = {};
       dataToSend[self.deleteIdField] = self.data[self.deleteIdField];
       try {
-        await self.deleteInfoMethod(dataToSend);
+        await self.deleteInfoMethod({ data: dataToSend });
         self.redirectToStore();
       } catch (ex) {}
       self.performingAction = false;

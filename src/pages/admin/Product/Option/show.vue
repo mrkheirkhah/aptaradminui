@@ -4,7 +4,7 @@
       :title="data.title"
       icon="cil-applications"
       store-link="/admin/productoption/"
-      store-name="همه تنظیمات محصولات"
+      store-name="همه آپشن ها محصولات"
       :fieldsToShow="fieldsToShow"
     />
   </div>
@@ -74,7 +74,7 @@ export default {
         },
         {
           filedName: "optionID",
-          persianName: "نوع تنظیمات",
+          persianName: "نوع آپشن",
           type: "option",
           data: self.optionsObjectMappedById[self.data.optionID],
           col: "6",

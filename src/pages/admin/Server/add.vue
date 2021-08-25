@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { add } from "../../../services/category";
+import { add } from "../../../services/server";
 import AddDataCard from "../../../components/base/AddDataCard.vue";
 export default {
   components: { AddDataCard },

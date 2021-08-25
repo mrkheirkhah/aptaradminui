@@ -4,7 +4,7 @@
       :title="data.title"
       icon="cil-applications"
       store-link="/admin/optiontype/"
-      store-name="انواع تنظیمات"
+      store-name="نوع آپشن ها"
       :fieldsToShow="fieldsToShow"
     />
   </div>

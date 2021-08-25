@@ -16,6 +16,7 @@
     "@coreui/vue-chartjs": "^1.0.6",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "persian-tools": "^0.0.5",
     "vue": "^2.6.11",
     "vue-loading-overlay": "^3.0",
     "vue-persian-datetime-picker": "^2.8.0",

@@ -1,10 +1,10 @@
 <template>
   <AddDataCard
-    title="ثبت تنظیمات محصول جدید"
+    title="ثبت آپشن محصول جدید"
     icon="cil-applications"
     store-icon="cil-applications"
     store-link="/admin/productoption/"
-    store-name="همه تنظیمات محصولات"
+    store-name="همه آپشن ها محصولات"
     :fields="fields"
     storePageName="storeProductOption"
     :addInfoMethod="add"

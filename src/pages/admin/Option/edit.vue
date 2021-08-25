@@ -5,7 +5,7 @@
     store-icon="cil-applications"
     store-link="/admin/option/"
     deleteIdField="optionID"
-    store-name="همه تنظیمات"
+    store-name="همه آپشن ها"
     :fields="fields"
     storePageName="storeOption"
     :fetchInfoMethod="getOne"
@@ -41,7 +41,7 @@ export default {
       return [
         {
           name: "optionTypeID",
-          persianLabel: "نوع تنظیمات",
+          persianLabel: "نوع آپشن",
           type: "option",
           options: self.optionTypesObjectMappedById,
           col: "6",

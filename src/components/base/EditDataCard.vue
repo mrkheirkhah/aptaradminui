@@ -22,7 +22,11 @@
       </slot>
     </CCardHeader>
     <CCardBody>
-      <form @submit.prevent="handleSubmit">
+      <CForm
+        @submit.prevent="handleSubmit"
+        :wasValidated="true"
+        ref="editFormElement"
+      >
         <CRow>
           <template v-for="field in fields">
             <CCol :sm="field.col" :key="field.name">
@@ -31,7 +35,10 @@
                 v-if="field.type === 'text'"
                 :value="data[field.name]"
                 @input="(e) => (data[field.name] = e)"
-                :label="field.persianLabel"
+                :label="field.persianLabel + (field.isRequired ? ' *' : '')"
+                :required="field.isRequired"
+                :isValid="field.validationFunction"
+                :invalidFeedback="field.invalidFeedback"
                 :placeholder="field.persianLabel"
               />
 
@@ -40,7 +47,10 @@
                 v-if="field.type === 'password'"
                 :value="data[field.name]"
                 @input="(e) => (data[field.name] = e)"
-                :label="field.persianLabel"
+                :label="field.persianLabel + (field.isRequired ? ' *' : '')"
+                :required="field.isRequired"
+                :isValid="field.validationFunction"
+                :invalidFeedback="field.invalidFeedback"
                 :placeholder="field.persianLabel"
                 @focus="showPass = true"
                 @blur="showPass = false"
@@ -51,7 +61,10 @@
               <!-- option input  -->
               <CSelect
                 v-if="field.type === 'option'"
-                :label="field.persianLabel"
+                :label="field.persianLabel + (field.isRequired ? ' *' : '')"
+                :required="field.isRequired"
+                :isValid="field.validationFunction"
+                :invalidFeedback="field.invalidFeedback"
                 :placeholder="field.persianLabel"
                 :value="data[field.name]"
                 :options="field.options"
@@ -63,7 +76,10 @@
                 v-if="field.type === 'textarea'"
                 :value="data[field.name]"
                 @input="(e) => (data[field.name] = e)"
-                :label="field.persianLabel"
+                :label="field.persianLabel + (field.isRequired ? ' *' : '')"
+                :required="field.isRequired"
+                :isValid="field.validationFunction"
+                :invalidFeedback="field.invalidFeedback"
                 :placeholder="field.persianLabel"
                 rows="4"
               />
@@ -73,12 +89,15 @@
                 v-if="field.type === 'switch'"
                 class="d-flex justify-center align-items-center my-3"
               >
-                {{ field.persianLabel }}:
+                {{ field.persianLabel + (field.isRequired ? " *" : "") }}:
                 {{ data[field.name] ? "فعال" : "غیر‌فعال" }}
                 <CSwitch
                   class="mr-2"
-                  :checked="data[field.name]"
+                  :checked="Boolean(data[field.name])"
                   color="success"
+                  :required="field.isRequired"
+                  :isValid="field.validationFunction"
+                  :invalidFeedback="field.invalidFeedback"
                   v-bind="{ variant: '3d' }"
                   value="success"
                   @update:checked="(status) => (data[field.name] = status)"
@@ -113,7 +132,7 @@
             </CButton></CCol
           >
         </CRow>
-      </form>
+      </CForm>
     </CCardBody>
   </CCard>
 </template>
@@ -176,6 +195,21 @@ export default {
   },
   methods: {
     handleSubmit() {
+      const invalidInputs =
+        this.$refs.editFormElement.querySelectorAll(".is-invalid");
+      const invalid = invalidInputs.length > 0;
+      if (invalid)
+        return this.$store.dispatch(
+          "addAlert",
+          {
+            messageHeader: "خطا",
+            type: "danger",
+            messageBody: "لطفا مقادیر را کنترل کنید",
+            autoHide: true,
+            timeout: 3000,
+          },
+          { root: true }
+        );
       this.updateInfo.call(this);
     },
   },

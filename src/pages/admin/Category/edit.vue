@@ -6,7 +6,7 @@
     store-link="/admin/category/"
     store-name="همه کاربران"
     :fields="fields"
-    deleteIdField="personID"
+    deleteIdField="categoryID"
     storePageName="storeCategory"
     :fetchInfoMethod="getOne"
     :updateInfoMethod="update"
@@ -26,7 +26,7 @@ export default {
       update,
       remove,
       getOne,
-      keysToPost: ["title", "isActive", "personID"],
+      keysToPost: ["title", "isActive", "categoryID"],
     };
   },
   computed: {

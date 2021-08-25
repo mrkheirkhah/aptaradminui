@@ -37,6 +37,7 @@ const addPageMixin = {
   created() {
     for (const field of this.fields) {
       this.data[field.name] = null;
+      if (field.name === "isActive") this.data[field.name] = true;
     }
   },
 };

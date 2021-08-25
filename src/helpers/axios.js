@@ -16,7 +16,7 @@ export const addAxiosInterceptors = (axiosInstance) => {
   // doing something with the response
   axiosInstance.interceptors.response.use(
     (response) => {
-      const { status, statusText } = response;
+      const { status, statusText, config } = response;
       if (status !== 200)
         Store.dispatch(
           "addAlert",
@@ -29,6 +29,45 @@ export const addAxiosInterceptors = (axiosInstance) => {
           },
           { root: true }
         );
+      if (status === 200) {
+        if (config.method === "put") {
+          Store.dispatch(
+            "addAlert",
+            {
+              messageHeader: "پیام",
+              type: "info",
+              messageBody: "اطلاعات با موفقیت بروزرسانی شد",
+              autoHide: true,
+              timeout: 3000,
+            },
+            { root: true }
+          );
+        } else if (config.method === "post" && !config.url.includes("All")) {
+          Store.dispatch(
+            "addAlert",
+            {
+              messageHeader: "پیام",
+              type: getToastColorBasedOnStatusCode(status),
+              messageBody: "اطلاعات با موفقیت ثبت شد",
+              autoHide: true,
+              timeout: 3000,
+            },
+            { root: true }
+          );
+        } else if (config.method === "delete") {
+          Store.dispatch(
+            "addAlert",
+            {
+              messageHeader: "پیام",
+              type: "info",
+              messageBody: "اطلاعات حذف شد",
+              autoHide: true,
+              timeout: 3000,
+            },
+            { root: true }
+          );
+        }
+      }
       response.data = changeObjKeysFromPascalToCamel(response.data);
       return response;
     },

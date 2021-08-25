@@ -34,13 +34,6 @@ export default {
       const self = this;
       return [
         {
-          filedName: "categoryID",
-          persianName: "کد دسته‌بندی‌",
-          type: "text",
-          data: self.data.categoryID,
-          col: "6",
-        },
-        {
           filedName: "title",
           persianName: "نام",
           type: "text",

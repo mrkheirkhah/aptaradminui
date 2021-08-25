@@ -13,12 +13,14 @@
             fixed
             :caption="gridTitle"
             addNewLink="/admin/productimage/add"
+            @pagination-change="paginationChange"
             @page-change="pageChange"
             @sorter-change="sorterChange"
             @column-filter-change="columnFilterChange"
             @more-action="moreAction"
             @toggle-data-state="updateAction"
             @edit-action="editAction"
+            @delete-action="deleteInfo"
           />
         </CCol>
       </CRow>
@@ -28,7 +30,7 @@
 
 <script>
 import ProductImageTableWrapper from "@/components/TableWrappers/ProductImageTableWrapper.vue";
-import { catalog } from "@/services/product";
+import { catalog, removeProduct } from "@/services/product";
 import storePageMixin from "@/mixins/storePage";
 export default {
   components: { ProductImageTableWrapper },
@@ -36,10 +38,11 @@ export default {
   data() {
     return {
       fetchAll: catalog,
+      deleteInfoMethod: removeProduct,
+      deleteIdField: "id",
       keysToPost: ["fileOption", "id", "file", "priority"],
       showColumns: [
         { key: "index", label: "#" },
-        { key: "id", label: "کد" },
         { key: "title", label: "نام" },
         { key: "actions", label: "عملیات" },
       ],

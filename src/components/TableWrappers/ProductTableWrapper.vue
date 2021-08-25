@@ -30,7 +30,12 @@
         :fixed="fixed"
         :items="items"
         :fields="fields"
-        :items-per-page="10"
+        :items-per-page-select="{
+          values: [5, 10, 15, 25, 50],
+          external: true,
+          label: 'تعداد سطرها',
+        }"
+        :items-per-page="itemsPerPage"
         :dark="dark"
         pagination
         responsive
@@ -41,6 +46,7 @@
           noItems: 'دیتایی برای نمایش وجود ندارد',
         }"
         @page-change="pageChange"
+        @pagination-change="paginationChange"
         @update:sorter-value="sorterChange"
         @update:table-filter-value="tableFilterChange"
         @update:column-filter-value="columnFilterChange"
@@ -71,6 +77,16 @@
               <CIcon size="sm" name="cil-options" />
             </CButton>
             <CButton
+              name="cil-trash"
+              size="sm"
+              v-bind="{ variant: 'ghost' }"
+              @click="$emit('delete-action', item)"
+              color="danger"
+              class="btn-brand"
+            >
+              <CIcon size="sm" name="cil-trash" />
+            </CButton>
+            <!-- <CButton
               name="cil-dollar"
               size="sm"
               v-bind="{ variant: 'ghost' }"
@@ -89,7 +105,7 @@
               class="btn-brand"
             >
               <CIcon size="sm" name="cil-settings" />
-            </CButton>
+            </CButton> -->
           </td>
         </template>
         <template #index="{ index }">
@@ -170,11 +186,13 @@ export default {
     small: Boolean,
     fixed: Boolean,
     dark: Boolean,
+    deleteIdField: String,
   },
   data() {
     return {
       range: [],
       columnFilters: null,
+      itemsPerPage: 10,
       isActiveColumnFilter: false,
     };
   },
@@ -193,6 +211,10 @@ export default {
   methods: {
     pageChange(pageNumber) {
       this.$emit("page-change", pageNumber);
+    },
+    paginationChange(itemsPerPage) {
+      this.itemsPerPage = itemsPerPage;
+      this.$emit("pagination-change", itemsPerPage);
     },
     sorterChange({ asc, column }) {
       this.$emit("sorter-change", { asc, column });

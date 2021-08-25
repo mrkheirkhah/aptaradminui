@@ -13,11 +13,13 @@
             fixed
             :caption="gridTitle"
             @page-change="pageChange"
+            @pagination-change="paginationChange"
             @sorter-change="sorterChange"
             @column-filter-change="columnFilterChange"
             @more-action="moreAction"
             @toggle-product-state="updateAction"
             @edit-action="editAction"
+            @delete-action="deleteInfo"
             @show-setting-action="showSettingAction"
             @show-price-action="showPriceAction"
           />
@@ -28,7 +30,11 @@
 </template>
 
 <script>
-import { getAllProducts, updateProduct } from "@/services/product";
+import {
+  getAllProducts,
+  updateProduct,
+  deleteProduct,
+} from "@/services/product";
 import ProductTableWrapper from "@/components/TableWrappers/ProductTableWrapper.vue";
 import storePageMixin from "../../../mixins/storePage";
 export default {
@@ -37,6 +43,8 @@ export default {
   data() {
     return {
       fetchAll: getAllProducts,
+      deleteInfoMethod: deleteProduct,
+      deleteIdField: "productID",
       keysToPost: [
         "title",
         "path",

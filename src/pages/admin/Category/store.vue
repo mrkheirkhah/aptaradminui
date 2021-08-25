@@ -14,11 +14,13 @@
             :caption="gridTitle"
             addNewLink="/admin/category/add"
             @page-change="pageChange"
+            @pagination-change="paginationChange"
             @sorter-change="sorterChange"
             @column-filter-change="columnFilterChange"
             @more-action="moreAction"
             @toggle-data-state="updateAction"
             @edit-action="editAction"
+            @delete-action="deleteInfo"
           />
         </CCol>
       </CRow>
@@ -28,7 +30,7 @@
 
 <script>
 import DefaultTableWrapper from "@/components/TableWrappers/DefaultTableWrapper.vue";
-import { update, getAll } from "../../../services/category";
+import { update, getAll, remove } from "../../../services/category";
 import storePageMixin from "../../../mixins/storePage";
 export default {
   components: { DefaultTableWrapper },
@@ -36,15 +38,16 @@ export default {
   data() {
     return {
       fetchAll: getAll,
+      deleteInfoMethod: remove,
+      deleteIdField: "categoryID",
       keysToPost: ["title", "isActive", "categoryID"],
       showColumns: [
         { key: "index", label: "#" },
-        { key: "categoryID", label: "کد" },
         { key: "title", label: "نام" },
         { key: "isActive", label: "فعال" },
         { key: "actions", label: "عملیات" },
       ],
-      gridTitle: "دسته بندی‌ها",
+      gridTitle: "دسته بندی‌ محصولات",
     };
   },
   methods: {

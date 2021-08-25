@@ -62,7 +62,9 @@ const mutations = {
     );
   },
   SET_STATES(state, data) {
-    state.statesArray = data;
+    state.statesArray = data.sort((a, b) =>
+      a.title > b.title ? 1 : b.title > a.title ? -1 : 0
+    );
   },
   SET_SERVERS(state, data) {
     state.serversArray = data;
@@ -110,27 +112,27 @@ const actions = {
     commit("SET_STATES", data);
   },
   async fetchServers({ commit }) {
-    const data = await server.catalog();
+    const { data } = await server.catalog();
     commit("SET_SERVERS", data);
   },
   async fetchCategories({ commit }) {
-    const data = await category.catalog();
+    const { data } = await category.catalog();
     commit("SET_CATEGORIES", data);
   },
   async fetchOptionTypes({ commit }) {
-    const data = await optionType.catalog();
+    const { data } = await optionType.catalog();
     commit("SET_OPTION_TYPES", data);
   },
   async fetchSubscriptionTypes({ commit }) {
-    const data = await subscriptionType.catalog();
+    const { data } = await subscriptionType.catalog();
     commit("SET_SUBSCRIPTION_TYPES", data);
   },
   async fetchPayTypes({ commit }) {
-    const data = await payType.catalog();
+    const { data } = await payType.catalog();
     commit("SET_PAY_TYPES", data);
   },
   async fetchSubscriptions({ commit }) {
-    const data = await subscription.catalog();
+    const { data } = await subscription.catalog();
     commit("SET_SUBSCRIPTIONS", data);
   },
   async fetchProducts({ commit }) {
@@ -138,11 +140,11 @@ const actions = {
     commit("SET_PRODUCTS", data);
   },
   async fetchOptions({ commit }) {
-    const data = await option.catalog();
+    const { data } = await option.catalog();
     commit("SET_OPTIONS", data);
   },
   async fetchProductImageTypes({ commit }) {
-    const data = await productImage.catalog();
+    const { data } = await productImage.catalog();
     commit("SET_PRODUCT_IMAGE_TYPES", data);
   },
   async fetchBaseInfo({ dispatch }) {

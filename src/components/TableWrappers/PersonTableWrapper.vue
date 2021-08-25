@@ -30,7 +30,12 @@
         :fixed="fixed"
         :items="items"
         :fields="fields"
-        :items-per-page="10"
+        :items-per-page-select="{
+          values: [5, 10, 15, 25, 50],
+          external: true,
+          label: 'تعداد سطرها',
+        }"
+        :items-per-page="itemsPerPage"
         :dark="dark"
         pagination
         responsive
@@ -41,6 +46,7 @@
           noItems: 'دیتایی برای نمایش وجود ندارد',
         }"
         @page-change="pageChange"
+        @pagination-change="paginationChange"
         @update:sorter-value="sorterChange"
         @update:table-filter-value="tableFilterChange"
         @update:column-filter-value="columnFilterChange"
@@ -147,10 +153,12 @@ export default {
     small: Boolean,
     fixed: Boolean,
     dark: Boolean,
+    deleteIdField: String,
   },
   data() {
     return {
       range: [],
+      itemsPerPage: 10,
       columnFilters: null,
       isActiveColumnFilter: false,
     };
@@ -170,6 +178,10 @@ export default {
   methods: {
     pageChange(pageNumber) {
       this.$emit("page-change", pageNumber);
+    },
+    paginationChange(itemsPerPage) {
+      this.itemsPerPage = itemsPerPage;
+      this.$emit("pagination-change", itemsPerPage);
     },
     sorterChange({ asc, column }) {
       this.$emit("sorter-change", { asc, column });

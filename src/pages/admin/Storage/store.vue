@@ -12,12 +12,14 @@
             small
             fixed
             :caption="gridTitle"
+            @pagination-change="paginationChange"
             @page-change="pageChange"
             @sorter-change="sorterChange"
             @column-filter-change="columnFilterChange"
             @more-action="moreAction"
             @toggle-user-account-state="updateAction"
             @edit-action="editAction"
+            @delete-action="deleteInfo"
           />
         </CCol>
       </CRow>
@@ -28,7 +30,7 @@
 <script>
 import { getAllPersons } from "@/services/person";
 import PersonTableWrapper from "@/components/TableWrappers/PersonTableWrapper.vue";
-import { updatePerson } from "../../../services/person";
+import { updatePerson, deletePerson } from "../../../services/person";
 import storePageMixin from "../../../mixins/storePage";
 export default {
   components: { PersonTableWrapper },
@@ -36,6 +38,8 @@ export default {
   data() {
     return {
       fetchAll: getAllPersons,
+      deleteInfoMethod: deletePerson,
+      deleteIdField: "personID",
       keysToPost: [
         "userName",
         "password",
@@ -54,7 +58,6 @@ export default {
       ],
       showColumns: [
         { key: "index", label: "#" },
-        { key: "personID", label: "کد" },
         { key: "userName", label: "نام کاربری" },
         { key: "firstName", label: "نام" },
         { key: "lastName", label: "نام خانوادگی" },

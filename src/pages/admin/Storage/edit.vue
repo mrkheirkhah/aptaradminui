@@ -6,8 +6,8 @@
     store-link="/admin/person/"
     store-name="همه کاربران"
     :fields="fields"
-    deleteIdField="personID"
-    storePageName="storePersons"
+    deleteIdField="storageID"
+    storePageName="storeStorage"
     :fetchInfoMethod="getPerson"
     :updateInfoMethod="updatePerson"
     :deleteInfoMethod="deletePerson"
@@ -83,8 +83,8 @@ export default {
           col: "6",
         },
         { name: "email", type: "text", persianLabel: "ایمیل", col: "6" },
-        { name: "phone", type: "text", persianLabel: "تلفن همراه", col: "6" },
-        { name: "mobile", type: "text", persianLabel: "تلفن ثابت", col: "6" },
+        { name: "mobile", type: "text", persianLabel: "تلفن همراه", col: "6" },
+        { name: "phone", type: "text", persianLabel: "تلفن ثابت", col: "6" },
         { name: "zipCode", type: "text", persianLabel: "کد پستی", col: "6" },
         {
           name: "stateID",

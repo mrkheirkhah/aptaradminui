@@ -14,11 +14,13 @@
             :caption="gridTitle"
             addNewLink="/admin/optiontype/add"
             @page-change="pageChange"
+            @pagination-change="paginationChange"
             @sorter-change="sorterChange"
             @column-filter-change="columnFilterChange"
             @more-action="moreAction"
             @toggle-data-state="updateAction"
             @edit-action="editAction"
+            @delete-action="deleteInfo"
           />
         </CCol>
       </CRow>
@@ -28,22 +30,23 @@
 
 <script>
 import DefaultTableWrapper from "@/components/TableWrappers/DefaultTableWrapper.vue";
-import { update, getAll } from "../../../services/option/type";
+import { update, getAll, remove } from "../../../services/option/type";
 import storePageMixin from "../../../mixins/storePage";
 export default {
   components: { DefaultTableWrapper },
   mixins: [storePageMixin],
   data() {
     return {
+      deleteInfoMethod: remove,
       fetchAll: getAll,
+      deleteIdField: "optionTypeID",
       keysToPost: ["title", "optionTypeID"],
       showColumns: [
         { key: "index", label: "#" },
-        { key: "optionTypeID", label: "کد" },
         { key: "title", label: "نام" },
         { key: "actions", label: "عملیات" },
       ],
-      gridTitle: "نوع تنظیمات",
+      gridTitle: "نوع آپشن",
     };
   },
   methods: {

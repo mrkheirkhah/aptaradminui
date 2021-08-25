@@ -27,7 +27,7 @@ export default [
           },
           {
             _name: "CSidebarNavItem",
-            name: "تنظیمات محصولات",
+            name: "آپشن های محصولات",
             to: "/admin/productoption/store",
             icon: "cil-cog",
           },
@@ -52,7 +52,7 @@ export default [
         items: [
           {
             _name: "CSidebarNavItem",
-            name: "دسته بندی‌ها",
+            name: "دسته بندی‌ محصولات",
             to: "/admin/category/store",
             icon: "cil-applications",
           },
@@ -64,13 +64,13 @@ export default [
           },
           {
             _name: "CSidebarNavItem",
-            name: "انواع تنظیمات",
+            name: "نوع آپشن ها",
             to: "/admin/optiontype/store",
             icon: "cil-apps-settings",
           },
           {
             _name: "CSidebarNavItem",
-            name: "تنظیمات",
+            name: "آپشن ها",
             to: "/admin/option/store",
             icon: "cil-equalizer",
           },

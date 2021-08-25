@@ -47,11 +47,34 @@ export const changeObjKeysFromPascalToCamel = (data) => {
     }
     return newObj;
   }
-  function smalizeFirstLetter(string) {
-    return (string.charAt(0).toLowerCase() + string.slice(1)).toString();
-  }
 };
 
 export const properStatus = (data) => {
   return data ? "فعال" : "غیر‌فعال";
+};
+
+export const smalizeFirstLetter = (string) => {
+  return (string.charAt(0).toLowerCase() + string.slice(1)).toString();
+};
+
+export const captalizeFirstLetter = (string) => {
+  return (string.charAt(0).toUpperCase() + string.slice(1)).toString();
+};
+
+export const checkEmail = (email) => {
+  const emailPattern = new RegExp(
+    /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+  );
+
+  return emailPattern.test(email);
+};
+
+export const checkPhoneNumber = (phoneNumber) => {
+  const phnumber = /([0-9]{3})+?-+[0-9]{8}/;
+  return phnumber.test(phoneNumber);
+};
+
+export const checkMobileNumber = (phoneNumber) => {
+  const mobilePattern = /09+[0-9]{9}/;
+  return mobilePattern.test(phoneNumber);
 };

@@ -31,7 +31,12 @@
         :fixed="fixed"
         :items="items"
         :fields="fields"
-        :items-per-page="10"
+        :items-per-page-select="{
+          values: [5, 10, 15, 25, 50],
+          external: true,
+          label: 'تعداد سطرها',
+        }"
+        :items-per-page="itemsPerPage"
         :dark="dark"
         pagination
         responsive
@@ -42,6 +47,7 @@
           noItems: 'دیتایی برای نمایش وجود ندارد',
         }"
         @page-change="pageChange"
+        @pagination-change="paginationChange"
         @update:sorter-value="sorterChange"
         @update:table-filter-value="tableFilterChange"
         @update:column-filter-value="columnFilterChange"
@@ -67,6 +73,16 @@
               class="btn-brand"
             >
               <CIcon size="sm" name="cil-options" />
+            </CButton>
+            <CButton
+              name="cil-trash"
+              size="sm"
+              v-bind="{ variant: 'ghost' }"
+              @click="$emit('delete-action', item)"
+              color="danger"
+              class="btn-brand"
+            >
+              <CIcon size="sm" name="cil-trash" />
             </CButton>
           </td>
         </template>
@@ -113,6 +129,9 @@
         <template #price="{ item }">
           <td>{{ (+item.price).toLocaleString() }}</td>
         </template>
+        <template #optionTypeID="{ item }">
+          <td>{{ optionTypesObjectMappedById[item.optionTypeID] }}</td>
+        </template>
         <template #realPrice="{ item }">
           <td>{{ (+item.realPrice).toLocaleString() }}</td>
         </template>
@@ -154,13 +173,24 @@ export default {
     fixed: Boolean,
     dark: Boolean,
     addNewLink: String,
+    deleteIdField: String,
   },
   data() {
     return {
+      itemsPerPage: 10,
       range: [],
       columnFilters: null,
       isActiveColumnFilter: false,
     };
+  },
+  computed: {
+    optionTypesObjectMappedById() {
+      const optionTypesObject = {};
+      this.$store.state.optionTypesArray.map((stateObj) => {
+        optionTypesObject[stateObj.id] = stateObj.title;
+      });
+      return optionTypesObject;
+    },
   },
   watch: {
     range(newVal) {
@@ -177,6 +207,10 @@ export default {
   methods: {
     pageChange(pageNumber) {
       this.$emit("page-change", pageNumber);
+    },
+    paginationChange(itemsPerPage) {
+      this.itemsPerPage = itemsPerPage;
+      this.$emit("pagination-change", itemsPerPage);
     },
     sorterChange({ asc, column }) {
       this.$emit("sorter-change", { asc, column });

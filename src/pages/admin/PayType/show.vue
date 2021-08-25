@@ -4,7 +4,7 @@
       :title="data.title"
       icon="cil-applications"
       store-link="/admin/paytype/"
-      store-name="انواع پرداخت"
+      store-name="نوع پرداخت"
       :fieldsToShow="fieldsToShow"
     />
   </div>

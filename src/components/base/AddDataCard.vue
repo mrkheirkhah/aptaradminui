@@ -22,7 +22,11 @@
       </slot>
     </CCardHeader>
     <CCardBody>
-      <form @submit.prevent="handleSubmit">
+      <CForm
+        @submit.prevent="handleSubmit"
+        :wasValidated="true"
+        ref="addFormElement"
+      >
         <CRow>
           <template v-for="field in fields">
             <CCol :sm="field.col" :key="field.name">
@@ -30,8 +34,42 @@
               <CInput
                 v-if="field.type === 'text'"
                 :value="data[field.name]"
-                @input="(e) => (data[field.name] = e)"
-                :label="field.persianLabel"
+                @input="
+                  (e, ev) => {
+                    ev.currentTarget.setCustomValidity('');
+                    ev.currentTarget.checkValidity();
+                    data[field.name] = e;
+                  }
+                "
+                :label="field.persianLabel + (field.isRequired ? ' *' : '')"
+                :required="field.isRequired"
+                :isValid="field.validationFunction"
+                :invalidFeedback="field.invalidFeedback"
+                :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
+                :validationMessage="field.invalidFeedback"
+                @blur="checkValidity"
+                :placeholder="field.persianLabel"
+              />
+
+              <!-- number input -->
+              <CInput
+                v-if="field.type === 'number'"
+                :value="data[field.name]"
+                type="number"
+                @input="
+                  (e, ev) => {
+                    ev.currentTarget.setCustomValidity('');
+                    ev.currentTarget.checkValidity();
+                    data[field.name] = e;
+                  }
+                "
+                :label="field.persianLabel + (field.isRequired ? ' *' : '')"
+                :required="field.isRequired"
+                :isValid="field.validationFunction"
+                :invalidFeedback="field.invalidFeedback"
+                :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
+                :validationMessage="field.invalidFeedback"
+                @blur="checkValidity"
                 :placeholder="field.persianLabel"
               />
 
@@ -39,11 +77,22 @@
               <CInput
                 v-if="field.type === 'password'"
                 :value="data[field.name]"
-                @input="(e) => (data[field.name] = e)"
-                :label="field.persianLabel"
+                @input="
+                  (e, ev) => {
+                    ev.currentTarget.setCustomValidity('');
+                    ev.currentTarget.checkValidity();
+                    data[field.name] = e;
+                  }
+                "
+                :label="field.persianLabel + (field.isRequired ? ' *' : '')"
+                :required="field.isRequired"
+                :isValid="field.validationFunction"
+                :invalidFeedback="field.invalidFeedback"
+                :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
+                :validationMessage="field.invalidFeedback"
                 :placeholder="field.persianLabel"
                 @focus="showPass = true"
-                @blur="showPass = false"
+                @blur="showPass = false && checkValidity()"
                 :type="showPass ? 'text' : 'password'"
               >
               </CInput>
@@ -51,19 +100,43 @@
               <!-- option input  -->
               <CSelect
                 v-if="field.type === 'option'"
-                :label="field.persianLabel"
+                :label="field.persianLabel + (field.isRequired ? ' *' : '')"
+                :required="field.isRequired"
+                :isValid="field.validationFunction"
+                :invalidFeedback="field.invalidFeedback"
+                :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
+                :validationMessage="field.invalidFeedback"
+                @blur="checkValidity"
                 :placeholder="field.persianLabel"
                 :value="data[field.name]"
                 :options="field.options"
-                @update:value="(id) => (data[field.name] = id)"
+                @update:value="
+                  (id, ev) => {
+                    ev.currentTarget.setCustomValidity('');
+                    ev.currentTarget.checkValidity();
+                    data[field.name] = id;
+                  }
+                "
               />
 
               <!-- text area  -->
               <CTextarea
                 v-if="field.type === 'textarea'"
                 :value="data[field.name]"
-                @input="(e) => (data[field.name] = e)"
-                :label="field.persianLabel"
+                :required="field.isRequired"
+                :isValid="field.validationFunction"
+                :invalidFeedback="field.invalidFeedback"
+                :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
+                :validationMessage="field.invalidFeedback"
+                @blur="checkValidity"
+                @input="
+                  (e, ev) => {
+                    ev.currentTarget.setCustomValidity('');
+                    ev.currentTarget.checkValidity();
+                    data[field.name] = e;
+                  }
+                "
+                :label="field.persianLabel + (field.isRequired ? ' *' : '')"
                 :placeholder="field.persianLabel"
                 rows="4"
               />
@@ -73,22 +146,40 @@
                 v-if="field.type === 'switch'"
                 class="d-flex justify-center align-items-center my-3"
               >
-                {{ field.persianLabel }}:
+                {{ field.persianLabel + (field.isRequired ? " *" : "") }}:
                 {{ data[field.name] ? "فعال" : "غیر‌فعال" }}
                 <CSwitch
                   class="mr-2"
-                  :checked="data[field.name]"
+                  :checked="Boolean(data[field.name])"
                   color="success"
+                  :required="field.isRequired"
+                  :isValid="field.validationFunction"
+                  :invalidFeedback="field.invalidFeedback"
+                  :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
+                  :validationMessage="field.invalidFeedback"
+                  @blur="checkValidity"
                   v-bind="{ variant: '3d' }"
                   value="success"
-                  @update:checked="(status) => (data[field.name] = status)"
+                  @update:checked="
+                    (status, ev) => {
+                      data[field.name] = status;
+                      ev.currentTarget.setCustomValidity('');
+                      ev.currentTarget.checkValidity();
+                    }
+                  "
                 />
               </div>
 
               <!-- file input  -->
               <CInputFile
                 v-if="field.type === 'file' || field.type === 'file'"
-                :label="field.persianLabel"
+                :label="field.persianLabel + (field.isRequired ? ' *' : '')"
+                :required="field.isRequired"
+                :isValid="field.validationFunction"
+                :invalidFeedback="field.invalidFeedback"
+                :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
+                :validationMessage="field.invalidFeedback"
+                @blur="checkValidity"
                 :ref="field.refName"
                 horizontal
                 custom
@@ -109,7 +200,7 @@
             </CButton></CCol
           >
         </CRow>
-      </form>
+      </CForm>
     </CCardBody>
   </CCard>
 </template>
@@ -163,7 +254,27 @@ export default {
   },
   methods: {
     handleSubmit() {
+      const invalidInputs =
+        this.$refs.addFormElement.querySelectorAll(".is-invalid");
+      const invalid = invalidInputs.length > 0;
+      if (invalid)
+        return this.$store.dispatch(
+          "addAlert",
+          {
+            messageHeader: "خطا",
+            type: "danger",
+            messageBody: "لطفا مقادیر را کنترل کنید",
+            autoHide: true,
+            timeout: 3000,
+          },
+          { root: true }
+        );
       this.addInfo.call(this);
+    },
+    checkValidity(ev) {
+      ev.currentTarget.setCustomValidity(ev.currentTarget.validationMessage);
+      ev.currentTarget.checkValidity();
+      ev.currentTarget.reportValidity();
     },
   },
 };
