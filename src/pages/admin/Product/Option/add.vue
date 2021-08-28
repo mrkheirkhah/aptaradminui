@@ -85,7 +85,7 @@ export default {
         {
           name: "price",
           persianLabel: "قیمت",
-          type: "text",
+          type: "number",
           col: "6",
           validationFunction: (val) => !val || (val && !Number.isNaN(val)),
           invalidFeedback: "لطفا قیمت را وارد کنید",
@@ -93,7 +93,7 @@ export default {
         {
           name: "priority",
           persianLabel: "اولویت",
-          type: "text",
+          type: "number",
           col: "6",
           validationFunction: (val) => !val || (val && !Number.isNaN(val)),
           invalidFeedback: "لطفا اولویت را مشخص کنید",

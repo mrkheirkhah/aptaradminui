@@ -3,7 +3,11 @@
     <template v-for="imageData in data">
       <ShowDataCard
         :key="imageData.id"
-        :title="'محصول با کد: ' + imageData.id"
+        :title="'عکس محصول با کد: ' + imageData.id"
+        :showDelete="true"
+        :deleteMethod="deleteMethod"
+        deleteField="productImageID"
+        :deleteFieldVal="imageData.id"
         icon="cil-applications"
         store-link="/admin/productimage/"
         store-name="همه عکس‌های محصولات"
@@ -14,7 +18,7 @@
 </template>
 
 <script>
-import { getOne } from "@/services/product/images";
+import { getOne, remove } from "@/services/product/images";
 import showPageMixin from "@/mixins/showPage";
 import ShowDataCard from "@/components/base/ShowDataCard.vue";
 import { properStatus } from "@/utils";
@@ -24,6 +28,7 @@ export default {
   data() {
     return {
       properStatus,
+      deleteMethod: remove,
       fetchInfoMethod: getOne,
       data: {
         id: "",

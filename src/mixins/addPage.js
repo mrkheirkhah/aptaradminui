@@ -36,8 +36,11 @@ const addPageMixin = {
   },
   created() {
     for (const field of this.fields) {
-      this.data[field.name] = null;
-      if (field.name === "isActive") this.data[field.name] = true;
+      if (field.type === "switch") {
+        this.data[field.name] = field.name === "isActive" ? true : false;
+      } else if (field.type === "number") {
+        this.data[field.name] = 0;
+      } else this.data[field.name] = null;
     }
   },
 };

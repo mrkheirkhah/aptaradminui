@@ -79,6 +79,7 @@ export default {
     async updateAction({ userData, status }) {
       userData.isActive = status;
       for (const key in userData) {
+        if (userData[key] === "") userData[key] = null;
         if (!this.keysToPost.includes(key)) {
           delete userData[key];
         }

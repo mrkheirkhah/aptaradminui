@@ -18,7 +18,7 @@
             @sorter-change="sorterChange"
             @column-filter-change="columnFilterChange"
             @more-action="moreAction"
-            @toggle-user-account-state="updateAction"
+            @toggle-data-state="updateAction"
             @edit-action="editAction"
             @delete-action="deleteInfo"
           />
@@ -70,14 +70,19 @@ export default {
     },
     async updateAction({ data, status }) {
       data.isActive = status;
-      for (const key in data) {
+      const clonedData = { ...data };
+      for (const key in clonedData) {
+        if (clonedData[key] === "") clonedData[key] = null;
         if (!this.keysToPost.includes(key)) {
-          delete data[key];
+          delete clonedData[key];
         }
       }
       try {
-        await update({ ...data });
-      } catch (ex) {}
+        await update({ ...clonedData });
+        debugger;
+      } catch (ex) {
+        console.log(ex);
+      }
     },
     editAction({ serverID: id }) {
       this.$router.push({ name: "editServer", params: { id } });

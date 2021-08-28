@@ -49,7 +49,7 @@
                 :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
                 :validationMessage="field.invalidFeedback"
                 @blur="checkValidity"
-                :placeholder="field.persianLabel"
+                :placeholder="field.placeholder || field.persianLabel"
               />
 
               <!-- number input -->
@@ -71,7 +71,7 @@
                 :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
                 :validationMessage="field.invalidFeedback"
                 @blur="checkValidity"
-                :placeholder="field.persianLabel"
+                :placeholder="field.placeholder || field.persianLabel"
               />
 
               <!-- password input  -->
@@ -92,7 +92,7 @@
                 :invalidFeedback="field.invalidFeedback"
                 :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
                 :validationMessage="field.invalidFeedback"
-                :placeholder="field.persianLabel"
+                :placeholder="field.placeholder || field.persianLabel"
                 @focus="showPass = true"
                 @blur="showPass = false && checkValidity()"
                 :type="showPass ? 'text' : 'password'"
@@ -109,7 +109,7 @@
                 :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
                 :validationMessage="field.invalidFeedback"
                 @blur="checkValidity"
-                :placeholder="field.persianLabel"
+                :placeholder="field.placeholder || field.persianLabel"
                 :value="data[field.name]"
                 :options="field.options"
                 @update:value="
@@ -139,7 +139,7 @@
                   }
                 "
                 :label="field.persianLabel + (field.isRequired ? ' *' : '')"
-                :placeholder="field.persianLabel"
+                :placeholder="field.placeholder || field.persianLabel"
                 rows="4"
               />
 
@@ -149,7 +149,7 @@
                 class="d-flex justify-center align-items-center my-3"
               >
                 {{ field.persianLabel + (field.isRequired ? " *" : "") }}:
-                {{ data[field.name] ? "فعال" : "غیر‌فعال" }}
+                {{ Boolean(data[field.name]) ? "فعال" : "غیر‌فعال" }}
                 <CSwitch
                   class="mr-2"
                   :checked="Boolean(data[field.name])"
@@ -164,6 +164,7 @@
                   value="success"
                   @update:checked="
                     (status, ev) => {
+                      debugger;
                       data[field.name] = status;
                       ev.currentTarget.setCustomValidity('');
                       ev.currentTarget.checkValidity();
@@ -177,7 +178,7 @@
                 v-if="field.type === 'file' || field.type === 'file'"
                 :label="field.persianLabel + (field.isRequired ? ' *' : '')"
                 :required="field.isRequired"
-                :placeholder="'فایل را انتخاب کنید...'"
+                :placeholder="field.placeholder || 'فایل را انتخاب'"
                 type="file"
                 accept="image/png, image/jpeg"
                 :name="field.refName"

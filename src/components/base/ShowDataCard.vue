@@ -54,6 +54,20 @@
               </CCol>
             </template>
           </CRow>
+          <CRow v-if="showDelete">
+            <CCol col="12">
+              <CButton
+                :class="{ 'disabled-btn': performingAction }"
+                color="danger"
+                @click="deleteInfo"
+                style="width: 100%"
+                v-bind="{ variant: 'outline' }"
+                ><CIcon v-if="!performingAction" size="sm" name="cil-trash" />
+                <CSpinner v-else size="sm" />
+                حذف
+              </CButton>
+            </CCol>
+          </CRow>
         </CCardBody>
       </CCard>
     </CCol>
@@ -83,6 +97,48 @@ export default {
     fieldsToShow: {
       required: true,
       type: Array,
+    },
+    showDelete: {
+      required: false,
+      type: Boolean,
+      default: () => false,
+    },
+    deleteField: {
+      required: false,
+      type: String,
+      default: () => "",
+    },
+    deleteMethod: {
+      required: false,
+      type: Function,
+      default: () => {},
+    },
+    deleteFieldVal: {
+      required: false,
+      type: [String, Number],
+      default: () => "",
+    },
+  },
+  data() {
+    return {
+      performingAction: false,
+    };
+  },
+  methods: {
+    async deleteInfo() {
+      this.performingAction = true;
+      const data = {
+        data: {
+          [this.deleteField]: this.deleteFieldVal,
+        },
+      };
+      try {
+        await this.deleteMethod(data);
+        this.$router.push({ path: this.storeLink });
+      } catch (ex) {
+        console.log(ex);
+      }
+      this.performingAction = false;
     },
   },
 };

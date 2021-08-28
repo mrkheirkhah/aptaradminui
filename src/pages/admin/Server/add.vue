@@ -46,7 +46,7 @@ export default {
         {
           name: "loadBalance",
           persianLabel: "لود بالانس",
-          type: "text",
+          type: "number",
           col: "6",
           isRequired: true,
           validationFunction: (val) => !val || (val && !Number.isNaN(val)),

@@ -86,6 +86,7 @@ export default {
     async updateAction({ productData, status }) {
       productData.isActive = status;
       for (const key in productData) {
+        if (productData[key] === "") productData[key] = null;
         if (!this.keysToPost.includes(key)) {
           delete productData[key];
         }

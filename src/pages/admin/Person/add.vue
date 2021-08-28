@@ -116,6 +116,7 @@ export default {
           name: "phone",
           type: "text",
           persianLabel: "تلفن ثابت",
+          placeholder: "021-44444444",
           col: "6",
           isRequired: false,
           validationFunction: (val) => !val || (val && checkPhoneNumber(val)),

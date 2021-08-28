@@ -55,9 +55,9 @@ export default {
         {
           name: "value",
           persianLabel: "مقدار",
-          type: "text",
+          type: "number",
           col: "6",
-          validationFunction: (val) => !val || (val && val !== ""),
+          validationFunction: (val) => !val || (val && !Number.isNaN(val)),
           invalidFeedback: "لطفا مقدار را مشخص کنید",
         },
         {

@@ -31,6 +31,7 @@
 <script>
 import ProductImageTableWrapper from "@/components/TableWrappers/ProductImageTableWrapper.vue";
 import { catalog } from "@/services/product";
+import { getOne, remove } from "@/services/product/images";
 import storePageMixin from "@/mixins/storePage";
 export default {
   components: { ProductImageTableWrapper },
@@ -38,7 +39,6 @@ export default {
   data() {
     return {
       fetchAll: catalog,
-      deleteInfoMethod: () => alert("حذف امکان پذیر نیست"),
       deleteIdField: "id",
       keysToPost: ["fileOption", "id", "file", "priority"],
       showColumns: [
@@ -59,6 +59,17 @@ export default {
     },
     editAction() {
       alert("امكان ويرايش وجود ندارد");
+    },
+    async deleteInfo(item) {
+      try {
+        const { data } = await getOne(item.id);
+        const shouldDelete = confirm("کل عکس‌های این کالا حذف شوند؟");
+        if (shouldDelete) {
+          for (const image of data) {
+            await remove({ data: { productImageID: image.id } });
+          }
+        }
+      } catch (ex) {}
     },
   },
 };

@@ -58,13 +58,15 @@ export default {
     },
     async updateAction({ data, status }) {
       data.isActive = status;
-      for (const key in data) {
+      const clonedData = { ...data };
+      for (const key in clonedData) {
+        if (clonedData[key] === "") clonedData[key] = null;
         if (!this.keysToPost.includes(key)) {
-          delete data[key];
+          delete clonedData[key];
         }
       }
       try {
-        await update({ ...data });
+        await update({ ...clonedData });
       } catch (ex) {}
     },
     editAction({ optionID: id }) {

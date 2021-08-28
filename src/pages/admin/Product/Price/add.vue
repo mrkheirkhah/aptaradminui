@@ -79,13 +79,13 @@ export default {
           type: "option",
           options: self.payTypesObjectMappedById,
           col: "6",
-          validationFunction: (val) => val && val !== "",
+          validationFunction: (val) => !val || (val && val !== ""),
           invalidFeedback: "لطفا نوع پرداخت را انتخاب کنید",
         },
         {
           name: "price",
           persianLabel: "قیمت",
-          type: "text",
+          type: "number",
           col: "6",
           isRequired: true,
           validationFunction: (val) => val && !Number.isNaN(val),
@@ -94,7 +94,7 @@ export default {
         {
           name: "realPrice",
           persianLabel: "قیمت واقعی",
-          type: "text",
+          type: "number",
           col: "6",
           validationFunction: (val) => !val || (val && !Number.isNaN(val)),
           invalidFeedback: "لطفا قیمت واقعی را مشخص کنید",
@@ -102,7 +102,7 @@ export default {
         {
           name: "priority",
           persianLabel: "اولویت",
-          type: "text",
+          type: "number",
           col: "6",
           isRequired: true,
           validationFunction: (val) => !val || (val && !Number.isNaN(val)),

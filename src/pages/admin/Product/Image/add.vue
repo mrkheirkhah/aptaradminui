@@ -3,10 +3,10 @@
     title="ثبت آپشن محصول جدید"
     icon="cil-applications"
     store-icon="cil-applications"
-    store-link="/admin/productoption/"
+    store-link="/admin/productimage/"
     store-name="همه آپشن ها محصولات"
     :fields="fields"
-    storePageName="storeProductOption"
+    storePageName="storeProductImage"
     :addInfoMethod="add"
     :keysToPost="keysToPost"
   />
@@ -63,7 +63,7 @@ export default {
         {
           name: "priority",
           persianLabel: "اولویت",
-          type: "text",
+          type: "number",
           col: "6",
           isRequired: true,
           validationFunction: (val) => val && !Number.isNaN(val),

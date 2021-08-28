@@ -123,6 +123,7 @@ export default {
           name: "phone",
           type: "text",
           persianLabel: "تلفن ثابت",
+          placeholder: "021-44444444",
           col: "6",
           validationFunction: (val) => !val || (val && checkPhoneNumber(val)),
           invalidFeedback: "تلفن ثابت را بصورت صحیح وارد کنید",
