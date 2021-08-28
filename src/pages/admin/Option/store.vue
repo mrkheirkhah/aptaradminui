@@ -42,7 +42,7 @@ export default {
       deleteInfoMethod: remove,
       keysToPost: ["title", "value", "optionID", "optionTypeID", "isActive"],
       showColumns: [
-        { key: "index", label: "#" },
+        { key: "index", label: "#", _style: "width: 10px" },
         { key: "title", label: "نام" },
         { key: "value", label: "مقدار" },
         { key: "optionTypeID", label: "نوع آپشن" },

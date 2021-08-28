@@ -30,7 +30,7 @@
 
 <script>
 import ProductImageTableWrapper from "@/components/TableWrappers/ProductImageTableWrapper.vue";
-import { catalog, removeProduct } from "@/services/product";
+import { catalog } from "@/services/product";
 import storePageMixin from "@/mixins/storePage";
 export default {
   components: { ProductImageTableWrapper },
@@ -38,7 +38,7 @@ export default {
   data() {
     return {
       fetchAll: catalog,
-      deleteInfoMethod: removeProduct,
+      deleteInfoMethod: () => alert("حذف امکان پذیر نیست"),
       deleteIdField: "id",
       keysToPost: ["fileOption", "id", "file", "priority"],
       showColumns: [
@@ -49,6 +49,7 @@ export default {
       gridTitle: "لیست محصولات (تصویر محصولات)",
     };
   },
+  cumputed: {},
   methods: {
     moreAction({ id }) {
       this.$router.push({ name: "showProductImage", params: { id } });

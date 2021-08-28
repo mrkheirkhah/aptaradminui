@@ -1,7 +1,7 @@
 <template>
   <div>
     <ShowDataCard
-      :title="data.title"
+      :title="data.price"
       icon="cil-applications"
       store-link="/admin/productprice/"
       store-name="همه قیمت محصولات"

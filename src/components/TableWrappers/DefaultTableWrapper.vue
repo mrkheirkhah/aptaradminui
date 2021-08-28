@@ -25,17 +25,13 @@
     <CCardBody>
       <CDataTable
         :hover="hover"
+        class="aptar-table-wrapper"
         :striped="striped"
         :border="border"
         :small="small"
         :fixed="fixed"
         :items="items"
         :fields="fields"
-        :items-per-page-select="{
-          values: [5, 10, 15, 25, 50],
-          external: true,
-          label: 'تعداد سطرها',
-        }"
         :items-per-page="itemsPerPage"
         :dark="dark"
         pagination
@@ -47,7 +43,6 @@
           noItems: 'دیتایی برای نمایش وجود ندارد',
         }"
         @page-change="pageChange"
-        @pagination-change="paginationChange"
         @update:sorter-value="sorterChange"
         @update:table-filter-value="tableFilterChange"
         @update:column-filter-value="columnFilterChange"
@@ -132,8 +127,72 @@
         <template #optionTypeID="{ item }">
           <td>{{ optionTypesObjectMappedById[item.optionTypeID] }}</td>
         </template>
+        <template #optionTypeID-filter>
+          <CSelect
+            placeholder=""
+            style="height: 32px; width: 100%; margin: auto"
+            :value="optionTypeID"
+            :options="[{ value: '', label: '...' }, ...optionTypesArray]"
+            @update:value="(id) => (optionTypeID = id)"
+          />
+        </template>
+        <template #subscriptionTypeID="{ item }">
+          <td>
+            {{ subscriptionTypesObjectMappedById[item.subscriptionTypeID] }}
+          </td>
+        </template>
+        <template #subscriptionTypeID-filter>
+          <CSelect
+            placeholder=""
+            style="height: 32px; width: 100%; margin: auto"
+            :value="subscriptionTypeID"
+            :options="[{ value: '', label: '...' }, ...subscriptionTypesArray]"
+            @update:value="(id) => (subscriptionTypeID = id)"
+          />
+        </template>
         <template #realPrice="{ item }">
           <td>{{ (+item.realPrice).toLocaleString() }}</td>
+        </template>
+        <template #productID="{ item }">
+          <td>
+            {{ productsObjectMappedById[item.productID] }}
+          </td>
+        </template>
+        <template #productID-filter>
+          <CSelect
+            placeholder=""
+            style="height: 32px; width: 100%; margin: auto"
+            :value="productID"
+            :options="[{ value: '', label: '...' }, ...productsArray]"
+            @update:value="(id) => (productID = id)"
+          />
+        </template>
+        <template #payTypeID="{ item }">
+          <td>
+            {{ payTypesObjectMappedById[item.payTypeID] }}
+          </td>
+        </template>
+        <template #payTypeID-filter>
+          <CSelect
+            placeholder=""
+            style="height: 32px; width: 100%; margin: auto"
+            :value="payTypeID"
+            :options="[{ value: '', label: '...' }, ...payTypesArray]"
+            @update:value="(id) => (payTypeID = id)"
+          />
+        </template>
+        <template #subscriptionID="{ item }">
+          <td>
+            {{ subscriptionsObjectMappedById[item.subscriptionID] }}
+          </td>
+        </template>
+        <template #subscriptionID-filter>
+          <CSelect
+            style="height: 32px; width: 100%; margin: auto"
+            :value="subscriptionID"
+            :options="[{ value: '', label: '...' }, ...subscriptionsArray]"
+            @update:value="(id) => (subscriptionID = id)"
+          />
         </template>
         <template #createDate="{ item }">
           <td>
@@ -147,6 +206,15 @@
                 : ""
             }}
           </td>
+        </template>
+        <template #under-table>
+          <CSelect
+            placeholder=""
+            style="height: 32px; width: 70px; margin: 5"
+            :value="itemsPerPage"
+            :options="[5, 10, 15, 25, 50]"
+            @update:value="(val) => (itemsPerPage = val)"
+          />
         </template>
       </CDataTable>
     </CCardBody>
@@ -178,6 +246,11 @@ export default {
   data() {
     return {
       itemsPerPage: 10,
+      optionTypeID: Number.NaN,
+      productID: Number.NaN,
+      subscriptionID: Number.NaN,
+      payTypeID: Number.NaN,
+      subscriptionTypeID: Number.NaN,
       range: [],
       columnFilters: null,
       isActiveColumnFilter: false,
@@ -191,8 +264,85 @@ export default {
       });
       return optionTypesObject;
     },
+    optionTypesObjectMappedByName() {
+      const optionTypesObject = {};
+      this.$store.state.optionTypesArray.map((stateObj) => {
+        optionTypesObject[stateObj.title] = stateObj.id;
+      });
+      return optionTypesObject;
+    },
+    optionTypesArray() {
+      return this.$store.state.optionTypesArray.map((stateObj) => ({
+        label: stateObj.title,
+        value: stateObj.id,
+      }));
+    },
+    subscriptionTypesObjectMappedById() {
+      const optionTypesObject = {};
+      this.$store.state.subscriptionTypesArray.map((stateObj) => {
+        optionTypesObject[stateObj.id] = stateObj.title;
+      });
+      return optionTypesObject;
+    },
+    subscriptionTypesObjectMappedByName() {
+      const optionTypesObject = {};
+      this.$store.state.subscriptionTypesArray.map((stateObj) => {
+        optionTypesObject[stateObj.title] = stateObj.id;
+      });
+      return optionTypesObject;
+    },
+    subscriptionTypesArray() {
+      return this.$store.state.subscriptionTypesArray.map((stateObj) => ({
+        label: stateObj.title,
+        value: stateObj.id,
+      }));
+    },
+    productsArray() {
+      return this.$store.state.productsArray.map((stateObj) => ({
+        label: stateObj.title,
+        value: stateObj.id,
+      }));
+    },
+    productsObjectMappedById() {
+      const optionTypesObject = {};
+      this.$store.state.productsArray.map((stateObj) => {
+        optionTypesObject[stateObj.id] = stateObj.title;
+      });
+      return optionTypesObject;
+    },
+    payTypesArray() {
+      return this.$store.state.payTypesArray.map((stateObj) => ({
+        label: stateObj.title,
+        value: stateObj.id,
+      }));
+    },
+    payTypesObjectMappedById() {
+      const optionTypesObject = {};
+      this.$store.state.payTypesArray.map((stateObj) => {
+        optionTypesObject[stateObj.id] = stateObj.title;
+      });
+      return optionTypesObject;
+    },
+    subscriptionsArray() {
+      return this.$store.state.subscriptionsArray.map((stateObj) => ({
+        label: stateObj.title,
+        value: stateObj.id,
+      }));
+    },
+    subscriptionsObjectMappedById() {
+      const optionTypesObject = {};
+      this.$store.state.subscriptionsArray.map((stateObj) => {
+        optionTypesObject[stateObj.id] = stateObj.title;
+      });
+      return optionTypesObject;
+    },
   },
   watch: {
+    itemsPerPage(newVal) {
+      this.itemsPerPage = newVal;
+      this.$emit("page-change", 1);
+      this.$emit("pagination-change", newVal);
+    },
     range(newVal) {
       if (!this.columnFilters) this.columnFilters = {};
       this.columnFilters.createDate = newVal;
@@ -201,6 +351,31 @@ export default {
     isActiveColumnFilter(newVal) {
       if (!this.columnFilters) this.columnFilters = {};
       this.columnFilters.isActive = newVal;
+      this.$emit("column-filter-change", this.columnFilters);
+    },
+    optionTypeID(newVal) {
+      if (!this.columnFilters) this.columnFilters = {};
+      this.columnFilters.optionTypeID = newVal;
+      this.$emit("column-filter-change", this.columnFilters);
+    },
+    subscriptionTypeID(newVal) {
+      if (!this.columnFilters) this.columnFilters = {};
+      this.columnFilters.subscriptionTypeID = newVal;
+      this.$emit("column-filter-change", this.columnFilters);
+    },
+    payTypeID(newVal) {
+      if (!this.columnFilters) this.columnFilters = {};
+      this.columnFilters.payTypeID = newVal;
+      this.$emit("column-filter-change", this.columnFilters);
+    },
+    subscriptionID(newVal) {
+      if (!this.columnFilters) this.columnFilters = {};
+      this.columnFilters.subscriptionID = newVal;
+      this.$emit("column-filter-change", this.columnFilters);
+    },
+    productID(newVal) {
+      if (!this.columnFilters) this.columnFilters = {};
+      this.columnFilters.productID = newVal;
       this.$emit("column-filter-change", this.columnFilters);
     },
   },
@@ -226,7 +401,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .vpd-input-group input:not(.vpd-is-editable) {
   height: 29px;
 }
@@ -238,5 +413,16 @@ export default {
 
 .vpd-input-group label {
   display: none;
+}
+
+.aptar-table-wrapper {
+  .form-group {
+    display: inline-block;
+    margin-left: 8px;
+  }
+
+  nav {
+    display: inline-block;
+  }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <EditDataCard
-    title="title"
+    title="price"
     icon="cil-applications"
     store-icon="cil-applications"
     store-link="/admin/productprice/"
@@ -66,6 +66,9 @@ export default {
           type: "option",
           options: self.productsObjectMappedById,
           col: "6",
+          isRequired: true,
+          validationFunction: (val) => val,
+          invalidFeedback: "لطفا محصول را انتخاب کنید",
         },
         {
           name: "subscriptionID",
@@ -73,6 +76,9 @@ export default {
           type: "option",
           options: self.subscriptionsObjectMappedById,
           col: "6",
+          isRequired: true,
+          validationFunction: (val) => val,
+          invalidFeedback: "لطفا اشتراک را انتخاب کنید",
         },
         {
           name: "payTypeID",
@@ -80,24 +86,36 @@ export default {
           type: "option",
           options: self.payTypesObjectMappedById,
           col: "6",
+          isRequired: true,
+          validationFunction: (val) => val,
+          invalidFeedback: "لطفا نوع پرداخت را انتخاب کنید",
         },
         {
           name: "price",
           persianLabel: "قیمت",
           type: "text",
           col: "6",
+          isRequired: true,
+          validationFunction: (val) => val && !Number.isNaN(val),
+          invalidFeedback: "لطفا قیمت را مشخص کنید",
         },
         {
           name: "realPrice",
           persianLabel: "قیمت واقعی",
           type: "text",
           col: "6",
+          isRequired: true,
+          validationFunction: (val) => val && !Number.isNaN(val),
+          invalidFeedback: "لطفا قیمت واقعی را مشخص کنید",
         },
         {
           name: "priority",
           persianLabel: "اولویت",
           type: "text",
           col: "6",
+          isRequired: true,
+          validationFunction: (val) => val && !Number.isNaN(val),
+          invalidFeedback: "لطفا اولویت را مشخص کنید",
         },
         {
           name: "isActive",

@@ -23,6 +23,7 @@
     </CCardHeader>
     <CCardBody>
       <CDataTable
+        class="aptar-table-wrapper"
         :hover="hover"
         :striped="striped"
         :border="border"
@@ -30,11 +31,6 @@
         :fixed="fixed"
         :items="items"
         :fields="fields"
-        :items-per-page-select="{
-          values: [5, 10, 15, 25, 50],
-          external: true,
-          label: 'تعداد سطرها',
-        }"
         :items-per-page="itemsPerPage"
         :dark="dark"
         pagination
@@ -46,7 +42,6 @@
           noItems: 'دیتایی برای نمایش وجود ندارد',
         }"
         @page-change="pageChange"
-        @pagination-change="paginationChange"
         @update:sorter-value="sorterChange"
         @update:table-filter-value="tableFilterChange"
         @update:column-filter-value="columnFilterChange"
@@ -129,6 +124,15 @@
             }}
           </td>
         </template>
+        <template #under-table>
+          <CSelect
+            placeholder=""
+            style="height: 32px; width: 70px; margin: 5"
+            :value="itemsPerPage"
+            :options="[5, 10, 15, 25, 50]"
+            @update:value="(val) => (itemsPerPage = val)"
+          />
+        </template>
       </CDataTable>
     </CCardBody>
   </CCard>
@@ -164,6 +168,11 @@ export default {
     };
   },
   watch: {
+    itemsPerPage(newVal) {
+      this.itemsPerPage = newVal;
+      this.$emit("page-change", 1);
+      this.$emit("pagination-change", newVal);
+    },
     range(newVal) {
       if (!this.columnFilters) this.columnFilters = {};
       this.columnFilters.createDate = newVal;
@@ -197,7 +206,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .vpd-input-group input:not(.vpd-is-editable) {
   height: 29px;
 }
@@ -209,5 +218,16 @@ export default {
 
 .vpd-input-group label {
   display: none;
+}
+
+.aptar-table-wrapper {
+  .form-group {
+    display: inline-block;
+    margin-left: 8px;
+  }
+
+  nav {
+    display: inline-block;
+  }
 }
 </style>

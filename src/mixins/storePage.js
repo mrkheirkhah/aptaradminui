@@ -48,10 +48,10 @@ const storePageMixin = {
           this.gridData = { ...data };
         } else if (data && Array.isArray(data)) {
           this.gridData = {
-            Index: 0,
-            Size: data.length,
-            Count: data.length,
-            Data: data,
+            index: 0,
+            size: data.length,
+            count: data.length,
+            data: data,
           };
         }
       } catch (ex) {
@@ -124,15 +124,15 @@ const storePageMixin = {
       this.fetchOptions.Filters = [];
       for (const key in keyWordsMappedWithColumnNamesObject) {
         if (key === "index" || key === "actions") continue;
-        if (
-          keyWordsMappedWithColumnNamesObject[key] !== "" &&
-          typeof keyWordsMappedWithColumnNamesObject[key] !== "boolean" &&
-          !Number.isNaN(+keyWordsMappedWithColumnNamesObject[key])
-        ) {
-          keyWordsMappedWithColumnNamesObject[
-            key
-          ] = +keyWordsMappedWithColumnNamesObject[key];
-        }
+        // if (
+        //   keyWordsMappedWithColumnNamesObject[key] !== "" &&
+        //   typeof keyWordsMappedWithColumnNamesObject[key] !== "boolean" &&
+        //   !Number.isNaN(+keyWordsMappedWithColumnNamesObject[key])
+        // ) {
+        //   keyWordsMappedWithColumnNamesObject[
+        //     key
+        //   ] = +keyWordsMappedWithColumnNamesObject[key];
+        // }
         if (keyWordsMappedWithColumnNamesObject[key] === "") continue;
         this.fetchOptions.Filters.push({
           Column: captalizeFirstLetter(key),

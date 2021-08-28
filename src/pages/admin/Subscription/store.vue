@@ -51,7 +51,7 @@ export default {
         { key: "index", label: "#" },
         { key: "title", label: "نام" },
         { key: "value", label: "مقدار" },
-        { key: "subscriptionTypeID", label: "نوع آپشن" },
+        { key: "subscriptionTypeID", label: "نوع اشتراک" },
         { key: "isActive", label: "فعال" },
         { key: "actions", label: "عملیات" },
       ],

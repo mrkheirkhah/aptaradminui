@@ -77,7 +77,7 @@ export default {
         },
         {
           filedName: "allSoftware",
-          persianName: "نرم‌افزار کل",
+          persianName: "دسترسی تمام نرم‌افزارها",
           type: "",
           data: self.data.allSoftware,
           col: "6",

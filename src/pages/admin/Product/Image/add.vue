@@ -45,6 +45,9 @@ export default {
           type: "option",
           options: self.productsObjectMappedById,
           col: "6",
+          isRequired: true,
+          validationFunction: (val) => val,
+          invalidFeedback: "لطفا محصول را مشخص کنید",
         },
 
         {
@@ -53,12 +56,18 @@ export default {
           type: "option",
           options: self.productImageTypesObjectMappedById,
           col: "6",
+          isRequired: true,
+          validationFunction: (val) => val,
+          invalidFeedback: "لطفا نوع عکس را مشخص کنید",
         },
         {
           name: "priority",
           persianLabel: "اولویت",
           type: "text",
           col: "6",
+          isRequired: true,
+          validationFunction: (val) => val && !Number.isNaN(val),
+          invalidFeedback: "لطفا اولویت را مشخص کنید",
         },
         {
           name: "file",
@@ -66,6 +75,13 @@ export default {
           type: "file",
           refName: "productImage",
           col: "6",
+          validationFunction: (val) => {
+            return (
+              val &&
+              (val[0].type === "image/png" || val[0].type === "image/jpeg")
+            );
+          },
+          invalidFeedback: "لطفا تصویر مورد نظر را انتخاب کنید ",
         },
       ];
     },

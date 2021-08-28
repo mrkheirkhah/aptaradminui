@@ -41,6 +41,9 @@ export default {
           type: "text",
           persianLabel: "نام",
           col: "6",
+          isRequired: true,
+          validationFunction: (val) => val && val !== "",
+          invalidFeedback: "لطفا نام را وارد کنید",
         },
         {
           name: "isActive",

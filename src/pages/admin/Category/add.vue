@@ -30,6 +30,8 @@ export default {
           name: "title",
           type: "text",
           persianLabel: "نام",
+          validationFunction: (val) => !val || (val && val !== ""),
+          invalidFeedback: "نام دسته بندی را انتخاب کنید",
           col: "6",
         },
         {

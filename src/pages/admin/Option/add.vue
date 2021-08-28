@@ -38,6 +38,9 @@ export default {
           persianLabel: "نوع آپشن",
           type: "option",
           options: self.optionTypesObjectMappedById,
+          isRequired: true,
+          validationFunction: (val) => val,
+          invalidFeedback: "نوع آپشن را انتخاب کنید",
           col: "6",
         },
         {
@@ -45,12 +48,17 @@ export default {
           persianLabel: "نام",
           type: "text",
           col: "6",
+          isRequired: true,
+          validationFunction: (val) => val && val !== "",
+          invalidFeedback: "نام آپشن را انتخاب کنید",
         },
         {
           name: "value",
           persianLabel: "مقدار",
           type: "text",
           col: "6",
+          validationFunction: (val) => !val || (val && val !== ""),
+          invalidFeedback: "لطفا مقدار را مشخص کنید",
         },
         {
           name: "isActive",

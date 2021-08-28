@@ -44,6 +44,7 @@
                 :label="field.persianLabel + (field.isRequired ? ' *' : '')"
                 :required="field.isRequired"
                 :isValid="field.validationFunction"
+                :autocomplete="field.autocomplete"
                 :invalidFeedback="field.invalidFeedback"
                 :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
                 :validationMessage="field.invalidFeedback"
@@ -85,6 +86,7 @@
                   }
                 "
                 :label="field.persianLabel + (field.isRequired ? ' *' : '')"
+                :autocomplete="field.autocomplete"
                 :required="field.isRequired"
                 :isValid="field.validationFunction"
                 :invalidFeedback="field.invalidFeedback"
@@ -175,11 +177,21 @@
                 v-if="field.type === 'file' || field.type === 'file'"
                 :label="field.persianLabel + (field.isRequired ? ' *' : '')"
                 :required="field.isRequired"
+                :placeholder="'فایل را انتخاب کنید...'"
+                type="file"
+                accept="image/png, image/jpeg"
+                :name="field.refName"
                 :isValid="field.validationFunction"
                 :invalidFeedback="field.invalidFeedback"
                 :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
                 :validationMessage="field.invalidFeedback"
                 @blur="checkValidity"
+                @update:checked="
+                  (status, ev) => {
+                    ev.currentTarget.setCustomValidity('');
+                    ev.currentTarget.checkValidity();
+                  }
+                "
                 :ref="field.refName"
                 horizontal
                 custom

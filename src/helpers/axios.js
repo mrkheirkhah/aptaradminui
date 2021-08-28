@@ -42,7 +42,11 @@ export const addAxiosInterceptors = (axiosInstance) => {
             },
             { root: true }
           );
-        } else if (config.method === "post" && !config.url.includes("All")) {
+        } else if (
+          config.method === "post" &&
+          !config.url.includes("All") &&
+          !config.url.toLowerCase().includes("user/post")
+        ) {
           Store.dispatch(
             "addAlert",
             {

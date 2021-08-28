@@ -196,3 +196,11 @@ export const deleteProduct = (data) => {
 export const catalog = () => {
   return userApiClient.get("/Product/Catalog");
 };
+
+export const getOptions = (productID) => {
+  return userApiClient.get(`/ProductOption/Catalog/${productID}`);
+};
+
+export const getPrices = (productID) => {
+  return userApiClient.get(`/ProductPrice/Catalog/${productID}`);
+};

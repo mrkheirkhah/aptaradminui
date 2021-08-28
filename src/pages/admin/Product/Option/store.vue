@@ -39,7 +39,7 @@ export default {
     return {
       fetchAll: getAll,
       deleteInfoMethod: remove,
-      deleteIdField: "optionID",
+      deleteIdField: "productOptionID",
       keysToPost: [
         "productID",
         "subscriptionID",
@@ -50,8 +50,10 @@ export default {
         "productOptionID",
       ],
       showColumns: [
-        { key: "index", label: "#" },
+        { key: "index", label: "#", _style: "width: 10px" },
+        { key: "productID", label: "محصول" },
         { key: "price", label: "قیمت" },
+        { key: "subscriptionID", label: "اشتراک" },
         { key: "priority", label: "اولویت" },
         { key: "isActive", label: "فعال" },
         { key: "actions", label: "عملیات" },

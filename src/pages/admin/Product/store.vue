@@ -20,8 +20,6 @@
             @toggle-product-state="updateAction"
             @edit-action="editAction"
             @delete-action="deleteInfo"
-            @show-setting-action="showSettingAction"
-            @show-price-action="showPriceAction"
           />
         </CCol>
       </CRow>
@@ -65,13 +63,12 @@ export default {
       ],
       showColumns: [
         { key: "index", label: "#", _style: "width: 10px" },
-        { key: "productID", label: "کد محصول", _style: "width: 10px" },
         { key: "title", label: "نام" },
         { key: "softwareName", label: "نام برنامه" },
-        { key: "category", label: "دسته بندی" },
+        { key: "categoryID", label: "دسته بندی", _style: "width: 30px" },
         { key: "path", label: "مسیر" },
         { key: "softwareInstalledPath", label: "مسیر نصب" },
-        { key: "parameter", label: "پارامتر" },
+        { key: "parameter", label: "پارامتر", _style: "width: 30px" },
         { key: "stock", label: "موجودی", _style: "width: 10px" },
         { key: "price", label: "قیمت" },
         { key: "isActive", label: "وضعیت", _style: "width: 30px" },
@@ -100,8 +97,6 @@ export default {
     editAction({ productID: id }) {
       this.$router.push({ name: "editProduct", params: { id } });
     },
-    showSettingAction() {},
-    showPriceAction() {},
   },
 };
 </script>

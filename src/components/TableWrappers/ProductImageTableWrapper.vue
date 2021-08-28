@@ -27,27 +27,22 @@
         :hover="hover"
         :striped="striped"
         :border="border"
+        class="aptar-table-wrapper"
         :small="small"
         :fixed="fixed"
         :items="items"
         :fields="fields"
-        :items-per-page-select="{
-          values: [5, 10, 15, 25, 50],
-          external: true,
-          label: 'تعداد سطرها',
-        }"
         :items-per-page="itemsPerPage"
         :dark="dark"
         pagination
         responsive
         :sorter="{ external: true, resetable: true }"
-        :columnFilter="{ external: true, lazy: true, CreateDate: '' }"
+        :columnFilter="{ external: false, lazy: false, CreateDate: '' }"
         :noItemsView="{
           noResults: 'دیتایی برای نمایش یافت نشد',
           noItems: 'دیتایی برای نمایش وجود ندارد',
         }"
         @page-change="pageChange"
-        @pagination-change="paginationChange"
         @update:sorter-value="sorterChange"
         @update:table-filter-value="tableFilterChange"
         @update:column-filter-value="columnFilterChange"
@@ -81,49 +76,14 @@
             {{ index + 1 }}
           </td>
         </template>
-        <template #isActive="{ item }">
-          <td>
-            <CSwitch
-              class="mr-2"
-              :checked="item.isActive"
-              color="success"
-              v-bind="{ variant: '3d' }"
-              value="success"
-              @update:checked="
-                (status) => $emit('toggle-data-state', { status, data: item })
-              "
-            />
-          </td>
-        </template>
-        <template #createDate-filter>
-          <date-picker
-            range
-            clearable
-            locale="fa"
-            format="YYYY-MM-DD HH:mm"
-            display-format="jYYYY/jM/jD"
-            label=""
-            v-model="range"
+        <template #under-table>
+          <CSelect
+            placeholder=""
+            style="height: 32px; width: 70px; margin: 5"
+            :value="itemsPerPage"
+            :options="[5, 10, 15, 25, 50]"
+            @update:value="(val) => (itemsPerPage = val)"
           />
-        </template>
-        <template #price="{ item }">
-          <td>{{ (+item.price).toLocaleString() }}</td>
-        </template>
-        <template #realPrice="{ item }">
-          <td>{{ (+item.realPrice).toLocaleString() }}</td>
-        </template>
-        <template #createDate="{ item }">
-          <td>
-            {{
-              item.createDate
-                ? new Date(item.createDate).toLocaleString("fa-IR", {
-                    year: "numeric",
-                    month: "2-digit",
-                    day: "2-digit",
-                  })
-                : ""
-            }}
-          </td>
         </template>
       </CDataTable>
     </CCardBody>
@@ -156,7 +116,35 @@ export default {
     return {
       itemsPerPage: 10,
       range: [],
+      productID: Number.NaN,
     };
+  },
+  computed: {
+    productsArray() {
+      return this.$store.state.productsArray.map((stateObj) => ({
+        label: stateObj.title,
+        value: stateObj.id,
+      }));
+    },
+    productsObjectMappedById() {
+      const optionTypesObject = {};
+      this.$store.state.productsArray.map((stateObj) => {
+        optionTypesObject[stateObj.id] = stateObj.title;
+      });
+      return optionTypesObject;
+    },
+  },
+  watch: {
+    itemsPerPage(newVal) {
+      this.itemsPerPage = newVal;
+      this.$emit("page-change", 1);
+      this.$emit("pagination-change", newVal);
+    },
+    productID(newVal) {
+      if (!this.columnFilters) this.columnFilters = {};
+      this.columnFilters.productID = newVal;
+      this.$emit("column-filter-change", this.columnFilters);
+    },
   },
   methods: {
     pageChange(pageNumber) {
@@ -179,7 +167,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .vpd-input-group input:not(.vpd-is-editable) {
   height: 29px;
 }
@@ -191,5 +179,16 @@ export default {
 
 .vpd-input-group label {
   display: none;
+}
+
+.aptar-table-wrapper {
+  .form-group {
+    display: inline-block;
+    margin-left: 8px;
+  }
+
+  nav {
+    display: inline-block;
+  }
 }
 </style>

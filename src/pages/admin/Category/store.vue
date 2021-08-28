@@ -42,7 +42,7 @@ export default {
       deleteIdField: "categoryID",
       keysToPost: ["title", "isActive", "categoryID"],
       showColumns: [
-        { key: "index", label: "#" },
+        { key: "index", label: "#", _style: "width: 10px" },
         { key: "title", label: "نام" },
         { key: "isActive", label: "فعال" },
         { key: "actions", label: "عملیات" },

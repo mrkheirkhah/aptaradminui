@@ -37,6 +37,7 @@
                 @input="(e) => (data[field.name] = e)"
                 :label="field.persianLabel + (field.isRequired ? ' *' : '')"
                 :required="field.isRequired"
+                :autocomplete="field.autocomplete"
                 :isValid="field.validationFunction"
                 :invalidFeedback="field.invalidFeedback"
                 :placeholder="field.persianLabel"
@@ -46,6 +47,7 @@
               <CInput
                 v-if="field.type === 'password'"
                 :value="data[field.name]"
+                :autocomplete="field.autocomplete"
                 @input="(e) => (data[field.name] = e)"
                 :label="field.persianLabel + (field.isRequired ? ' *' : '')"
                 :required="field.isRequired"
