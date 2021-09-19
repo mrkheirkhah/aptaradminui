@@ -12,7 +12,13 @@
         </CToast>
       </template>
     </CToaster>
-    <router-view></router-view>
+    <router-view v-slot="{ Component }">
+      <keep-alive>
+        <transition name="fade" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </keep-alive>
+    </router-view>
   </div>
 </template>
 
@@ -36,4 +42,13 @@ export default {
 
 <style lang="scss">
 @import "assets/scss/style";
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
 </style>

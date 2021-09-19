@@ -79,7 +79,6 @@ export default {
       }
       try {
         await update({ ...clonedData });
-        debugger;
       } catch (ex) {
         console.log(ex);
       }

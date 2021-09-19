@@ -13,7 +13,9 @@ const showPageMixin = {
         } else if (Array.isArray(data)) {
           self.data = data;
         }
-      } catch (ex) {}
+      } catch (ex) {
+        console.log(ex);
+      }
       this.loader.hide();
     },
   },

@@ -3,10 +3,10 @@
     title="ثبت آپشن محصول جدید"
     icon="cil-applications"
     store-icon="cil-applications"
-    store-link="/admin/productoption/"
-    store-name="همه آپشن ها محصولات"
+    store-link="/admin/product/store"
+    store-name="همه محصولات"
     :fields="fields"
-    storePageName="storeProductOption"
+    storePageName="storeProducts"
     :addInfoMethod="add"
     :keysToPost="keysToPost"
   />
@@ -57,6 +57,7 @@ export default {
           persianLabel: "محصول",
           type: "option",
           options: self.productsObjectMappedById,
+          defaultVal: +self.$route.query.prodID,
           col: "6",
           isRequired: true,
           validationFunction: (val) => val && val !== "",

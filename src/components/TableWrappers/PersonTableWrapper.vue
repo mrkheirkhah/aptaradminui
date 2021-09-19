@@ -23,6 +23,7 @@
     </CCardHeader>
     <CCardBody>
       <CDataTable
+        v-if="showTable"
         class="aptar-table-wrapper"
         :hover="hover"
         :striped="striped"
@@ -31,9 +32,10 @@
         :fixed="fixed"
         :items="items"
         :fields="fields"
+        :activePage="1"
         :items-per-page="itemsPerPage"
         :dark="dark"
-        pagination
+        :pagination="pagination"
         responsive
         :sorter="{ external: true, resetable: true }"
         :columnFilter="{ external: true, lazy: true, CreateDate: '' }"
@@ -163,6 +165,8 @@ export default {
     return {
       range: [],
       itemsPerPage: 10,
+      pagination: true,
+      showTable: true,
       columnFilters: null,
       isActiveColumnFilter: false,
     };
@@ -170,6 +174,10 @@ export default {
   watch: {
     itemsPerPage(newVal) {
       this.itemsPerPage = newVal;
+      this.showTable = false;
+      setTimeout(() => {
+        this.showTable = true;
+      }, 300);
       this.$emit("page-change", 1);
       this.$emit("pagination-change", newVal);
     },

@@ -65,7 +65,9 @@ export default {
       }
       try {
         await update({ ...clonedData });
-      } catch (ex) {}
+      } catch (ex) {
+        console.log(ex);
+      }
     },
     editAction({ payTypeID: id }) {
       this.$router.push({ name: "editPayType", params: { id } });

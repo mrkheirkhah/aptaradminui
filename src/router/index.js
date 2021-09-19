@@ -4,7 +4,6 @@ Vue.use(Router);
 
 const router = new Router({
   mode: "history",
-  base: "/ui/",
   linkActiveClass: "active",
   scrollBehavior: () => ({ y: 0 }),
   routes: configRoutes(),
@@ -375,6 +374,156 @@ function configRoutes() {
               component: () => import("@/pages/admin/Product/Image/show"),
             },
           ],
+        },
+        {
+          path: "storage",
+          redirect: "/admin/storage/store",
+          name: "storage",
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+            {
+              path: "store",
+              name: "storeStorage",
+              component: () => import("@/pages/admin/Storage/store"),
+            },
+            {
+              path: "add",
+              name: "addStorage",
+              component: () => import("@/pages/admin/Storage/add"),
+            },
+            {
+              path: "show/:id(\\d+)",
+              name: "showStorage",
+              component: () => import("@/pages/admin/Storage/show"),
+            },
+            {
+              path: "edit/:id",
+              name: "editStorage",
+              component: () => import("@/pages/admin/Storage/edit"),
+            },
+          ],
+        },
+        {
+          path: "order",
+          redirect: "/admin/order/store",
+          name: "order",
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+            {
+              path: "store",
+              name: "storeOrder",
+              component: () => import("@/pages/admin/Order/store"),
+            },
+            {
+              path: "add",
+              name: "addOrder",
+              component: () => import("@/pages/admin/Order/add"),
+            },
+            {
+              path: "show/:id(\\d+)",
+              name: "showOrder",
+              component: () => import("@/pages/admin/Order/show"),
+            },
+            {
+              path: "edit/:id",
+              name: "editOrder",
+              component: () => import("@/pages/admin/Order/edit"),
+            },
+          ],
+        },
+        {
+          path: "profile",
+          redirect: "/admin/profile/store",
+          name: "profile",
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+            {
+              path: "store",
+              name: "storeProfile",
+              component: () => import("@/pages/admin/Profile/store"),
+            },
+            {
+              path: "add",
+              name: "addProfile",
+              component: () => import("@/pages/admin/Profile/add"),
+            },
+            {
+              path: "show/:id(\\d+)",
+              name: "showProfile",
+              component: () => import("@/pages/admin/Profile/show"),
+            },
+            {
+              path: "edit/:id",
+              name: "editProfile",
+              component: () => import("@/pages/admin/Profile/edit"),
+            },
+          ],
+        },
+        {
+          path: "profilePerson",
+          redirect: "/admin/profileperson/store",
+          name: "profilePerson",
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+            {
+              path: "store",
+              name: "storeProfilePerson",
+              component: () => import("@/pages/admin/Profile/Person/store"),
+            },
+            {
+              path: "show/:id(\\d+)",
+              name: "showProfilePerson",
+              component: () => import("@/pages/admin/Profile/Person/show"),
+            },
+            {
+              path: "edit/:id",
+              name: "editProfilePerson",
+              component: () => import("@/pages/admin/Profile/Person/edit"),
+            },
+          ],
+        },
+        {
+          path: "ticket",
+          redirect: "/admin/ticket/store",
+          name: "ticket",
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+            {
+              path: "store",
+              name: "storeTicket",
+              component: () => import("@/pages/admin/Ticket/store"),
+            },
+            {
+              path: "edit/:id",
+              name: "editTicket",
+              component: () => import("@/pages/admin/Ticket/edit"),
+            },
+          ],
+        },
+        {
+          path: "/admin/Invoice/:id",
+          name: "invoice",
+          component: () => import("@/pages/admin/Invoice"),
         },
       ],
     },

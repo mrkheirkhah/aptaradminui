@@ -3,8 +3,8 @@
     <ShowDataCard
       :title="data.title"
       icon="cil-applications"
-      store-link="/admin/productoption/"
-      store-name="همه آپشن ها محصولات"
+      store-link="/admin/product/store"
+      store-name="همه محصولات"
       :fieldsToShow="fieldsToShow"
     />
   </div>

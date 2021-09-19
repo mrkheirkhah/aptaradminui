@@ -69,7 +69,9 @@ export default {
             await remove({ data: { productImageID: image.id } });
           }
         }
-      } catch (ex) {}
+      } catch (ex) {
+        console.log(ex);
+      }
     },
   },
 };

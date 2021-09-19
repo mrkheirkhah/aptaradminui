@@ -100,6 +100,7 @@ export default {
         {
           name: "categoryID",
           type: "option",
+          defaultVal: 0,
           options: self.categoriesArr,
           persianLabel: "دسته بندی",
           col: "6",
@@ -125,7 +126,8 @@ export default {
         },
         {
           name: "price",
-          type: "text",
+          type: "number",
+          isRequired: true,
           persianLabel: "قیمت",
           col: "6",
           validationFunction: (val) => !val || (val && !Number.isNaN(val)),

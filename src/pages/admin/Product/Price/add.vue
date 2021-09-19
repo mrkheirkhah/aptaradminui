@@ -3,10 +3,10 @@
     title="ثبت قیمت محصول جدید"
     icon="cil-applications"
     store-icon="cil-applications"
-    store-link="/admin/productprice/"
-    store-name="همه قیمت محصولات"
+    store-link="/admin/product/store"
+    store-name="همه محصولات"
     :fields="fields"
-    storePageName="storeProductPrice"
+    storePageName="storeProducts"
     :addInfoMethod="add"
     :keysToPost="keysToPost"
   />
@@ -58,6 +58,7 @@ export default {
           persianLabel: "محصول",
           type: "option",
           options: self.productsObjectMappedById,
+          defaultVal: +self.$route.query.prodID,
           col: "6",
           isRequired: true,
           validationFunction: (val) => val && val !== "",

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { getPerson } from "../../../services/person";
+import { getOne } from "../../../services/storage";
 import showPageMixin from "../../../mixins/showPage";
 import ShowDataCard from "../../../components/base/ShowDataCard.vue";
 import { properStatus } from "../../../utils";
@@ -21,126 +21,62 @@ export default {
   data() {
     return {
       properStatus,
-      fetchInfoMethod: getPerson,
+      fetchInfoMethod: getOne,
       data: {
-        userName: "",
-        password: "",
-        firstName: "",
-        lastName: "",
-        caption: "...",
-        nationalCode: "",
-        email: "",
-        phone: "",
-        mobile: "",
-        zipCode: "",
-        stateID: 0,
-        address: "",
-        isActive: true,
-        personID: 0,
+        title: "",
+        price: 0,
+        value: "",
+        enable: 0,
+        timePeriod: 0,
+        storageID: 0,
       },
     };
   },
   computed: {
-    statesObjectMappedById() {
-      const statesObject = {};
-      this.$store.state.statesArray.map((stateObj) => {
-        statesObject[stateObj.id] = stateObj.title;
-      });
-      return statesObject;
-    },
     fieldsToShow() {
       const self = this;
       return [
         {
-          filedName: "userName",
-          persianName: "نام کاربری",
-          type: "",
-          data: self.data.userName,
-          col: "6",
-        },
-        {
-          filedName: "password",
-          persianName: "رمز‌عبور",
-          type: "",
-          data: self.data.password,
-          col: "6",
-        },
-        {
-          filedName: "firstName",
+          filedName: "title",
           persianName: "نام",
           type: "",
-          data: self.data.firstName,
+          data: self.data.title,
           col: "6",
         },
         {
-          filedName: "lastName",
-          persianName: "نام خانوادگی",
+          filedName: "price",
+          persianName: "قیمت",
           type: "",
-          data: self.data.lastName,
+          data: self.data.price,
           col: "6",
         },
         {
-          filedName: "nationalCode",
-          persianName: "کد ملی",
+          filedName: "value",
+          persianName: "مقدار",
           type: "",
-          data: self.data.nationalCode,
+          data: self.data.value,
           col: "6",
         },
         {
-          filedName: "email",
-          persianName: "ایمیل",
+          filedName: "enable",
+          persianName: "فعال",
           type: "",
-          data: self.data.email,
+          data: self.data.enable,
           col: "6",
         },
         {
-          filedName: "mobile",
-          persianName: "تلفن همراه",
+          filedName: "timePeriod",
+          persianName: "بازه زمانی",
           type: "",
-          data: self.data.mobile,
+          data: self.data.timePeriod,
           col: "6",
         },
         {
-          filedName: "phone",
-          persianName: "تلفن ثابت",
+          filedName: "storageID",
+          persianName: "کد",
           type: "",
-          data: self.data.phone,
+          data: self.data.storageID,
           col: "6",
-        },
-        {
-          filedName: "zipCode",
-          persianName: "کد پستی",
-          type: "",
-          data: self.data.zipCode,
-          col: "6",
-        },
-        {
-          filedName: "stateID",
-          persianName: "استان",
-          type: "",
-          data: self.statesObjectMappedById[self.data.stateID],
-          col: "6",
-        },
-        {
-          filedName: "address",
-          persianName: "آدرس",
-          type: "",
-          data: self.data.address,
-          col: "12",
-        },
-        {
-          filedName: "caption",
-          persianName: "زیرنویس",
-          type: "",
-          data: self.data.caption,
-          col: "12",
-        },
-        {
-          filedName: "isActive",
-          persianName: "وضعیت حساب",
-          type: "",
-          data: self.properStatus(self.data.isActive),
-          col: "12",
         },
       ];
     },

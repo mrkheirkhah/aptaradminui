@@ -1,100 +1,60 @@
 <template>
   <AddDataCard
-    title="ثبت کاربر جدید"
+    title="ثبت ذخیره‌سازی جدید"
     icon="cil-user-follow"
     store-icon="cil-user-follow"
-    store-link="/admin/person/"
-    store-name="همه کاربران"
+    store-link="/admin/storage/"
+    store-name="ذخیره‌سازی"
     :fields="fields"
-    storePageName="storePersons"
-    :addInfoMethod="addPerson"
+    storePageName="storeStorage"
+    :addInfoMethod="add"
     :keysToPost="keysToPost"
   />
 </template>
 
 <script>
-import { addPerson } from "../../../services/person";
+import { add } from "../../../services/storage";
 import AddDataCard from "../../../components/base/AddDataCard.vue";
 export default {
   components: { AddDataCard },
   data() {
     return {
-      addPerson,
-      keysToPost: [
-        "userName",
-        "password",
-        "firstName",
-        "lastName",
-        "caption",
-        "nationalCode",
-        "email",
-        "phone",
-        "mobile",
-        "zipCode",
-        "stateID",
-        "address",
-        "isActive",
-      ],
+      add,
+      keysToPost: ["title", "price", "value", "enable", "timePeriod"],
     };
   },
   computed: {
-    statesArr() {
-      return this.$store.state.statesArray.map((stateObj) => ({
-        label: stateObj.title,
-        value: stateObj.id,
-      }));
-    },
     fields() {
-      const self = this;
       return [
         {
-          name: "userName",
+          name: "title",
           type: "text",
-          persianLabel: "نام کاربری",
+          persianLabel: "نام",
           col: "6",
         },
         {
-          name: "password",
-          type: "password",
-          persianLabel: "رمز‌عبور",
-          col: "6",
-        },
-        { name: "firstName", type: "text", persianLabel: "نام", col: "6" },
-        {
-          name: "lastName",
+          name: "price",
           type: "text",
-          persianLabel: "نام خانوادگی",
+          persianLabel: "قیمت",
           col: "6",
         },
         {
-          name: "nationalCode",
+          name: "value",
           type: "text",
-          persianLabel: "کد ملی",
+          persianLabel: "مقدار",
           col: "6",
         },
-        { name: "email", type: "text", persianLabel: "ایمیل", col: "6" },
-        { name: "mobile", type: "text", persianLabel: "تلفن همراه", col: "6" },
-        { name: "phone", type: "text", persianLabel: "تلفن ثابت", col: "6" },
-        { name: "zipCode", type: "text", persianLabel: "کد پستی", col: "6" },
         {
-          name: "stateID",
-          type: "option",
-          persianLabel: "استان",
-          options: self.statesArr,
+          name: "enable",
+          type: "checkbox",
+          persianLabel: "فعال",
           col: "6",
         },
-        { name: "address", type: "text", persianLabel: "آدرس", col: "6" },
         {
-          name: "caption",
-          type: "textarea",
-          persianLabel: "زیرنویس",
-          col: "12",
-        },
-        {
-          name: "isActive",
-          type: "switch",
-          persianLabel: "وضعیت حساب",
-          col: "12",
+          name: "timePeriod",
+          type: "number",
+          persianLabel: "بازه زمانی",
+          col: "6",
         },
       ];
     },

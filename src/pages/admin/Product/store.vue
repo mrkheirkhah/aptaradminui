@@ -84,16 +84,19 @@ export default {
       this.$router.push({ name: "showProduct", params: { id } });
     },
     async updateAction({ productData, status }) {
-      productData.isActive = status;
-      for (const key in productData) {
-        if (productData[key] === "") productData[key] = null;
+      const dataToSend = { ...productData };
+      dataToSend.isActive = status;
+      for (const key in dataToSend) {
+        if (dataToSend[key] === "") dataToSend[key] = null;
         if (!this.keysToPost.includes(key)) {
-          delete productData[key];
+          delete dataToSend[key];
         }
       }
       try {
-        await updateProduct({ ...productData });
-      } catch (ex) {}
+        await updateProduct({ ...dataToSend });
+      } catch (ex) {
+        console.log(ex);
+      }
     },
     editAction({ productID: id }) {
       this.$router.push({ name: "editProduct", params: { id } });

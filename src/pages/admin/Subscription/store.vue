@@ -73,7 +73,9 @@ export default {
       }
       try {
         await update({ ...clonedData });
-      } catch (ex) {}
+      } catch (ex) {
+        console.log(ex);
+      }
     },
     editAction({ subscriptionID: id }) {
       this.$router.push({ name: "editSubscription", params: { id } });

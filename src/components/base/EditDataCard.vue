@@ -23,8 +23,8 @@
     </CCardHeader>
     <CCardBody>
       <CForm
+        v-if="infoFetched"
         @submit.prevent="handleSubmit"
-        :wasValidated="true"
         ref="editFormElement"
       >
         <CRow>
@@ -33,8 +33,8 @@
               <!-- text input -->
               <CInput
                 v-if="field.type === 'text'"
-                :value="data[field.name]"
-                @input="(e) => (data[field.name] = e)"
+                :value="getProp(data, field.name)"
+                @input="(e) => setProp(data, field.name, e)"
                 :label="field.persianLabel + (field.isRequired ? ' *' : '')"
                 :required="field.isRequired"
                 :autocomplete="field.autocomplete"
@@ -43,12 +43,26 @@
                 :placeholder="field.persianLabel"
               />
 
+              <!-- number input -->
+              <CInput
+                v-if="field.type === 'number'"
+                :value="getProp(data, field.name)"
+                @input="(e) => setProp(data, field.name, e)"
+                :label="field.persianLabel + (field.isRequired ? ' *' : '')"
+                :required="field.isRequired"
+                :autocomplete="field.autocomplete"
+                :isValid="field.validationFunction"
+                :invalidFeedback="field.invalidFeedback"
+                :placeholder="field.persianLabel"
+                type="number"
+              />
+
               <!-- password input  -->
               <CInput
                 v-if="field.type === 'password'"
-                :value="data[field.name]"
+                :value="getProp(data, field.name)"
                 :autocomplete="field.autocomplete"
-                @input="(e) => (data[field.name] = e)"
+                @input="(e) => setProp(data, field.name, e)"
                 :label="field.persianLabel + (field.isRequired ? ' *' : '')"
                 :required="field.isRequired"
                 :isValid="field.validationFunction"
@@ -68,16 +82,16 @@
                 :isValid="field.validationFunction"
                 :invalidFeedback="field.invalidFeedback"
                 :placeholder="field.persianLabel"
-                :value="data[field.name]"
+                :value="getProp(data, field.name)"
                 :options="field.options"
-                @update:value="(id) => (data[field.name] = id)"
+                @update:value="(id) => setProp(data, field.name, id)"
               />
 
               <!-- text area  -->
               <CTextarea
                 v-if="field.type === 'textarea'"
-                :value="data[field.name]"
-                @input="(e) => (data[field.name] = e)"
+                :value="getProp(data, field.name)"
+                @input="(e) => setProp(data, field.name, e)"
                 :label="field.persianLabel + (field.isRequired ? ' *' : '')"
                 :required="field.isRequired"
                 :isValid="field.validationFunction"
@@ -86,23 +100,42 @@
                 rows="4"
               />
 
+              <!-- checkbox input  -->
+              <CInputCheckbox
+                v-if="field.type === 'checkbox'"
+                class="my-2 w-100"
+                :checked="Boolean(getProp(data, field.name))"
+                :label="field.persianLabel + (field.isRequired ? ' *' : '')"
+                :required="field.isRequired"
+                :isValid="field.validationFunction"
+                :invalidFeedback="field.invalidFeedback"
+                :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
+                :validationMessage="field.invalidFeedback"
+                :name="field.name"
+                @update:checked="
+                  (status) => setProp(data, field.name, Number(status))
+                "
+              />
+
               <!-- switch input  -->
               <div
                 v-if="field.type === 'switch'"
                 class="d-flex justify-center align-items-center my-3"
               >
                 {{ field.persianLabel + (field.isRequired ? " *" : "") }}:
-                {{ data[field.name] ? "فعال" : "غیر‌فعال" }}
+                {{ getProp(data, field.name) ? "فعال" : "غیر‌فعال" }}
                 <CSwitch
                   class="mr-2"
-                  :checked="Boolean(data[field.name])"
+                  :checked="Boolean(getProp(data, field.name))"
                   color="success"
                   :required="field.isRequired"
                   :isValid="field.validationFunction"
                   :invalidFeedback="field.invalidFeedback"
                   v-bind="{ variant: '3d' }"
                   value="success"
-                  @update:checked="(status) => (data[field.name] = status)"
+                  @update:checked="
+                    (status) => setProp(data, field.name, status)
+                  "
                 />
               </div>
             </CCol>
@@ -123,6 +156,7 @@
           >
           <CCol sm="6">
             <CButton
+              v-if="deleteInfoMethod"
               :class="{ 'disabled-btn': performingAction }"
               color="danger"
               @click="deleteInfo"
@@ -178,7 +212,8 @@ export default {
     },
     deleteInfoMethod: {
       type: Function,
-      required: true,
+      required: false,
+      default: null,
     },
     updateInfoMethod: {
       type: Function,
@@ -196,6 +231,23 @@ export default {
     };
   },
   methods: {
+    getProp(obj, prop) {
+      return prop.split(".").reduce((r, e) => {
+        return r[e];
+      }, obj);
+    },
+    setProp(data, path, value) {
+      let schema = data;
+      let pList = path.split(".");
+      let len = pList.length;
+      for (let i = 0; i < len - 1; i++) {
+        let elem = pList[i];
+        if (!schema[elem]) schema[elem] = {};
+        schema = schema[elem];
+      }
+
+      schema[pList[len - 1]] = value;
+    },
     handleSubmit() {
       const invalidInputs =
         this.$refs.editFormElement.querySelectorAll(".is-invalid");

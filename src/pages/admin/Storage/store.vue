@@ -3,7 +3,7 @@
     <CCol md="12">
       <CRow>
         <CCol sm="12">
-          <PersonTableWrapper
+          <DefaultTableWrapper
             :items="getGridData"
             :fields="getGridFields"
             hover
@@ -12,6 +12,7 @@
             small
             fixed
             :caption="gridTitle"
+            addNewLink="/admin/storage/add"
             @pagination-change="paginationChange"
             @page-change="pageChange"
             @sorter-change="sorterChange"
@@ -28,68 +29,57 @@
 </template>
 
 <script>
-import { getAllPersons } from "@/services/person";
-import PersonTableWrapper from "@/components/TableWrappers/PersonTableWrapper.vue";
-import { updatePerson, deletePerson } from "../../../services/person";
+import { getAll, remove, update } from "@/services/storage";
+import DefaultTableWrapper from "@/components/TableWrappers/DefaultTableWrapper.vue";
 import storePageMixin from "../../../mixins/storePage";
 export default {
-  components: { PersonTableWrapper },
+  components: { DefaultTableWrapper },
   mixins: [storePageMixin],
   data() {
     return {
-      fetchAll: getAllPersons,
-      deleteInfoMethod: deletePerson,
-      deleteIdField: "personID",
+      fetchAll: getAll,
+      deleteInfoMethod: remove,
+      deleteIdField: "storageID",
       keysToPost: [
-        "userName",
-        "password",
-        "firstName",
-        "lastName",
-        "caption",
-        "nationalCode",
-        "email",
-        "phone",
-        "mobile",
-        "zipCode",
-        "stateID",
-        "address",
-        "isActive",
-        "personID",
+        "title",
+        "price",
+        "value",
+        "enable",
+        "timePeriod",
+        "storageID",
       ],
       showColumns: [
         { key: "index", label: "#" },
-        { key: "userName", label: "نام کاربری" },
-        { key: "firstName", label: "نام" },
-        { key: "lastName", label: "نام خانوادگی" },
-        { key: "nationalCode", label: "کد ملی" },
-        { key: "email", label: "ایمیل" },
-        { key: "mobile", label: "تلفن همراه" },
-        { key: "phone", label: "تلفن" },
-        { key: "isActive", label: "فعال" },
-        { key: "createDate", label: "تاریخ ثبت‌ نام" },
+        { key: "title", label: "نام" },
+        { key: "price", label: "قیمت" },
+        { key: "value", label: "مقدار" },
+        { key: "enable", label: "فعالیت" },
+        { key: "timePeriod", label: "بازه زمانی" },
         { key: "actions", label: "عملیات" },
       ],
-      gridTitle: "کاربرها",
+      gridTitle: "ذخیره سازی",
     };
   },
   methods: {
-    moreAction({ personID: id }) {
-      this.$router.push({ name: "showPerson", params: { id } });
+    moreAction({ storageID: id }) {
+      this.$router.push({ name: "showStorage", params: { id } });
     },
-    async updateAction({ userData, status }) {
-      userData.isActive = status;
-      for (const key in userData) {
-        if (userData[key] === "") userData[key] = null;
+    async updateAction({ data, status }) {
+      data.isActive = status;
+      for (const key in data) {
+        if (data[key] === "") data[key] = null;
         if (!this.keysToPost.includes(key)) {
-          delete userData[key];
+          delete data[key];
         }
       }
       try {
-        await updatePerson({ ...userData });
-      } catch (ex) {}
+        await update({ ...data });
+      } catch (ex) {
+        console.log(ex);
+      }
     },
-    editAction({ personID: id }) {
-      this.$router.push({ name: "editPerson", params: { id } });
+    editAction({ storageID: id }) {
+      this.$router.push({ name: "editStorage", params: { id } });
     },
   },
 };

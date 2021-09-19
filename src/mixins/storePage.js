@@ -63,6 +63,16 @@ const storePageMixin = {
       const self = this;
       try {
         const { data } = await this.fetchAll(options);
+        if (!Array.isArray(data)) {
+          data.data.map((dataObj) => {
+            for (const key in dataObj) {
+              if (dataObj[key] === null) {
+                dataObj[key] = "";
+              }
+            }
+            return dataObj;
+          });
+        }
         if (data.data.length < 1) return;
         const itemsCount = self.fetchOptions.Index * data.size;
         self.gridData.data.length = itemsCount < 0 ? 0 : itemsCount;
@@ -70,6 +80,10 @@ const storePageMixin = {
       } catch (ex) {
         console.log(ex);
       }
+    },
+    resetInitialFetchOptions() {
+      this.fetchOptions.Index = 0;
+      this.fetchOptions.Size = 12;
     },
     getProperFilterType(key, val) {
       const fieldType = typeof val;
@@ -108,11 +122,12 @@ const storePageMixin = {
       this.fetchMoreData.call(this, this.options);
     },
     paginationChange(rowsCount) {
+      this.resetInitialFetchOptions();
       this.fetchOptions.Size = rowsCount + 2;
       this.fetchInitialData();
     },
     sorterChange({ asc, column }) {
-      if (asc && column)
+      if (column)
         this.fetchOptions.Sort = {
           column: column,
           type: asc ? "Asc" : "Desc",
@@ -124,16 +139,24 @@ const storePageMixin = {
       this.fetchOptions.Filters = [];
       for (const key in keyWordsMappedWithColumnNamesObject) {
         if (key === "index" || key === "actions") continue;
-        // if (
-        //   keyWordsMappedWithColumnNamesObject[key] !== "" &&
-        //   typeof keyWordsMappedWithColumnNamesObject[key] !== "boolean" &&
-        //   !Number.isNaN(+keyWordsMappedWithColumnNamesObject[key])
-        // ) {
-        //   keyWordsMappedWithColumnNamesObject[
-        //     key
-        //   ] = +keyWordsMappedWithColumnNamesObject[key];
-        // }
         if (keyWordsMappedWithColumnNamesObject[key] === "") continue;
+        if (Array.isArray(keyWordsMappedWithColumnNamesObject[key])) {
+          if (keyWordsMappedWithColumnNamesObject[key].length > 0) {
+            this.fetchOptions.Filters.push({
+              Column: captalizeFirstLetter(key),
+              Type: "GreaterThanOrEqual",
+              Value: keyWordsMappedWithColumnNamesObject[key][0],
+            });
+            this.fetchOptions.Filters.push({
+              Column: captalizeFirstLetter(key),
+              Type: "LessThanOrEqual",
+              Value: keyWordsMappedWithColumnNamesObject[key][1],
+            });
+            continue;
+          } else {
+            continue;
+          }
+        }
         this.fetchOptions.Filters.push({
           Column: captalizeFirstLetter(key),
           Type: this.getProperFilterType(
@@ -146,19 +169,23 @@ const storePageMixin = {
       this.fetchInitialData();
     },
     async deleteInfo(obj) {
+      if (!this.deleteInfoMethod) return;
       const self = this;
       const dataToSend = {};
       dataToSend[self.deleteIdField] = obj[self.deleteIdField];
       try {
         await self.deleteInfoMethod({ data: dataToSend });
-        self.fetchInitialData();
+        // self.fetchInitialData();
+        self.gridData.data = self.gridData.data.filter(
+          (field) => field[self.deleteIdField] !== obj[self.deleteIdField]
+        );
       } catch (ex) {
         console.log(ex);
       }
     },
   },
 
-  mounted() {
+  created() {
     this.loader = this.$loading.show({
       loader: "bars",
       color: "#3399FF",

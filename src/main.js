@@ -7,7 +7,13 @@ import VueLoading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
 import { iconsSet as icons } from "./assets/icons/icons.js";
 import store from "./store/index";
+import VueSanitize from "vue-sanitize";
 
+let defaults = VueSanitize.defaults;
+defaults.allowedTags.push("img");
+defaults.allowedSchemes.push("data");
+
+Vue.use(VueSanitize, defaults);
 Vue.config.performance = true;
 Vue.use(CoreuiVue);
 Vue.prototype.$log = console.log.bind(console);

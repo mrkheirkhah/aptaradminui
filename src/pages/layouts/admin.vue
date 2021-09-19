@@ -1,18 +1,22 @@
 <template>
   <div class="c-app">
-    <TheSidebar />
+    <TheSidebar class="sidebar" />
     <CWrapper>
-      <TheHeader />
+      <TheHeader class="header" />
       <div class="c-body">
         <main class="c-main">
           <CContainer fluid>
-            <transition name="fade" mode="out-in">
-              <router-view :key="$route.path"></router-view>
-            </transition>
+            <router-view v-slot="{ Component }">
+              <keep-alive>
+                <transition name="fade" mode="out-in">
+                  <component :is="Component" />
+                </transition>
+              </keep-alive>
+            </router-view>
           </CContainer>
         </main>
       </div>
-      <TheFooter />
+      <TheFooter class="footer" />
     </CWrapper>
   </div>
 </template>
@@ -51,5 +55,22 @@ export default {
 
 option {
   font-family: "shabnam" !important;
+}
+
+@media print {
+  .hidden-print,
+  .header,
+  .footer,
+  .sidebar {
+    display: none;
+    visibility: hidden;
+  }
+
+  @page {
+    size: landscape;
+  }
+  body {
+    writing-mode: tb-rl;
+  }
 }
 </style>

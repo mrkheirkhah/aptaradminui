@@ -24,6 +24,7 @@
     </CCardHeader>
     <CCardBody>
       <CDataTable
+        v-if="showTable"
         :hover="hover"
         class="aptar-table-wrapper"
         :striped="striped"
@@ -246,6 +247,7 @@ export default {
   data() {
     return {
       itemsPerPage: 10,
+      showTable: true,
       optionTypeID: Number.NaN,
       productID: Number.NaN,
       subscriptionID: Number.NaN,
@@ -340,6 +342,10 @@ export default {
   watch: {
     itemsPerPage(newVal) {
       this.itemsPerPage = newVal;
+      this.showTable = false;
+      setTimeout(() => {
+        this.showTable = true;
+      }, 300);
       this.$emit("page-change", 1);
       this.$emit("pagination-change", newVal);
     },

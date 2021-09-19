@@ -1,12 +1,12 @@
 <template>
   <AddDataCard
-    title="ثبت آپشن محصول جدید"
+    title="ثبت عمس محصول جدید"
     icon="cil-applications"
     store-icon="cil-applications"
-    store-link="/admin/productimage/"
-    store-name="همه آپشن ها محصولات"
+    store-link="/admin/product/store"
+    store-name="همه محصولات"
     :fields="fields"
-    storePageName="storeProductImage"
+    storePageName="storeProducts"
     :addInfoMethod="add"
     :keysToPost="keysToPost"
   />
@@ -38,12 +38,14 @@ export default {
     },
     fields() {
       const self = this;
+      debugger;
       return [
         {
           name: "id",
           persianLabel: "محصول",
           type: "option",
           options: self.productsObjectMappedById,
+          defaultVal: +self.$route.query.prodID,
           col: "6",
           isRequired: true,
           validationFunction: (val) => val,

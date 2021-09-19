@@ -88,6 +88,64 @@ export default [
           },
         ],
       },
+      {
+        _name: "CSidebarNavDropdown",
+        name: "ذخیره سازی",
+        icon: "cil-save",
+        items: [
+          {
+            _name: "CSidebarNavItem",
+            name: "ذخیره سازی",
+            to: "/admin/storage/store",
+            icon: "cil-save",
+          },
+        ],
+      },
+      {
+        _name: "CSidebarNavDropdown",
+        name: "خطی مشی‌ها",
+        icon: "cil-vector",
+        items: [
+          {
+            _name: "CSidebarNavItem",
+            name: "خطی مشی‌ها",
+            to: "/admin/profile/store",
+            icon: "cil-vector",
+          },
+          {
+            _name: "CSidebarNavItem",
+            name: "خطی مشی‌ کاربران",
+            to: "/admin/profileperson/store",
+            icon: "cil-user",
+          },
+        ],
+      },
+      {
+        _name: "CSidebarNavDropdown",
+        name: "تیکت‌ها",
+        icon: "cil-tags",
+        items: [
+          {
+            _name: "CSidebarNavItem",
+            name: "تیکت‌ها",
+            to: "/admin/ticket/store",
+            icon: "cil-tags",
+          },
+        ],
+      },
+      {
+        _name: "CSidebarNavDropdown",
+        name: "سفارشات",
+        icon: "cil-wallet",
+        items: [
+          {
+            _name: "CSidebarNavItem",
+            name: "سفارشات",
+            to: "/admin/order/store",
+            icon: "cil-wallet",
+          },
+        ],
+      },
     ],
   },
 ];

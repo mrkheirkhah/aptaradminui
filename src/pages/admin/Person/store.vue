@@ -77,16 +77,19 @@ export default {
       this.$router.push({ name: "showPerson", params: { id } });
     },
     async updateAction({ userData, status }) {
-      userData.isActive = status;
-      for (const key in userData) {
-        if (userData[key] === "") userData[key] = null;
+      const dataToSend = { ...userData };
+      dataToSend.isActive = status;
+      for (const key in dataToSend) {
+        if (dataToSend[key] === "") dataToSend[key] = null;
         if (!this.keysToPost.includes(key)) {
-          delete userData[key];
+          delete dataToSend[key];
         }
       }
       try {
-        await updatePerson({ ...userData });
-      } catch (ex) {}
+        await updatePerson({ ...dataToSend });
+      } catch (ex) {
+        console.log(ex);
+      }
     },
     editAction({ personID: id }) {
       this.$router.push({ name: "editPerson", params: { id } });

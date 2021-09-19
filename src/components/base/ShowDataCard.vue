@@ -30,7 +30,21 @@
               <CCol
                 :sm="field.col"
                 :key="field.filedName"
-                v-if="field.type === 'image'"
+                v-if="field.type === 'switch' || field.type === 'checkbox'"
+              >
+                <p class="text-bold">
+                  <strong>{{ field.persianName }} :</strong>
+                </p>
+                <CIcon
+                  :name="field.data ? 'cil-check' : 'cil-x'"
+                  class="ml-1"
+                />
+                <hr />
+              </CCol>
+              <CCol
+                :sm="field.col"
+                :key="field.filedName"
+                v-else-if="field.type === 'image'"
               >
                 <CImg
                   :src="field.data"

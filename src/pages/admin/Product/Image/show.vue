@@ -1,19 +1,51 @@
 <template>
-  <div v-if="data && data.length > 0">
-    <template v-for="imageData in data">
-      <ShowDataCard
-        :key="imageData.id"
-        :title="'عکس محصول با کد: ' + imageData.id"
-        :showDelete="true"
-        :deleteMethod="deleteMethod"
-        deleteField="productImageID"
-        :deleteFieldVal="imageData.id"
-        icon="cil-applications"
-        store-link="/admin/productimage/"
-        store-name="همه عکس‌های محصولات"
-        :fieldsToShow="fieldsToShow[imageData.id]"
-      />
-    </template>
+  <div>
+    <div v-if="data && data.length > 0">
+      <template v-for="imageData in data">
+        <ShowDataCard
+          :key="imageData.id"
+          :title="'عکس محصول با کد: ' + imageData.id"
+          :showDelete="true"
+          :deleteMethod="deleteMethod"
+          deleteField="productImageID"
+          :deleteFieldVal="imageData.id"
+          icon="cil-applications"
+          store-link="/admin/product/store"
+          store-name="همه محصولات"
+          :fieldsToShow="fieldsToShow[imageData.id]"
+        />
+      </template>
+    </div>
+    <div v-else>
+      <div
+        class="d-flex justify-content-center align-items-center"
+        style="height: calc(100vh - 200px); flex-direction: column"
+      >
+        <p style="font-size: 22px">برای این محصول تصویری یافت نشد</p>
+        <div class="d-flex">
+          <CButton
+            name="cil-arrow-left"
+            v-bind="{ variant: 'ghost' }"
+            @click="$router.go(-1)"
+            class="d-flex justify-content-center align-items-center"
+          >
+            <span class="d-block mx-2" style="font-size: 16px">بازگشت</span>
+            <CIcon size="xl" name="cil-arrow-left" />
+          </CButton>
+          <CButton
+            name="cil-image"
+            v-bind="{ variant: 'ghost' }"
+            :to="`/admin/productimage/add?prodID=${$route.params.id}`"
+            class="d-flex justify-content-center align-items-center"
+          >
+            <span class="d-block mx-2" style="font-size: 16px"
+              >ثبت عکس جدید</span
+            >
+            <CIcon size="xl" name="cil-image" />
+          </CButton>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 

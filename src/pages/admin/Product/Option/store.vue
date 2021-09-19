@@ -77,7 +77,9 @@ export default {
       }
       try {
         await update({ ...clonedData });
-      } catch (ex) {}
+      } catch (ex) {
+        console.log(ex);
+      }
     },
     editAction({ productOptionID: id }) {
       this.$router.push({ name: "editProductOption", params: { id } });

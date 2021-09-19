@@ -590,3 +590,7 @@ export const update = (data) => {
 export const remove = (data) => {
   return userApiClient.delete("/ProductOption", data);
 };
+
+export const catalog = (productId) => {
+  return userApiClient.get(`/ProductOption/Catalog/${productId}`);
+};

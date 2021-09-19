@@ -138,38 +138,18 @@ export const getServers = () => {
   return userApiClient.get("/Base/Servers");
 };
 
-export const getCategories = () => {
-  return userApiClient.get("/Base/Categories");
-};
-
-export const getOptions = () => {
-  return userApiClient.get("/Base/Options");
-};
-
-export const getSubscriptionTypes = () => {
-  return userApiClient.get("/Base/SubscriptionTypes");
-};
-
-export const getSubscriptions = () => {
-  return userApiClient.get("/Base/Subscriptions");
-};
-
 export const getColorDepths = () => {
-  return userApiClient.get("/Base/ColorDepths");
+  return userApiClient.get("/ColorDepth/Catalog");
 };
 
 export const getLimitTypes = () => {
-  return userApiClient.get("/Base/LimitTypes");
+  return userApiClient.get("/LimitType/Catalog");
 };
 
 export const getOrderStatuses = () => {
-  return userApiClient.get("/Base/OrderStatuses");
+  return userApiClient.get("/OrderStatus/Catalog");
 };
 
 export const getOrderPayTypes = () => {
-  return userApiClient.get("/Base/OrderPayTypes");
-};
-
-export const getDetailStatuses = () => {
-  return userApiClient.get("/Base/DetailStatuses");
+  return userApiClient.get("/OrderPayType/Catalog");
 };

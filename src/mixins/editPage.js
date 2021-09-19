@@ -1,14 +1,22 @@
 const editPageMixin = {
   data() {
-    return { data: {}, performingAction: false };
+    return { data: {}, performingAction: false, infoFetched: false };
   },
   methods: {
+    getProp(obj, prop) {
+      return prop.split(".").reduce((r, e) => {
+        return r[e];
+      }, obj);
+    },
     async fetchInfo() {
       const self = this;
       try {
         const { data } = await this.fetchInfoMethod(self.$route.params.id);
         self.data = { ...data };
-      } catch (ex) {}
+        self.infoFetched = true;
+      } catch (ex) {
+        console.log(ex);
+      }
       this.loader.hide();
     },
     redirectToStore() {
@@ -17,22 +25,48 @@ const editPageMixin = {
     async updateInfo() {
       this.performingAction = true;
       const self = this;
-      for (const key in self.data) {
+
+      const flattenObject = function(ob) {
+        var toReturn = {};
+
+        for (var i in ob) {
+          // eslint-disable-next-line no-prototype-builtins
+          if (!ob.hasOwnProperty(i)) continue;
+
+          if (typeof ob[i] == "object") {
+            var flatObject = flattenObject(ob[i]);
+            for (var x in flatObject) {
+              // eslint-disable-next-line no-prototype-builtins
+              if (!flatObject.hasOwnProperty(x)) continue;
+
+              toReturn[x] = flatObject[x];
+            }
+          } else {
+            toReturn[i] = ob[i];
+          }
+        }
+        return toReturn;
+      };
+
+      const flattened = flattenObject(self.data);
+      for (const key in flattened) {
         if (!self.keysToPost.includes(key)) {
-          delete self.data[key];
+          delete flattened[key];
         }
       }
-      let formData = { ...self.data };
+      let formData = { ...flattened };
       if (self.keysToPost.includes("file")) {
         formData = new FormData();
-        for (const key in self.data) {
-          formData.set(key, self.data[key]);
+        for (const key in flattened) {
+          formData.set(key, flattened[key]);
         }
       }
       try {
         await self.updateInfoMethod(formData);
         self.redirectToStore();
-      } catch (ex) {}
+      } catch (ex) {
+        console.log(ex);
+      }
       self.performingAction = false;
     },
     async deleteInfo() {
@@ -43,7 +77,9 @@ const editPageMixin = {
       try {
         await self.deleteInfoMethod({ data: dataToSend });
         self.redirectToStore();
-      } catch (ex) {}
+      } catch (ex) {
+        console.log(ex);
+      }
       self.performingAction = false;
     },
   },

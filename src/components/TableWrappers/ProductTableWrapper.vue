@@ -23,6 +23,7 @@
     </CCardHeader>
     <CCardBody>
       <CDataTable
+        v-if="showTable"
         :hover="hover"
         :striped="striped"
         :border="border"
@@ -111,6 +112,36 @@
             >
               <CIcon size="sm" name="cil-image" />
             </CButton>
+            <CButton
+              name="cil-dollar"
+              size="sm"
+              v-bind="{ variant: 'ghost' }"
+              :to="`/admin/productprice/add?prodID=${item.productID}`"
+              color="info"
+              class="btn-brand add-action-button"
+            >
+              <CIcon size="sm" name="cil-dollar" />
+            </CButton>
+            <CButton
+              name="cil-settings"
+              size="sm"
+              v-bind="{ variant: 'ghost' }"
+              :to="`/admin/productoption/add?prodID=${item.productID}`"
+              color="info"
+              class="btn-brand add-action-button"
+            >
+              <CIcon size="sm" name="cil-settings" />
+            </CButton>
+            <CButton
+              name="cil-image"
+              size="sm"
+              v-bind="{ variant: 'ghost' }"
+              :to="`/admin/productimage/add?prodID=${item.productID}`"
+              color="info"
+              class="btn-brand add-action-button"
+            >
+              <CIcon size="sm" name="cil-image" />
+            </CButton>
           </td>
         </template>
         <template #index="{ index }">
@@ -128,7 +159,7 @@
               value="success"
               @update:checked="
                 (status) =>
-                  $emit('toggle-product-state', { status, userData: item })
+                  $emit('toggle-product-state', { status, productData: item })
               "
             />
           </td>
@@ -205,20 +236,34 @@
       :show.sync="showPriceLinksModal"
     >
       <CRow>
-        <template v-for="priceObj in priceLinks">
-          <CCol col="6" sm="6" :key="priceObj.productPriceID">
-            <router-link
-              :to="`/admin/productprice/edit/${priceObj.productPriceID}`"
+        <template v-if="priceLinks && priceLinks.length > 0">
+          <template v-for="priceObj in priceLinks">
+            <CCol col="6" sm="6" :key="priceObj.productPriceID">
+              <router-link
+                :to="`/admin/productprice/edit/${priceObj.productPriceID}`"
+              >
+                <CCallout color="info">
+                  <small class="text-muted">قیمت</small><br />
+                  <strong>{{ priceObj.price.toLocaleString() }}</strong> <br />
+                  <small class="text-muted">اشتراک:</small><br />
+                  <strong>{{
+                    subscriptionsObjectMappedById[priceObj.subscriptionID]
+                  }}</strong>
+                </CCallout>
+              </router-link>
+            </CCol>
+          </template>
+        </template>
+        <template v-else>
+          <CCol sm="12">
+            <CListGroupItem
+              color="info"
+              class="flex-column align-items-start my-2"
             >
-              <CCallout color="info">
-                <small class="text-muted">قیمت</small><br />
-                <strong>{{ priceObj.price.toLocaleString() }}</strong> <br />
-                <small class="text-muted">اشتراک:</small><br />
-                <strong>{{
-                  subscriptionsObjectMappedById[priceObj.subscriptionID]
-                }}</strong>
-              </CCallout>
-            </router-link>
+              <div class="d-flex w-100 justify-content-center">
+                <h5 class="mb-1">برای این محصول قیمتی یاقت نشد</h5>
+              </div>
+            </CListGroupItem>
           </CCol>
         </template>
       </CRow>
@@ -256,19 +301,33 @@
       :show.sync="showOptionLinksModal"
     >
       <CRow>
-        <template v-for="optionObj in optionLinks">
-          <CCol col="12" sm="6" :key="optionObj.productOptionID">
-            <router-link :to="`/admin/option/edit/${optionObj.optionID}`">
-              <CCallout color="info">
-                <small class="text-muted">نام:</small><br />
-                <strong>{{ optionObj.option.optionType.title }}</strong>
-                <br />
-                <small class="text-muted">اشتراک:</small><br />
-                <strong>{{
-                  subscriptionsObjectMappedById[optionObj.subscriptionID]
-                }}</strong>
-              </CCallout>
-            </router-link>
+        <template v-if="optionLinks && optionLinks.length > 0">
+          <template v-for="optionObj in optionLinks">
+            <CCol col="12" sm="6" :key="optionObj.productOptionID">
+              <router-link :to="`/admin/option/edit/${optionObj.optionID}`">
+                <CCallout color="info">
+                  <small class="text-muted">نام:</small><br />
+                  <strong>{{ optionObj.option.optionType.title }}</strong>
+                  <br />
+                  <small class="text-muted">اشتراک:</small><br />
+                  <strong>{{
+                    subscriptionsObjectMappedById[optionObj.subscriptionID]
+                  }}</strong>
+                </CCallout>
+              </router-link>
+            </CCol>
+          </template>
+        </template>
+        <template v-else>
+          <CCol sm="12">
+            <CListGroupItem
+              color="info"
+              class="flex-column align-items-start my-2"
+            >
+              <div class="d-flex w-100 justify-content-center">
+                <h5 class="mb-1">برای این محصول آپشن‌ یاقت نشد</h5>
+              </div>
+            </CListGroupItem>
           </CCol>
         </template>
       </CRow>
@@ -320,6 +379,7 @@ export default {
   },
   data() {
     return {
+      showTable: true,
       range: [],
       columnFilters: null,
       itemsPerPage: 10,
@@ -356,6 +416,10 @@ export default {
   watch: {
     itemsPerPage(newVal) {
       this.itemsPerPage = newVal;
+      this.showTable = false;
+      setTimeout(() => {
+        this.showTable = true;
+      }, 300);
       this.$emit("page-change", 1);
       this.$emit("pagination-change", newVal);
     },
@@ -407,7 +471,9 @@ export default {
         const { data } = await getPrices(productId);
         this.priceLinks = data.data;
         this.showPriceLinksModal = true;
-      } catch (ex) {}
+      } catch (ex) {
+        console.log(ex);
+      }
     },
     showImageAction(productId) {
       this.$router.push({
@@ -441,5 +507,13 @@ export default {
   nav {
     display: inline-block;
   }
+}
+
+.add-action-button {
+  position: relative;
+}
+
+.add-action-button::after {
+  content: "+";
 }
 </style>

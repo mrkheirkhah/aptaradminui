@@ -1,110 +1,67 @@
 <template>
   <EditDataCard
-    title="userName"
+    title="title"
     icon="cil-user-follow"
     store-icon="cil-user-follow"
-    store-link="/admin/person/"
-    store-name="همه کاربران"
+    store-link="/admin/storage/"
+    store-name="ذخیره سازی"
     :fields="fields"
     deleteIdField="storageID"
     storePageName="storeStorage"
-    :fetchInfoMethod="getPerson"
-    :updateInfoMethod="updatePerson"
-    :deleteInfoMethod="deletePerson"
+    :fetchInfoMethod="getOne"
+    :updateInfoMethod="update"
+    :deleteInfoMethod="remove"
     :keysToPost="keysToPost"
   />
 </template>
 
 <script>
-import {
-  getPerson,
-  updatePerson,
-  deletePerson,
-} from "../../../services/person";
+import { getOne, update, remove } from "../../../services/storage";
 import EditDataCard from "../../../components/base/EditDataCard.vue";
 export default {
   components: { EditDataCard },
   data() {
     return {
-      getPerson,
-      updatePerson,
-      deletePerson,
+      getOne,
+      update,
+      remove,
       keysToPost: [
-        "userName",
-        "password",
-        "firstName",
-        "lastName",
-        "caption",
-        "nationalCode",
-        "email",
-        "phone",
-        "mobile",
-        "zipCode",
-        "stateID",
-        "address",
-        "isActive",
-        "personID",
+        "title",
+        "price",
+        "value",
+        "enable",
+        "timePeriod",
+        "storageID",
       ],
     };
   },
   computed: {
-    statesArr() {
-      return this.$store.state.statesArray.map((stateObj) => ({
-        label: stateObj.title,
-        value: stateObj.id,
-      }));
-    },
     fields() {
-      const self = this;
       return [
         {
-          name: "userName",
+          name: "title",
           type: "text",
-          persianLabel: "نام کاربری",
+          persianLabel: "نام",
           col: "6",
         },
         {
-          name: "password",
-          type: "password",
-          persianLabel: "رمز‌عبور",
+          name: "price",
+          type: "number",
+          persianLabel: "قیمت",
           col: "6",
         },
-        { name: "firstName", type: "text", persianLabel: "نام", col: "6" },
+        { name: "value", type: "text", persianLabel: "مقدار", col: "6" },
         {
-          name: "lastName",
-          type: "text",
-          persianLabel: "نام خانوادگی",
+          name: "enable",
+          type: "checkbox",
+          persianLabel: "فعال",
           col: "6",
         },
         {
-          name: "nationalCode",
-          type: "text",
-          persianLabel: "کد ملی",
+          name: "timePeriod",
+          type: "number",
+          persianLabel: "بازه زمانی",
           col: "6",
-        },
-        { name: "email", type: "text", persianLabel: "ایمیل", col: "6" },
-        { name: "mobile", type: "text", persianLabel: "تلفن همراه", col: "6" },
-        { name: "phone", type: "text", persianLabel: "تلفن ثابت", col: "6" },
-        { name: "zipCode", type: "text", persianLabel: "کد پستی", col: "6" },
-        {
-          name: "stateID",
-          type: "option",
-          persianLabel: "استان",
-          options: self.statesArr,
-          col: "6",
-        },
-        { name: "address", type: "text", persianLabel: "آدرس", col: "6" },
-        {
-          name: "caption",
-          type: "textarea",
-          persianLabel: "زیرنویس",
-          col: "12",
-        },
-        {
-          name: "isActive",
-          type: "switch",
-          persianLabel: "وضعیت حساب",
-          col: "12",
         },
       ];
     },

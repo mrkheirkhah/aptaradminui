@@ -309,3 +309,11 @@ export const updatePerson = (data) => {
 export const deletePerson = (data) => {
   return userApiClient.delete("/Person", data);
 };
+
+export const catalog = () => {
+  return userApiClient.get("/Person/Catalog");
+};
+
+export const remove = (data) => {
+  return userApiClient.delete("/Person", data);
+};
