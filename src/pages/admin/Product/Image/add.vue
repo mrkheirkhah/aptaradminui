@@ -3,12 +3,15 @@
     title="ثبت عمس محصول جدید"
     icon="cil-applications"
     store-icon="cil-applications"
-    store-link="/admin/product/store"
+    store-link="/admin/productimage/store"
     store-name="همه محصولات"
     :fields="fields"
-    storePageName="storeProducts"
+    storePageName="productImage"
+    showBreadCrumbs
+    :breadCrumbLinks="[{ to: '/admin/product/store', text: 'محصولات' }, { to: '/admin/productimage', text: 'تصویر محصولات' }, { to: '/admin/productimage/add', text: 'اضافه کردن تصویر محصول' }]"
     :addInfoMethod="add"
     :keysToPost="keysToPost"
+    :categoryUpdateActions="categoryUpdateActions"
   />
 </template>
 
@@ -20,6 +23,7 @@ export default {
   data() {
     return {
       add,
+      categoryUpdateActions: ["fetchProducts"],
       keysToPost: ["fileOption", "id", "file", "priority"],
     };
   },
@@ -38,7 +42,6 @@ export default {
     },
     fields() {
       const self = this;
-      debugger;
       return [
         {
           name: "id",

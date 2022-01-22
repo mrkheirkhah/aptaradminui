@@ -22,7 +22,7 @@
         </div>
       </slot>
     </CCardHeader>
-    <CCardBody>
+    <CCardBody style="max-height: calc(100vh - 240px); overflow: auto">
       <CDataTable
         v-if="showTable"
         :hover="hover"
@@ -67,15 +67,15 @@
             {{ index + 1 }}
           </td>
         </template>
+        <template #index-filter>
+          <CButton color="danger" size="sm" @click="clearAllFilters">
+            <CIcon name="cil-filter-x" class="ml-1" />
+          </CButton>
+        </template>
         <template #updateDate-filter>
-          <date-picker
-            range
-            clearable
-            locale="fa"
-            format="YYYY-MM-DD HH:mm"
-            display-format="jYYYY/jM/jD"
-            label=""
-            v-model="range"
+          <TheDatePickerFilter
+            column="updateDate"
+            @filter-changed="(data) => changeDateFilter(data)"
           />
         </template>
         <template #updateDate="{ item }">
@@ -146,7 +146,11 @@
 </template>
 
 <script>
+import TheDatePickerFilter from "../base/TheDatePickerFilter.vue";
+
 export default {
+  components: { TheDatePickerFilter },
+
   name: "Table",
   props: {
     items: Array,
@@ -199,7 +203,6 @@ export default {
       this.$store.state.personsArray.map((stateObj) => {
         optionTypesObject[stateObj.id] = stateObj.title;
       });
-      debugger;
       return optionTypesObject;
     },
     ticketStatusTypesArray() {
@@ -253,6 +256,11 @@ export default {
     },
   },
   methods: {
+    changeDateFilter(data) {
+      if (!this.columnFilters) this.columnFilters = {};
+      this.columnFilters.createDate = data;
+      this.$emit("column-filter-change", this.columnFilters);
+    },
     pageChange(pageNumber) {
       this.$emit("page-change", pageNumber);
     },
@@ -269,6 +277,10 @@ export default {
     columnFilterChange(keyWordsMappedWithColumnNamesObject) {
       this.columnFilters = keyWordsMappedWithColumnNamesObject;
       this.$emit("column-filter-change", keyWordsMappedWithColumnNamesObject);
+    },
+    clearAllFilters() {
+      const eve = new Event("clearAllDataGridFilters");
+      window.dispatchEvent(eve);
     },
   },
 };

@@ -6,6 +6,7 @@
       store-link="/admin/category/"
       store-name="همه دسته‌بندی‌ها"
       :fieldsToShow="fieldsToShow"
+      :categoryUpdateActions="categoryUpdateActions"
     />
   </div>
 </template>
@@ -26,6 +27,7 @@ export default {
         title: "",
         isActive: true,
         categoryID: 0,
+        categoryUpdateActions: ["fetchCategories"],
       },
     };
   },

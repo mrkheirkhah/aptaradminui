@@ -31,13 +31,30 @@ const storePageMixin = {
     getGridData() {
       return this.gridData.data;
     },
+    currentRoute() {
+      return this.$route.path;
+    },
   },
   methods: {
     async fetchInitialData() {
+      const self = this;
       try {
+        if (
+          !self.gridData.Data &&
+          !self.gridData.data &&
+          self.currentRoute.includes("ticket")
+        ) {
+          this.options.Sort = {
+            column: "updateDate",
+            type: "Desc",
+          };
+        }
         const { data } = await this.fetchAll(this.options);
         if (!Array.isArray(data)) {
           data.data.map((dataObj) => {
+            if (self.currentRoute.includes("productoption/store")) {
+              dataObj.title = dataObj.option.title;
+            }
             for (const key in dataObj) {
               if (dataObj[key] === null) {
                 dataObj[key] = "";
@@ -140,22 +157,14 @@ const storePageMixin = {
       for (const key in keyWordsMappedWithColumnNamesObject) {
         if (key === "index" || key === "actions") continue;
         if (keyWordsMappedWithColumnNamesObject[key] === "") continue;
-        if (Array.isArray(keyWordsMappedWithColumnNamesObject[key])) {
-          if (keyWordsMappedWithColumnNamesObject[key].length > 0) {
-            this.fetchOptions.Filters.push({
-              Column: captalizeFirstLetter(key),
-              Type: "GreaterThanOrEqual",
-              Value: keyWordsMappedWithColumnNamesObject[key][0],
-            });
-            this.fetchOptions.Filters.push({
-              Column: captalizeFirstLetter(key),
-              Type: "LessThanOrEqual",
-              Value: keyWordsMappedWithColumnNamesObject[key][1],
-            });
-            continue;
-          } else {
-            continue;
-          }
+        if (
+          Array.isArray(keyWordsMappedWithColumnNamesObject[key]) &&
+          keyWordsMappedWithColumnNamesObject[key][0] === "date"
+        ) {
+          this.fetchOptions.Filters.push(
+            keyWordsMappedWithColumnNamesObject[key][1]
+          );
+          continue;
         }
         this.fetchOptions.Filters.push({
           Column: captalizeFirstLetter(key),
@@ -168,19 +177,30 @@ const storePageMixin = {
       }
       this.fetchInitialData();
     },
-    async deleteInfo(obj) {
-      if (!this.deleteInfoMethod) return;
-      const self = this;
-      const dataToSend = {};
-      dataToSend[self.deleteIdField] = obj[self.deleteIdField];
-      try {
-        await self.deleteInfoMethod({ data: dataToSend });
-        // self.fetchInitialData();
-        self.gridData.data = self.gridData.data.filter(
-          (field) => field[self.deleteIdField] !== obj[self.deleteIdField]
-        );
-      } catch (ex) {
-        console.log(ex);
+    deleteInfo(obj) {
+      const submitDelete = async () => {
+        if (!this.deleteInfoMethod) return;
+        const self = this;
+        const dataToSend = {};
+        dataToSend[self.deleteIdField] = obj[self.deleteIdField];
+        try {
+          await self.deleteInfoMethod({ data: dataToSend });
+          // self.fetchInitialData();
+          self.gridData.data = self.gridData.data.filter(
+            (field) => field[self.deleteIdField] !== obj[self.deleteIdField]
+          );
+          this.updateCategoriesIfHave();
+        } catch (ex) {
+          console.log(ex);
+        }
+      };
+      const event = new Event("getDeleteConfirmation");
+      event.deletionCallback = submitDelete;
+      window.dispatchEvent(event);
+    },
+    updateCategoriesIfHave() {
+      for (const category of this.categoryUpdateActions) {
+        this.$store.dispatch(category, null, { root: true });
       }
     },
   },
@@ -196,6 +216,16 @@ const storePageMixin = {
       "is-full-page": "true",
     });
     this.fetchInitialData();
+    const self = this;
+    window.addEventListener("clearAllDataGridFilters", () => {
+      self.fetchOptions = {
+        Filters: [],
+        Sort: null,
+        Index: 0,
+        Size: 12,
+      };
+      self.fetchInitialData();
+    });
   },
 };
 

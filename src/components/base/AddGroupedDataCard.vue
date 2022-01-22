@@ -21,8 +21,12 @@
         </div>
       </slot>
     </CCardHeader>
-    <CCardBody>
-      <CForm @submit.prevent="handleSubmit" ref="addFormElement">
+    <CCardBody style="max-height: calc(100vh - 240px); overflow: auto">
+      <CForm
+        @submit.prevent="handleSubmit"
+        ref="addFormElement"
+        autocomplete="off"
+      >
         <CRow>
           <CCol
             v-for="section in fields"
@@ -67,7 +71,9 @@
                     :isValid="field.validationFunction"
                     :autocomplete="field.autocomplete"
                     :invalidFeedback="field.invalidFeedback"
-                    :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
+                    :oninvalid="
+                      `this.setCustomValidity('${field.invalidFeedback}')`
+                    "
                     :validationMessage="field.invalidFeedback"
                     @blur="checkValidity"
                     :placeholder="field.placeholder || field.persianLabel"
@@ -99,7 +105,9 @@
                     :required="field.isRequired"
                     :isValid="field.validationFunction"
                     :invalidFeedback="field.invalidFeedback"
-                    :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
+                    :oninvalid="
+                      `this.setCustomValidity('${field.invalidFeedback}')`
+                    "
                     :validationMessage="field.invalidFeedback"
                     @blur="checkValidity"
                     :placeholder="field.placeholder || field.persianLabel"
@@ -131,7 +139,9 @@
                     :required="field.isRequired"
                     :isValid="field.validationFunction"
                     :invalidFeedback="field.invalidFeedback"
-                    :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
+                    :oninvalid="
+                      `this.setCustomValidity('${field.invalidFeedback}')`
+                    "
                     :validationMessage="field.invalidFeedback"
                     :placeholder="field.placeholder || field.persianLabel"
                     @focus="showPass = true"
@@ -148,7 +158,9 @@
                     class="w-100"
                     :isValid="field.validationFunction"
                     :invalidFeedback="field.invalidFeedback"
-                    :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
+                    :oninvalid="
+                      `this.setCustomValidity('${field.invalidFeedback}')`
+                    "
                     :validationMessage="field.invalidFeedback"
                     @blur="checkValidity"
                     :placeholder="field.placeholder || field.persianLabel"
@@ -189,7 +201,9 @@
                     :required="field.isRequired"
                     :isValid="field.validationFunction"
                     :invalidFeedback="field.invalidFeedback"
-                    :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
+                    :oninvalid="
+                      `this.setCustomValidity('${field.invalidFeedback}')`
+                    "
                     :validationMessage="field.invalidFeedback"
                     @blur="checkValidity"
                     @input="
@@ -215,7 +229,9 @@
                     :required="field.isRequired"
                     :isValid="field.validationFunction"
                     :invalidFeedback="field.invalidFeedback"
-                    :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
+                    :oninvalid="
+                      `this.setCustomValidity('${field.invalidFeedback}')`
+                    "
                     :validationMessage="field.invalidFeedback"
                     @blur="checkValidity"
                     :name="field.name"
@@ -242,7 +258,9 @@
                       :required="field.isRequired"
                       :isValid="field.validationFunction"
                       :invalidFeedback="field.invalidFeedback"
-                      :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
+                      :oninvalid="
+                        `this.setCustomValidity('${field.invalidFeedback}')`
+                      "
                       :validationMessage="field.invalidFeedback"
                       @blur="checkValidity"
                       v-bind="{ variant: '3d' }"
@@ -269,7 +287,9 @@
                     :name="field.refName"
                     :isValid="field.validationFunction"
                     :invalidFeedback="field.invalidFeedback"
-                    :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
+                    :oninvalid="
+                      `this.setCustomValidity('${field.invalidFeedback}')`
+                    "
                     :validationMessage="field.invalidFeedback"
                     @blur="checkValidity"
                     @update:checked="
@@ -324,7 +344,11 @@
       </slot>
     </CCardHeader>
     <CCardBody v-if="hasSubFrom">
-      <CForm @submit.prevent="handleSubmitSubForm" ref="addSubFormElement">
+      <CForm
+        @submit.prevent="handleSubmitSubForm"
+        ref="addSubFormElement"
+        autocomplete="off"
+      >
         <CRow>
           <template v-for="subField in subFields">
             <CCol :sm="subField.col" :key="subField.name">
@@ -355,7 +379,9 @@
                 :isValid="subField.validationFunction"
                 :autocomplete="subField.autocomplete"
                 :invalidFeedback="subField.invalidFeedback"
-                :oninvalid="`this.setCustomValidity('${subField.invalidFeedback}')`"
+                :oninvalid="
+                  `this.setCustomValidity('${subField.invalidFeedback}')`
+                "
                 :validationMessage="subField.invalidFeedback"
                 @blur="checkValidity"
                 :placeholder="subField.placeholder || subField.persianLabel"
@@ -388,7 +414,9 @@
                 :required="subField.isRequired"
                 :isValid="subField.validationFunction"
                 :invalidFeedback="subField.invalidFeedback"
-                :oninvalid="`this.setCustomValidity('${subField.invalidFeedback}')`"
+                :oninvalid="
+                  `this.setCustomValidity('${subField.invalidFeedback}')`
+                "
                 :validationMessage="subField.invalidFeedback"
                 @blur="checkValidity"
                 :placeholder="subField.placeholder || subField.persianLabel"
@@ -421,7 +449,9 @@
                 :required="subField.isRequired"
                 :isValid="subField.validationFunction"
                 :invalidFeedback="subField.invalidFeedback"
-                :oninvalid="`this.setCustomValidity('${subField.invalidFeedback}')`"
+                :oninvalid="
+                  `this.setCustomValidity('${subField.invalidFeedback}')`
+                "
                 :validationMessage="subField.invalidFeedback"
                 :placeholder="subField.placeholder || subField.persianLabel"
                 @focus="showPass = true"
@@ -439,7 +469,9 @@
                 :required="subField.isRequired"
                 :isValid="subField.validationFunction"
                 :invalidFeedback="subField.invalidFeedback"
-                :oninvalid="`this.setCustomValidity('${subField.invalidFeedback}')`"
+                :oninvalid="
+                  `this.setCustomValidity('${subField.invalidFeedback}')`
+                "
                 :validationMessage="subField.invalidFeedback"
                 @blur="checkValidity"
                 :placeholder="subField.placeholder || subField.persianLabel"
@@ -479,7 +511,9 @@
                 :required="subField.isRequired"
                 :isValid="subField.validationFunction"
                 :invalidFeedback="subField.invalidFeedback"
-                :oninvalid="`this.setCustomValidity('${subField.invalidFeedback}')`"
+                :oninvalid="
+                  `this.setCustomValidity('${subField.invalidFeedback}')`
+                "
                 :validationMessage="subField.invalidFeedback"
                 @blur="checkValidity"
                 @input="
@@ -510,7 +544,9 @@
                   :required="subField.isRequired"
                   :isValid="subField.validationFunction"
                   :invalidFeedback="subField.invalidFeedback"
-                  :oninvalid="`this.setCustomValidity('${subField.invalidFeedback}')`"
+                  :oninvalid="
+                    `this.setCustomValidity('${subField.invalidFeedback}')`
+                  "
                   :validationMessage="subField.invalidFeedback"
                   @blur="checkValidity"
                   v-bind="{ variant: '3d' }"
@@ -538,7 +574,9 @@
                 :name="subField.refName"
                 :isValid="subField.validationFunction"
                 :invalidFeedback="subField.invalidFeedback"
-                :oninvalid="`this.setCustomValidity('${subField.invalidFeedback}')`"
+                :oninvalid="
+                  `this.setCustomValidity('${subField.invalidFeedback}')`
+                "
                 :validationMessage="subField.invalidFeedback"
                 @blur="checkValidity"
                 @update:checked="
@@ -633,6 +671,11 @@ export default {
       required: false,
       default: null,
     },
+    categoryUpdateActions: {
+      required: false,
+      type: Array,
+      default: () => [],
+    },
   },
   data() {
     return {
@@ -641,8 +684,9 @@ export default {
   },
   methods: {
     handleSubmit() {
-      const invalidInputs =
-        this.$refs.addFormElement.querySelectorAll(".is-invalid");
+      const invalidInputs = this.$refs.addFormElement.querySelectorAll(
+        ".is-invalid"
+      );
       const invalid = invalidInputs.length > 0;
       if (invalid)
         return this.$store.dispatch(
@@ -659,8 +703,9 @@ export default {
       this.addInfo.call(this);
     },
     handleSubmitSubForm() {
-      const invalidInputs =
-        this.$refs.addSubFormElement.querySelectorAll(".is-invalid");
+      const invalidInputs = this.$refs.addSubFormElement.querySelectorAll(
+        ".is-invalid"
+      );
       const invalid = invalidInputs.length > 0;
       if (invalid)
         return this.$store.dispatch(

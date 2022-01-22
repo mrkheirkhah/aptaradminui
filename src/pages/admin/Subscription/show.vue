@@ -6,6 +6,7 @@
       store-link="/admin/subscription/"
       store-name="همه اشتراک‌ها"
       :fieldsToShow="fieldsToShow"
+      :categoryUpdateActions="categoryUpdateActions"
     />
   </div>
 </template>
@@ -22,6 +23,7 @@ export default {
     return {
       properStatus,
       fetchInfoMethod: getOne,
+      categoryUpdateActions: ["fetchSubscriptionTypes", "fetchSubscriptions"],
       data: {
         title: "",
         subscriptionTypeID: "",
@@ -46,9 +48,10 @@ export default {
           filedName: "subscriptionTypeID",
           persianName: "نوع اشتراک",
           type: "option",
-          data: self.subscriptionTypesObjectMappedById[
-            self.data.subscriptionTypeID
-          ],
+          data:
+            self.subscriptionTypesObjectMappedById[
+              self.data.subscriptionTypeID
+            ],
           col: "6",
         },
         {

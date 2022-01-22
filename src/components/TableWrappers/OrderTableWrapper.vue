@@ -23,7 +23,7 @@
           </div>
         </slot>
       </CCardHeader>
-      <CCardBody>
+      <CCardBody style="max-height: calc(100vh - 240px); overflow: auto">
         <CDataTable
           v-if="showTable"
           :hover="hover"
@@ -78,15 +78,15 @@
               {{ index + 1 }}
             </td>
           </template>
+          <template #index-filter>
+            <CButton color="danger" size="sm" @click="clearAllFilters">
+              <CIcon name="cil-filter-x" class="ml-1" />
+            </CButton>
+          </template>
           <template #date-filter>
-            <date-picker
-              range
-              clearable
-              locale="fa"
-              format="YYYY-MM-DD HH:mm"
-              display-format="jYYYY/jM/jD"
-              label=""
-              v-model="range"
+            <TheDatePickerFilter
+              column="date"
+              @filter-changed="(data) => changeDateFilter(data)"
             />
           </template>
           <template #date="{ item }">
@@ -215,7 +215,9 @@
                 </CRow>
               </CButton>
               <CCollapse :show="accordion === 2">
-                <CCardBody>
+                <CCardBody
+                  style="max-height: calc(100vh - 240px); overflow: auto"
+                >
                   <CListGroup>
                     <template v-for="option in orderOptions">
                       <CListGroupItem
@@ -263,7 +265,11 @@
 
 <script>
 import { getOptions, getDetails } from "../../services/order";
+import TheDatePickerFilter from "../base/TheDatePickerFilter.vue";
+
 export default {
+  components: { TheDatePickerFilter },
+
   name: "Table",
   props: {
     items: Array,
@@ -373,6 +379,11 @@ export default {
     },
   },
   methods: {
+    changeDateFilter(data) {
+      if (!this.columnFilters) this.columnFilters = {};
+      this.columnFilters.createDate = data;
+      this.$emit("column-filter-change", this.columnFilters);
+    },
     pageChange(pageNumber) {
       this.$emit("page-change", pageNumber);
     },
@@ -410,6 +421,10 @@ export default {
       } catch (ex) {
         console.log(ex);
       }
+    },
+    clearAllFilters() {
+      const eve = new Event("clearAllDataGridFilters");
+      window.dispatchEvent(eve);
     },
   },
 };

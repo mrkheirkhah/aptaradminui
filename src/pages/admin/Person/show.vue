@@ -5,6 +5,7 @@
       icon="cil-user"
       store-link="/admin/person/"
       store-name="همه کاربران"
+      :categoryUpdateActions="categoryUpdateActions"
       :fieldsToShow="fieldsToShow"
     />
   </div>
@@ -22,6 +23,7 @@ export default {
     return {
       properStatus,
       fetchInfoMethod: getPerson,
+      categoryUpdateActions: ["fetchpersons"],
       data: {
         userName: "",
         password: "",

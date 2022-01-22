@@ -40,6 +40,7 @@ export default {
       fetchAll: getAll,
       deleteInfoMethod: remove,
       deleteIdField: "productOptionID",
+      categoryUpdateActions: ["fetchProducts"],
       keysToPost: [
         "productID",
         "subscriptionID",
@@ -51,6 +52,7 @@ export default {
       ],
       showColumns: [
         { key: "index", label: "#", _style: "width: 10px" },
+        { key: "title", label: "نام" },
         { key: "productID", label: "محصول" },
         { key: "price", label: "قیمت" },
         { key: "subscriptionID", label: "اشتراک" },
@@ -77,6 +79,7 @@ export default {
       }
       try {
         await update({ ...clonedData });
+        this.updateCategoriesIfHave();
       } catch (ex) {
         console.log(ex);
       }

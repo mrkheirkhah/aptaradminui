@@ -4,14 +4,15 @@
     icon="cil-applications"
     store-icon="cil-applications"
     store-link="/admin/paytype/"
-    store-name="نوع اشتراک"
+    store-name="نوع پرداخت ها"
     deleteIdField="payTypeID"
     :fields="fields"
     storePageName="storePayType"
     :fetchInfoMethod="getOne"
-    :updateInfoMethod="update"
+    :updateInfoMethod="updateInfo"
     :deleteInfoMethod="remove"
     :keysToPost="keysToPost"
+    :categoryUpdateActions="categoryUpdateActions"
   />
 </template>
 
@@ -25,12 +26,16 @@ export default {
       add: () =>
         Promise.reject("حذف نوع پرداخت امانپذیر نیست") &&
         alert("حذف نوع پرداخت امانپذیر نیست"),
-      update,
+      updateInfo: (a, b, c) => {
+        update(a, b, c);
+        this.$store.dispatch("fetchPayTypes", null, { root: true });
+      },
       remove: () =>
         Promise.reject("حذف نوع پرداخت امانپذیر نیست") &&
         alert("حذف نوع پرداخت امانپذیر نیست"),
       getOne,
       keysToPost: ["title", "isActive", "payTypeID"],
+      categoryUpdateActions: ["fetchPayTypes"],
     };
   },
   computed: {

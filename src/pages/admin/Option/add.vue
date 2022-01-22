@@ -9,6 +9,7 @@
     storePageName="storeOption"
     :addInfoMethod="add"
     :keysToPost="keysToPost"
+    :categoryUpdateActions="categoryUpdateActions"
   />
 </template>
 
@@ -21,6 +22,7 @@ export default {
     return {
       add,
       keysToPost: ["title", "value", "optionTypeID", "isActive"],
+      categoryUpdateActions: ["fetchOptions"],
     };
   },
   computed: {

@@ -24,3 +24,17 @@ export const Login = ({ username, password }) => {
     headers: { "Content-Type": "application/json" },
   });
 };
+
+export const changePassword = ({ userID, password, newPassword }) => {
+  return userApiClient.put(
+    "/User/Put",
+    {
+      userID,
+      password,
+      newPassword,
+    },
+    {
+      headers: { "Content-Type": "application/json" },
+    }
+  );
+};

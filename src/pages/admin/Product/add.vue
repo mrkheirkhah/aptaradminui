@@ -9,6 +9,7 @@
     storePageName="storeProducts"
     :addInfoMethod="addProduct"
     :keysToPost="keysToPost"
+    :categoryUpdateActions="categoryUpdateActions"
   />
 </template>
 
@@ -20,6 +21,7 @@ export default {
   data() {
     return {
       addProduct,
+      categoryUpdateActions: ["fetchProducts"],
       keysToPost: [
         "title",
         "path",

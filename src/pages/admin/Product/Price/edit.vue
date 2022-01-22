@@ -3,15 +3,18 @@
     title="price"
     icon="cil-applications"
     store-icon="cil-applications"
-    store-link="/admin/product/store"
+    store-link="/admin/productprice/store"
     store-name="همه محصولات"
     :fields="fields"
+    showBreadCrumbs
+    :breadCrumbLinks="[{ to: '/admin/product/store', text: 'محصولات' }, { to: '/admin/productprice', text: 'قیمت محصولات' }, { to: `/admin/productprice/edit/${$route.params.id}`, text: 'ویرایش کردن قیمت محصول' }]"
     deleteIdField="productPriceID"
     storePageName="storeProductPrice"
     :fetchInfoMethod="getOne"
     :updateInfoMethod="update"
     :deleteInfoMethod="remove"
     :keysToPost="keysToPost"
+    :categoryUpdateActions="categoryUpdateActions"
   />
 </template>
 
@@ -26,6 +29,7 @@ export default {
       update,
       remove,
       getOne,
+      categoryUpdateActions: ["fetchProducts"],
       keysToPost: [
         "productID",
         "subscriptionID",

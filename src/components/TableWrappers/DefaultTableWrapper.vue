@@ -16,13 +16,13 @@
             exact
             :to="addNewLink"
           >
-            <CIcon name="cil-user-plus" class="ml-1" />
+            <CIcon v-if="iconName" :name="iconName" class="ml-1" />
             اضافه کردن {{ caption }} جدید
           </CButton>
         </div>
       </slot>
     </CCardHeader>
-    <CCardBody>
+    <CCardBody style="max-height: calc(100vh - 240px); overflow: auto">
       <CDataTable
         v-if="showTable"
         :hover="hover"
@@ -87,6 +87,11 @@
             {{ index + 1 }}
           </td>
         </template>
+        <template #index-filter>
+          <CButton color="danger" size="sm" @click="clearAllFilters">
+            <CIcon name="cil-filter-x" class="ml-1" />
+          </CButton>
+        </template>
         <template #isActive="{ item }">
           <td>
             <CSwitch
@@ -112,14 +117,9 @@
           />
         </template>
         <template #createDate-filter>
-          <date-picker
-            range
-            clearable
-            locale="fa"
-            format="YYYY-MM-DD HH:mm"
-            display-format="jYYYY/jM/jD"
-            label=""
-            v-model="range"
+          <TheDatePickerFilter
+            column="createDate"
+            @filter-changed="(data) => changeDateFilter(data)"
           />
         </template>
         <template #price="{ item }">
@@ -223,7 +223,9 @@
 </template>
 
 <script>
+import TheDatePickerFilter from "../base/TheDatePickerFilter.vue";
 export default {
+  components: { TheDatePickerFilter },
   name: "Table",
   props: {
     items: Array,
@@ -243,6 +245,7 @@ export default {
     dark: Boolean,
     addNewLink: String,
     deleteIdField: String,
+    iconName: String,
   },
   data() {
     return {
@@ -386,6 +389,11 @@ export default {
     },
   },
   methods: {
+    changeDateFilter(data) {
+      if (!this.columnFilters) this.columnFilters = {};
+      this.columnFilters.createDate = data;
+      this.$emit("column-filter-change", this.columnFilters);
+    },
     pageChange(pageNumber) {
       this.$emit("page-change", pageNumber);
     },
@@ -402,6 +410,10 @@ export default {
     columnFilterChange(keyWordsMappedWithColumnNamesObject) {
       this.columnFilters = keyWordsMappedWithColumnNamesObject;
       this.$emit("column-filter-change", keyWordsMappedWithColumnNamesObject);
+    },
+    clearAllFilters() {
+      const eve = new Event("clearAllDataGridFilters");
+      window.dispatchEvent(eve);
     },
   },
 };

@@ -48,7 +48,7 @@ const editPageMixin = {
         return toReturn;
       };
 
-      const flattened = flattenObject(self.data);
+      const flattened = flattenObject({ ...self.data });
       for (const key in flattened) {
         if (!self.keysToPost.includes(key)) {
           delete flattened[key];
@@ -63,24 +63,37 @@ const editPageMixin = {
       }
       try {
         await self.updateInfoMethod(formData);
+        this.updateCategoriesIfHave();
         self.redirectToStore();
       } catch (ex) {
         console.log(ex);
       }
       self.performingAction = false;
     },
-    async deleteInfo() {
-      this.performingAction = true;
-      const self = this;
-      const dataToSend = {};
-      dataToSend[self.deleteIdField] = self.data[self.deleteIdField];
-      try {
-        await self.deleteInfoMethod({ data: dataToSend });
-        self.redirectToStore();
-      } catch (ex) {
-        console.log(ex);
+    deleteInfo() {
+      const submitDelete = async () => {
+        this.performingAction = true;
+        const self = this;
+        const dataToSend = {};
+        dataToSend[self.deleteIdField] = self.data[self.deleteIdField];
+        try {
+          await self.deleteInfoMethod({ data: dataToSend });
+          this.updateCategoriesIfHave();
+          self.redirectToStore();
+        } catch (ex) {
+          console.log(ex);
+        }
+        self.performingAction = false;
+      };
+
+      const event = new Event("getDeleteConfirmation");
+      event.deletionCallback = submitDelete;
+      window.dispatchEvent(event);
+    },
+    updateCategoriesIfHave() {
+      for (const category of this.categoryUpdateActions) {
+        this.$store.dispatch(category, null, { root: true });
       }
-      self.performingAction = false;
     },
   },
 

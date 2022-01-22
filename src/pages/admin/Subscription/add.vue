@@ -9,6 +9,7 @@
     storePageName="storeSubscription"
     :addInfoMethod="add"
     :keysToPost="keysToPost"
+    :categoryUpdateActions="categoryUpdateActions"
   />
 </template>
 
@@ -20,6 +21,7 @@ export default {
   data() {
     return {
       add,
+      categoryUpdateActions: ["fetchSubscriptionTypes", "fetchSubscriptions"],
       keysToPost: ["title", "value", "subscriptionTypeID", "isActive"],
     };
   },

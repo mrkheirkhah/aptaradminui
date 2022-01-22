@@ -3,15 +3,18 @@
     title="title"
     icon="cil-applications"
     store-icon="cil-applications"
-    store-link="/admin/product/store"
+    store-link="/admin/productoption/store"
     store-name="همه محصولات"
     :fields="fields"
     deleteIdField="productOptionID"
     storePageName="storeProductOption"
+    showBreadCrumbs
+    :breadCrumbLinks="[{ to: '/admin/product/store', text: 'محصولات' }, { to: '/admin/productoption', text: 'آپشن محصولات' }, { to: `/admin/productoption/edit/${$route.params.id}`, text: 'ویرایش کردن آپشن محصول' }]"
     :fetchInfoMethod="getOne"
     :updateInfoMethod="update"
     :deleteInfoMethod="remove"
     :keysToPost="keysToPost"
+    :categoryUpdateActions="categoryUpdateActions"
   />
 </template>
 
@@ -26,6 +29,7 @@ export default {
       update,
       remove,
       getOne,
+      categoryUpdateActions: ["fetchProducts"],
       keysToPost: [
         "productID",
         "subscriptionID",
@@ -81,7 +85,7 @@ export default {
         },
         {
           name: "optionID",
-          persianLabel: "نوع آپشن",
+          persianLabel: "آپشن",
           type: "option",
           options: self.optionsObjectMappedById,
           col: "6",

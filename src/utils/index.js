@@ -70,11 +70,11 @@ export const checkEmail = (email) => {
 };
 
 export const checkPhoneNumber = (phoneNumber) => {
-  const phnumber = /([0-9]{3})+?-+[0-9]{8}/;
+  const phnumber = /0+([0-9]{2})+?-+[0-9]/;
   return phnumber.test(phoneNumber);
 };
 
 export const checkMobileNumber = (phoneNumber) => {
-  const mobilePattern = /09+[0-9]{9}/;
+  const mobilePattern = /09+[0-9]/;
   return mobilePattern.test(phoneNumber);
 };

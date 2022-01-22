@@ -41,12 +41,13 @@ export default {
       fetchAll: getAll,
       deleteIdField: "optionTypeID",
       keysToPost: ["title", "optionTypeID"],
+      categoryUpdateActions: ["fetchOptionTypes"],
       showColumns: [
         { key: "index", label: "#" },
         { key: "title", label: "نام" },
         { key: "actions", label: "عملیات" },
       ],
-      gridTitle: "نوع آپشن",
+      gridTitle: "‌نوع آپشن‌ها",
     };
   },
   methods: {
@@ -64,6 +65,7 @@ export default {
       }
       try {
         await update({ ...clonedData });
+        this.updateCategoriesIfHave();
       } catch (ex) {
         console.log(ex);
       }

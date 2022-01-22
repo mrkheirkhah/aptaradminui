@@ -24,7 +24,7 @@
             </div>
           </slot>
         </CCardHeader>
-        <CCardBody>
+        <CCardBody style="max-height: calc(100vh - 240px); overflow: auto">
           <CRow>
             <CCol
               v-for="section in fieldsToShow"

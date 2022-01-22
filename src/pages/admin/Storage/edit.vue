@@ -1,8 +1,8 @@
 <template>
   <EditDataCard
     title="title"
-    icon="cil-user-follow"
-    store-icon="cil-user-follow"
+    icon="cil-save"
+    store-icon="cil-save"
     store-link="/admin/storage/"
     store-name="ذخیره سازی"
     :fields="fields"
@@ -12,6 +12,7 @@
     :updateInfoMethod="update"
     :deleteInfoMethod="remove"
     :keysToPost="keysToPost"
+    :categoryUpdateActions="categoryUpdateActions"
   />
 </template>
 
@@ -25,6 +26,7 @@ export default {
       getOne,
       update,
       remove,
+      categoryUpdateActions: ["fetchStorages"],
       keysToPost: [
         "title",
         "price",
@@ -53,7 +55,7 @@ export default {
         { name: "value", type: "text", persianLabel: "مقدار", col: "6" },
         {
           name: "enable",
-          type: "checkbox",
+          type: "switch",
           persianLabel: "فعال",
           col: "6",
         },

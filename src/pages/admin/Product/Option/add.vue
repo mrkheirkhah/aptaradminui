@@ -3,12 +3,15 @@
     title="ثبت آپشن محصول جدید"
     icon="cil-applications"
     store-icon="cil-applications"
-    store-link="/admin/product/store"
+    store-link="/admin/productoption/store"
     store-name="همه محصولات"
     :fields="fields"
-    storePageName="storeProducts"
+    storePageName="storeProductOption"
+    showBreadCrumbs
+    :breadCrumbLinks="[{ to: '/admin/product/store', text: 'محصولات' }, { to: '/admin/productoption', text: 'آپشن محصولات' }, { to: '/admin/productoption/add', text: 'اضافه کردن آپشن محصول' }]"
     :addInfoMethod="add"
     :keysToPost="keysToPost"
+    :categoryUpdateActions="categoryUpdateActions"
   />
 </template>
 
@@ -20,6 +23,7 @@ export default {
   data() {
     return {
       add,
+      categoryUpdateActions: ["fetchProducts"],
       keysToPost: [
         "productID",
         "subscriptionID",
@@ -75,7 +79,7 @@ export default {
         },
         {
           name: "optionID",
-          persianLabel: "نوع آپشن",
+          persianLabel: "آپشن",
           type: "option",
           options: self.optionsObjectMappedById,
           col: "6",

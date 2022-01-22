@@ -11,6 +11,7 @@
     :fetchInfoMethod="getPerson"
     :updateInfoMethod="updatePerson"
     :deleteInfoMethod="deletePerson"
+    :categoryUpdateActions="categoryUpdateActions"
     :keysToPost="keysToPost"
   />
 </template>
@@ -30,6 +31,7 @@ export default {
     return {
       getPerson,
       updatePerson,
+      categoryUpdateActions: ["fetchpersons"],
       deletePerson,
       keysToPost: [
         "userName",
@@ -70,11 +72,11 @@ export default {
         },
         {
           name: "password",
-          type: "password",
+          type: "text",
           persianLabel: "رمز‌عبور",
           col: "6",
-          isRequired: true,
-          validationFunction: (val) => val && val !== "",
+          isRequired: false,
+          validationFunction: (val) => !val || (val && val !== ""),
           invalidFeedback: "رمز عبور را بصورت صحیح وارد کنید",
         },
         {

@@ -41,6 +41,7 @@ export default {
       deleteInfoMethod: () => alert("امکان حذف وجود ندارد"),
       deleteIdField: "payTypeID",
       keysToPost: ["title", "isActive", "payTypeID"],
+      categoryUpdateActions: ["fetchPayTypes"],
       showColumns: [
         { key: "index", label: "#" },
         { key: "title", label: "نام" },
@@ -65,6 +66,7 @@ export default {
       }
       try {
         await update({ ...clonedData });
+        this.updateCategoriesIfHave();
       } catch (ex) {
         console.log(ex);
       }

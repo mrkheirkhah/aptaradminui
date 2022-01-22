@@ -12,7 +12,6 @@
             small
             fixed
             :caption="gridTitle"
-            addNewLink="/admin/profile/add"
             @page-change="pageChange"
             @pagination-change="paginationChange"
             @sorter-change="sorterChange"
@@ -40,6 +39,7 @@ export default {
       fetchAll: getAll,
       deleteInfoMethod: remove,
       deleteIdField: "profilePersonID",
+      categoryUpdateActions: ["fetchprofiles"],
       keysToPost: [
         "profileID",
         "isDefault",
@@ -143,6 +143,7 @@ export default {
       }
       try {
         await update({ ...clonedData });
+        this.updateCategoriesIfHave();
       } catch (ex) {
         console.log(ex);
       }

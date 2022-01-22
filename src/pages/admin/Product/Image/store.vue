@@ -41,6 +41,7 @@ export default {
       fetchAll: catalog,
       deleteIdField: "id",
       keysToPost: ["fileOption", "id", "file", "priority"],
+      categoryUpdateActions: ["fetchProducts"],
       showColumns: [
         { key: "index", label: "#" },
         { key: "title", label: "نام" },
@@ -69,6 +70,7 @@ export default {
             await remove({ data: { productImageID: image.id } });
           }
         }
+        this.updateCategoriesIfHave();
       } catch (ex) {
         console.log(ex);
       }

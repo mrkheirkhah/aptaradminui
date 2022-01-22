@@ -8,6 +8,7 @@
             {{ title }}
           </div>
           <CButton
+            v-if="storeLink && !showBreadCrumbs"
             color="info"
             size="sm"
             class="m-2"
@@ -18,11 +19,20 @@
             <CIcon :name="storeIcon" class="ml-1" />
             {{ storeName }}
           </CButton>
+          <template v-if="showBreadCrumbs">
+          <div>
+            <CBreadcrumb :items="breadCrumbLinks" />
+          </div>
+          </template>
         </div>
       </slot>
     </CCardHeader>
-    <CCardBody>
-      <CForm @submit.prevent="handleSubmit" ref="addFormElement">
+    <CCardBody style="max-height: calc(100vh - 240px); overflow: auto">
+      <CForm
+        @submit.prevent="handleSubmit"
+        ref="addFormElement"
+        autocomplete="rutjfkde"
+      >
         <CRow>
           <template v-for="field in fields">
             <CCol
@@ -44,19 +54,15 @@
                     : null
                 "
                 class="w-100"
-                @input="
-                  (e, ev) => {
-                    ev.currentTarget.setCustomValidity('');
-                    ev.currentTarget.checkValidity();
-                    data[field.name] = e;
-                  }
-                "
+                @change="(e, ev) => setData(e, ev, field.name)"
                 :label="field.persianLabel + (field.isRequired ? ' *' : '')"
                 :required="field.isRequired"
                 :isValid="field.validationFunction"
                 :autocomplete="field.autocomplete"
                 :invalidFeedback="field.invalidFeedback"
-                :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
+                :oninvalid="
+                  `this.setCustomValidity('${field.invalidFeedback}')`
+                "
                 :validationMessage="field.invalidFeedback"
                 @blur="checkValidity"
                 :placeholder="field.placeholder || field.persianLabel"
@@ -88,7 +94,9 @@
                 :required="field.isRequired"
                 :isValid="field.validationFunction"
                 :invalidFeedback="field.invalidFeedback"
-                :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
+                :oninvalid="
+                  `this.setCustomValidity('${field.invalidFeedback}')`
+                "
                 :validationMessage="field.invalidFeedback"
                 @blur="checkValidity"
                 :placeholder="field.placeholder || field.persianLabel"
@@ -108,19 +116,15 @@
                     : null
                 "
                 class="w-100"
-                @input="
-                  (e, ev) => {
-                    ev.currentTarget.setCustomValidity('');
-                    ev.currentTarget.checkValidity();
-                    data[field.name] = e;
-                  }
-                "
+                @change="(e, ev) => setData(e, ev, field.name)"
                 :label="field.persianLabel + (field.isRequired ? ' *' : '')"
                 :autocomplete="field.autocomplete"
                 :required="field.isRequired"
                 :isValid="field.validationFunction"
                 :invalidFeedback="field.invalidFeedback"
-                :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
+                :oninvalid="
+                  `this.setCustomValidity('${field.invalidFeedback}')`
+                "
                 :validationMessage="field.invalidFeedback"
                 :placeholder="field.placeholder || field.persianLabel"
                 @focus="showPass = true"
@@ -137,7 +141,9 @@
                 class="w-100"
                 :isValid="field.validationFunction"
                 :invalidFeedback="field.invalidFeedback"
-                :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
+                :oninvalid="
+                  `this.setCustomValidity('${field.invalidFeedback}')`
+                "
                 :validationMessage="field.invalidFeedback"
                 @blur="checkValidity"
                 :placeholder="field.placeholder || field.persianLabel"
@@ -152,12 +158,28 @@
                     : null
                 "
                 :disabled="field.defaultVal ? true : false"
-                :options="field.options"
+                :options="field.isRequired ? field.options : [{ label: '-', value: 0 }, ...field.options]"
                 @update:value="
                   (id, ev) => {
                     ev.currentTarget.setCustomValidity('');
                     ev.currentTarget.checkValidity();
                     data[field.name] = id;
+                  }
+                "
+              />
+
+              <!-- option input with search  -->
+              <SelectWithSearch
+                v-if="field.type.toLowerCase() === 'optionwithsearch'"
+                :label="field.persianLabel"
+                :placeholder="field.placeholder || field.persianLabel"
+                :disabled="field.disabled"
+                :options="field.options"
+                :required="field.isRequired"
+                :isValid="field.validationFunction"
+                @update="
+                  (e) => {
+                    data[field.name] = e;
                   }
                 "
               />
@@ -179,7 +201,9 @@
                 :required="field.isRequired"
                 :isValid="field.validationFunction"
                 :invalidFeedback="field.invalidFeedback"
-                :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
+                :oninvalid="
+                  `this.setCustomValidity('${field.invalidFeedback}')`
+                "
                 :validationMessage="field.invalidFeedback"
                 @blur="checkValidity"
                 @input="
@@ -203,7 +227,9 @@
                 :required="field.isRequired"
                 :isValid="field.validationFunction"
                 :invalidFeedback="field.invalidFeedback"
-                :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
+                :oninvalid="
+                  `this.setCustomValidity('${field.invalidFeedback}')`
+                "
                 :validationMessage="field.invalidFeedback"
                 @blur="checkValidity"
                 :name="field.name"
@@ -230,7 +256,9 @@
                   :required="field.isRequired"
                   :isValid="field.validationFunction"
                   :invalidFeedback="field.invalidFeedback"
-                  :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
+                  :oninvalid="
+                    `this.setCustomValidity('${field.invalidFeedback}')`
+                  "
                   :validationMessage="field.invalidFeedback"
                   @blur="checkValidity"
                   v-bind="{ variant: '3d' }"
@@ -257,12 +285,13 @@
                 :name="field.refName"
                 :isValid="field.validationFunction"
                 :invalidFeedback="field.invalidFeedback"
-                :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
+                :oninvalid="
+                  `this.setCustomValidity('${field.invalidFeedback}')`
+                "
                 :validationMessage="field.invalidFeedback"
                 @blur="checkValidity"
                 @update:checked="
                   (status, ev) => {
-                    debugger;
                     ev.currentTarget.setCustomValidity('');
                     ev.currentTarget.checkValidity();
                   }
@@ -311,7 +340,11 @@
       </slot>
     </CCardHeader>
     <CCardBody v-if="hasSubFrom">
-      <CForm @submit.prevent="handleSubmitSubForm" ref="addSubFormElement">
+      <CForm
+        @submit.prevent="handleSubmitSubForm"
+        ref="addSubFormElement"
+        autocomplete="off"
+      >
         <CRow>
           <template v-for="subField in subFields">
             <CCol :sm="subField.col" :key="subField.name">
@@ -342,7 +375,9 @@
                 :isValid="subField.validationFunction"
                 :autocomplete="subField.autocomplete"
                 :invalidFeedback="subField.invalidFeedback"
-                :oninvalid="`this.setCustomValidity('${subField.invalidFeedback}')`"
+                :oninvalid="
+                  `this.setCustomValidity('${subField.invalidFeedback}')`
+                "
                 :validationMessage="subField.invalidFeedback"
                 @blur="checkValidity"
                 :placeholder="subField.placeholder || subField.persianLabel"
@@ -375,7 +410,9 @@
                 :required="subField.isRequired"
                 :isValid="subField.validationFunction"
                 :invalidFeedback="subField.invalidFeedback"
-                :oninvalid="`this.setCustomValidity('${subField.invalidFeedback}')`"
+                :oninvalid="
+                  `this.setCustomValidity('${subField.invalidFeedback}')`
+                "
                 :validationMessage="subField.invalidFeedback"
                 @blur="checkValidity"
                 :placeholder="subField.placeholder || subField.persianLabel"
@@ -408,7 +445,9 @@
                 :required="subField.isRequired"
                 :isValid="subField.validationFunction"
                 :invalidFeedback="subField.invalidFeedback"
-                :oninvalid="`this.setCustomValidity('${subField.invalidFeedback}')`"
+                :oninvalid="
+                  `this.setCustomValidity('${subField.invalidFeedback}')`
+                "
                 :validationMessage="subField.invalidFeedback"
                 :placeholder="subField.placeholder || subField.persianLabel"
                 @focus="showPass = true"
@@ -426,7 +465,9 @@
                 :required="subField.isRequired"
                 :isValid="subField.validationFunction"
                 :invalidFeedback="subField.invalidFeedback"
-                :oninvalid="`this.setCustomValidity('${subField.invalidFeedback}')`"
+                :oninvalid="
+                  `this.setCustomValidity('${subField.invalidFeedback}')`
+                "
                 :validationMessage="subField.invalidFeedback"
                 @blur="checkValidity"
                 :placeholder="subField.placeholder || subField.persianLabel"
@@ -450,6 +491,9 @@
                 "
               />
 
+              <!-- option input with search  -->
+              <!-- <SelectWithSearch :label="" :placeholder="" :disabled="" :options="" :required="" :isValid=""  /> -->
+
               <!-- text area  -->
               <CTextarea
                 v-if="subField.type === 'textarea'"
@@ -466,7 +510,9 @@
                 :required="subField.isRequired"
                 :isValid="subField.validationFunction"
                 :invalidFeedback="subField.invalidFeedback"
-                :oninvalid="`this.setCustomValidity('${subField.invalidFeedback}')`"
+                :oninvalid="
+                  `this.setCustomValidity('${subField.invalidFeedback}')`
+                "
                 :validationMessage="subField.invalidFeedback"
                 @blur="checkValidity"
                 @input="
@@ -497,7 +543,9 @@
                   :required="subField.isRequired"
                   :isValid="subField.validationFunction"
                   :invalidFeedback="subField.invalidFeedback"
-                  :oninvalid="`this.setCustomValidity('${subField.invalidFeedback}')`"
+                  :oninvalid="
+                    `this.setCustomValidity('${subField.invalidFeedback}')`
+                  "
                   :validationMessage="subField.invalidFeedback"
                   @blur="checkValidity"
                   v-bind="{ variant: '3d' }"
@@ -525,7 +573,9 @@
                 :name="subField.refName"
                 :isValid="subField.validationFunction"
                 :invalidFeedback="subField.invalidFeedback"
-                :oninvalid="`this.setCustomValidity('${subField.invalidFeedback}')`"
+                :oninvalid="
+                  `this.setCustomValidity('${subField.invalidFeedback}')`
+                "
                 :validationMessage="subField.invalidFeedback"
                 @blur="checkValidity"
                 @update:checked="
@@ -561,8 +611,11 @@
 
 <script>
 import addPageMixin from "../../mixins/addPage";
+import SelectWithSearch from "../../components/base/SelectWithSearch.vue";
+
 export default {
   mixins: [addPageMixin],
+  components: { SelectWithSearch },
   props: {
     title: {
       type: String,
@@ -620,6 +673,21 @@ export default {
       required: false,
       default: null,
     },
+    categoryUpdateActions: {
+      required: false,
+      type: Array,
+      default: () => [],
+    },
+    showBreadCrumbs: {
+      required: false,
+      type: Boolean,
+      default: () => false
+    },
+    breadCrumbLinks: {
+      type: Array,
+      required: false,
+      default: () => []
+    }
   },
   data() {
     return {
@@ -628,8 +696,9 @@ export default {
   },
   methods: {
     handleSubmit() {
-      const invalidInputs =
-        this.$refs.addFormElement.querySelectorAll(".is-invalid");
+      const invalidInputs = this.$refs.addFormElement.querySelectorAll(
+        ".is-invalid"
+      );
       const invalid = invalidInputs.length > 0;
       if (invalid)
         return this.$store.dispatch(
@@ -645,9 +714,16 @@ export default {
         );
       this.addInfo.call(this);
     },
+    setData(e, ev, fieldName) {
+      ev.currentTarget.setCustomValidity("");
+      ev.currentTarget.checkValidity();
+      this.data[fieldName] = e;
+      console.log({ postData: this.data });
+    },
     handleSubmitSubForm() {
-      const invalidInputs =
-        this.$refs.addSubFormElement.querySelectorAll(".is-invalid");
+      const invalidInputs = this.$refs.addSubFormElement.querySelectorAll(
+        ".is-invalid"
+      );
       const invalid = invalidInputs.length > 0;
       if (invalid)
         return this.$store.dispatch(

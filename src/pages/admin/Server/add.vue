@@ -8,6 +8,7 @@
     :fields="fields"
     storePageName="storeServer"
     :addInfoMethod="add"
+    :categoryUpdateActions="categoryUpdateActions"
     :keysToPost="keysToPost"
   />
 </template>
@@ -20,6 +21,7 @@ export default {
   data() {
     return {
       add,
+      categoryUpdateActions: ["fetchServers"],
       keysToPost: [
         "title",
         "loadBalance",

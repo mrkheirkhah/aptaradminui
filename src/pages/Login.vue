@@ -4,7 +4,7 @@
       <CRow class="justify-content-center">
         <CCol md="6">
           <CCard class="p-4">
-            <CCardBody>
+            <CCardBody style="max-height: calc(100vh - 240px); overflow: auto">
               <CForm class="text-right" @submit.prevent="login">
                 <h1>ورود</h1>
                 <p class="text-muted">ورود به پنل ادمین</p>
@@ -14,9 +14,7 @@
                   :isValid="validateusername"
                   autocomplete="username email"
                 >
-                  <template #prepend-content
-                    ><CIcon name="cil-user"
-                  /></template>
+                  <template #prepend-content><CIcon name="cil-user"/></template>
                 </CInput>
                 <CInput
                   placeholder="رمزعبور"
@@ -40,6 +38,11 @@
                     >
                   </CCol>
                 </CRow>
+                <CRow v-if="errText">
+                  <CCol col="12" class="text-center mt-4 text-danger">{{
+                    errText
+                  }}</CCol>
+                </CRow>
               </CForm>
             </CCardBody>
           </CCard>
@@ -58,6 +61,7 @@ export default {
       requestInProgress: false,
       username: "",
       password: "",
+      errText: null,
     };
   },
   methods: {
@@ -68,6 +72,7 @@ export default {
       return this.username !== "";
     },
     async login() {
+      const self = this;
       if (!this.validatepassword || !this.validateusername) return;
       this.requestInProgress = true;
       try {
@@ -82,11 +87,20 @@ export default {
           );
           localStorage.setItem("username", this.username);
           this.$store.dispatch("setAdminInfo", data, { root: true });
-          setTimeout(() => this.$router.push({ name: "adminDashboard" }), 1000);
+          if (self.$route.query.redirect) {
+            return setTimeout(
+              () => this.$router.push({ path: self.$route.query.redirect }),
+              500
+            );
+          }
+          setTimeout(() => this.$router.push({ name: "adminDashboard" }), 500);
         }
       } catch (ex) {
+        this.errText = ex;
         console.log(ex);
       }
+      this.username = "";
+      this.password = "";
       this.requestInProgress = false;
     },
   },

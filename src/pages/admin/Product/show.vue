@@ -6,6 +6,7 @@
       icon="cil-basket"
       store-link="/admin/product/"
       store-name="همه محصولات"
+      :categoryUpdateActions="categoryUpdateActions"
       :fieldsToShow="fieldsToShow"
     />
   </div>
@@ -23,6 +24,7 @@ export default {
     return {
       properStatus,
       fetchInfoMethod: getProduct,
+      categoryUpdateActions: ["fetchProducts"],
       data: {
         title: null,
         path: null,

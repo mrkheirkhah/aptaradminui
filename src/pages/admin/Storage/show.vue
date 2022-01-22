@@ -2,10 +2,11 @@
   <div>
     <ShowDataCard
       :title="data.userName"
-      icon="cil-user"
-      store-link="/admin/person/"
-      store-name="همه کاربران"
+      icon="cil-save"
+      store-link="/admin/storage"
+      store-name="لیست فضای ذخیره سازی"
       :fieldsToShow="fieldsToShow"
+      :categoryUpdateActions="categoryUpdateActions"
     />
   </div>
 </template>
@@ -22,6 +23,7 @@ export default {
     return {
       properStatus,
       fetchInfoMethod: getOne,
+      categoryUpdateActions: ["fetchStorages"],
       data: {
         title: "",
         price: 0,

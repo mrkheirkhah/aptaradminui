@@ -39,6 +39,7 @@ export default {
     return {
       fetchAll: getAll,
       deleteInfoMethod: remove,
+      categoryUpdateActions: ["fetchSubscriptionTypes", "fetchSubscriptions"],
       deleteIdField: "subscriptionID",
       keysToPost: [
         "title",
@@ -73,6 +74,7 @@ export default {
       }
       try {
         await update({ ...clonedData });
+        this.updateCategoriesIfHave();
       } catch (ex) {
         console.log(ex);
       }

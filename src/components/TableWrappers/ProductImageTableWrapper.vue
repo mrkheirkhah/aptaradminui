@@ -22,7 +22,7 @@
         </div>
       </slot>
     </CCardHeader>
-    <CCardBody>
+    <CCardBody style="max-height: calc(100vh - 240px); overflow: auto">
       <CDataTable
         v-if="showTable"
         :hover="hover"
@@ -76,6 +76,11 @@
           <td>
             {{ index + 1 }}
           </td>
+        </template>
+        <template #index-filter>
+          <CButton color="danger" size="sm" @click="clearAllFilters">
+            <CIcon name="cil-filter-x" class="ml-1" />
+          </CButton>
         </template>
         <template #under-table>
           <CSelect
@@ -168,6 +173,10 @@ export default {
     },
     columnFilterChange(keyWordsMappedWithColumnNamesObject) {
       this.$emit("column-filter-change", keyWordsMappedWithColumnNamesObject);
+    },
+    clearAllFilters() {
+      const eve = new Event("clearAllDataGridFilters");
+      window.dispatchEvent(eve);
     },
   },
 };

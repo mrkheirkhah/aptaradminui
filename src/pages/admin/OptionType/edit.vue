@@ -12,6 +12,7 @@
     :updateInfoMethod="update"
     :deleteInfoMethod="remove"
     :keysToPost="keysToPost"
+    :categoryUpdateActions="categoryUpdateActions"
   />
 </template>
 
@@ -27,6 +28,7 @@ export default {
       remove,
       getOne,
       keysToPost: ["title", "optionTypeID"],
+      categoryUpdateActions: ["fetchOptionTypes"],
     };
   },
   computed: {

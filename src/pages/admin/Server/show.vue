@@ -6,6 +6,7 @@
       store-link="/admin/server/"
       store-name="همه سرورها"
       :fieldsToShow="fieldsToShow"
+      :categoryUpdateActions="categoryUpdateActions"
     />
   </div>
 </template>
@@ -21,6 +22,7 @@ export default {
   data() {
     return {
       properStatus,
+      categoryUpdateActions: ["fetchServers"],
       fetchInfoMethod: getOne,
       data: {
         title: "",

@@ -12,6 +12,7 @@
     :updateInfoMethod="updateProduct"
     :deleteInfoMethod="deleteProduct"
     :keysToPost="keysToPost"
+    :categoryUpdateActions="categoryUpdateActions"
   />
 </template>
 
@@ -23,6 +24,7 @@ export default {
   data() {
     return {
       getProduct,
+      categoryUpdateActions: ["fetchProducts"],
       updateProduct,
       deleteProduct,
       keysToPost: [

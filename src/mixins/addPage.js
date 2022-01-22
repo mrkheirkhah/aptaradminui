@@ -4,40 +4,56 @@ const addPageMixin = {
       data: {},
       subData: {},
       performingAction: false,
+      showForm: true,
     };
   },
   methods: {
     cloneData(sub = false) {
+      const self = this;
       const fieldName = sub ? "subData" : "data";
       const postKeys = sub ? "subKeysToPost" : "keysToPost";
-      for (const key in self[fieldName]) {
+      const clonedData = JSON.parse(JSON.stringify(self[fieldName]));
+      for (const key in clonedData) {
+        const fieldObj = self.fields.filter((field) => field.name === key);
+        if (fieldObj[0].type === "number") {
+          clonedData[key] = +clonedData[key];
+        } else if (fieldObj[0].name === "enable") {
+                 clonedData[key] = +clonedData[key];
+               }
         if (!this[postKeys].includes(key)) {
-          delete this[fieldName][key];
+          delete clonedData[key];
         }
       }
-      let formData = { ...this[fieldName] };
+      let formData = JSON.parse(JSON.stringify(clonedData));
       if (this[postKeys].includes("file")) {
         formData = new FormData();
-        for (const key in this[fieldName]) {
+        for (const key in clonedData) {
           if (key === "file") {
             formData.set(key, this.$refs.productImage[0].files.item(0));
-          } else formData.set(key, this[fieldName][key]);
+          } else formData.set(key, clonedData[key]);
         }
       }
 
       return formData;
     },
     async addInfo() {
-      this.performingAction = true;
+      // this.startSubmitting();
       const self = this;
       const formData = this.cloneData();
       try {
         await self.addInfoMethod(formData);
+        this.updateCategoriesIfHave();
         if (!this.hasSubFrom) self.redirectToStore();
       } catch (ex) {
         console.log(ex);
       }
-      self.performingAction = false;
+      // this.endSubmiitting();
+    },
+    startSubmitting() {
+      this.performingAction = true;
+    },
+    endSubmiitting() {
+      this.performingAction = false;
     },
     async addSubInfo() {
       this.performingAction = true;
@@ -45,6 +61,7 @@ const addPageMixin = {
       const formData = { ...this.cloneData(true), ...this.cloneData() };
       try {
         await self.addSubInfoMethod(formData);
+        this.updateCategoriesIfHave();
         self.redirectToStore();
       } catch (ex) {
         console.log(ex);
@@ -87,6 +104,11 @@ const addPageMixin = {
         } else if (subField.type === "text") {
           this.subData[subField.name] = "";
         } else this.subData[subField.name] = null;
+      }
+    },
+    updateCategoriesIfHave() {
+      for (const category of this.categoryUpdateActions) {
+        this.$store.dispatch(category, null, { root: true });
       }
     },
   },

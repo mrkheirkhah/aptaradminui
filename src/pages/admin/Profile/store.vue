@@ -40,6 +40,7 @@ export default {
       fetchAll: getAll,
       deleteInfoMethod: remove,
       deleteIdField: "profileID",
+      categoryUpdateActions: ["fetchprofiles"],
       keysToPost: [
         "profileID",
         "isDefault",
@@ -122,7 +123,6 @@ export default {
       showColumns: [
         { key: "index", label: "#", _style: "width: 10px" },
         { key: "profileName", label: "نام" },
-        { key: "userID", label: "نام کاربری" },
         { key: "isDefault", label: "پیشفرض" },
         { key: "actions", label: "عملیات" },
       ],
@@ -144,6 +144,7 @@ export default {
       }
       try {
         await update({ ...clonedData });
+        this.updateCategoriesIfHave();
       } catch (ex) {
         console.log(ex);
       }

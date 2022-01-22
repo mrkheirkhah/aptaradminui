@@ -1,14 +1,15 @@
 <template>
   <AddDataCard
     title="ثبت ذخیره‌سازی جدید"
-    icon="cil-user-follow"
-    store-icon="cil-user-follow"
+    icon="cil-save"
+    store-icon="cil-save"
     store-link="/admin/storage/"
     store-name="ذخیره‌سازی"
     :fields="fields"
     storePageName="storeStorage"
     :addInfoMethod="add"
     :keysToPost="keysToPost"
+    :categoryUpdateActions="categoryUpdateActions"
   />
 </template>
 
@@ -21,6 +22,7 @@ export default {
     return {
       add,
       keysToPost: ["title", "price", "value", "enable", "timePeriod"],
+      categoryUpdateActions: ["fetchStorages"],
     };
   },
   computed: {
@@ -30,23 +32,26 @@ export default {
           name: "title",
           type: "text",
           persianLabel: "نام",
+          isRequired: true,
           col: "6",
         },
         {
           name: "price",
           type: "text",
           persianLabel: "قیمت",
+          isRequired: true,
           col: "6",
         },
         {
           name: "value",
           type: "text",
           persianLabel: "مقدار",
+          isRequired: true,
           col: "6",
         },
         {
           name: "enable",
-          type: "checkbox",
+          type: "switch",
           persianLabel: "فعال",
           col: "6",
         },

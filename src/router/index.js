@@ -34,6 +34,11 @@ function configRoutes() {
           component: () => import("@/pages/admin/dashboard"),
         },
         {
+          path: "change-password",
+          name: "changePassword",
+          component: () => import("@/pages/admin/ChangePassword.vue"),
+        },
+        {
           path: "person",
           redirect: "/admin/person/store",
           name: "person",

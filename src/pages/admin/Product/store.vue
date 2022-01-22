@@ -43,6 +43,7 @@ export default {
       fetchAll: getAllProducts,
       deleteInfoMethod: deleteProduct,
       deleteIdField: "productID",
+      categoryUpdateActions: ["fetchProducts"],
       keysToPost: [
         "title",
         "path",
@@ -94,6 +95,7 @@ export default {
       }
       try {
         await updateProduct({ ...dataToSend });
+        this.updateCategoriesIfHave();
       } catch (ex) {
         console.log(ex);
       }

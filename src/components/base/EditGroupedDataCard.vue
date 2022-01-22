@@ -21,11 +21,12 @@
         </div>
       </slot>
     </CCardHeader>
-    <CCardBody>
+    <CCardBody style="max-height: calc(100vh - 240px); overflow: auto">
       <CForm
         v-if="infoFetched"
         @submit.prevent="handleSubmit"
         ref="editFormElement"
+        autocomplete="off"
       >
         <CRow>
           <CCol
@@ -120,7 +121,9 @@
                     :required="field.isRequired"
                     :isValid="field.validationFunction"
                     :invalidFeedback="field.invalidFeedback"
-                    :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
+                    :oninvalid="
+                      `this.setCustomValidity('${field.invalidFeedback}')`
+                    "
                     :validationMessage="field.invalidFeedback"
                     :name="field.name"
                     @update:checked="
@@ -236,6 +239,11 @@ export default {
       type: Array,
       required: true,
     },
+    categoryUpdateActions: {
+      required: false,
+      type: Array,
+      default: () => [],
+    },
     deleteIdField: String,
   },
   data() {
@@ -262,8 +270,9 @@ export default {
       schema[pList[len - 1]] = value;
     },
     handleSubmit() {
-      const invalidInputs =
-        this.$refs.editFormElement.querySelectorAll(".is-invalid");
+      const invalidInputs = this.$refs.editFormElement.querySelectorAll(
+        ".is-invalid"
+      );
       const invalid = invalidInputs.length > 0;
       if (invalid)
         return this.$store.dispatch(

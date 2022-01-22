@@ -40,6 +40,7 @@ export default {
       fetchAll: getAllPersons,
       deleteInfoMethod: deletePerson,
       deleteIdField: "personID",
+      categoryUpdateActions: ["fetchpersons"],
       keysToPost: [
         "userName",
         "password",
@@ -87,6 +88,7 @@ export default {
       }
       try {
         await updatePerson({ ...dataToSend });
+        this.updateCategoriesIfHave();
       } catch (ex) {
         console.log(ex);
       }

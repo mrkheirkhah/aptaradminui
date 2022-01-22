@@ -8,6 +8,7 @@
             ویرایش {{ data[title] }}
           </div>
           <CButton
+            v-if="storeLink && !showBreadCrumbs"
             color="info"
             size="sm"
             class="m-2"
@@ -18,14 +19,20 @@
             <CIcon :name="storeIcon" class="ml-1" />
             {{ storeName }}
           </CButton>
+          <template v-if="showBreadCrumbs">
+            <div>
+              <CBreadcrumb :items="breadCrumbLinks" />
+            </div>
+          </template>
         </div>
       </slot>
     </CCardHeader>
-    <CCardBody>
+    <CCardBody style="max-height: calc(100vh - 240px); overflow: auto">
       <CForm
         v-if="infoFetched"
         @submit.prevent="handleSubmit"
         ref="editFormElement"
+        autocomplete="off"
       >
         <CRow>
           <template v-for="field in fields">
@@ -87,6 +94,23 @@
                 @update:value="(id) => setProp(data, field.name, id)"
               />
 
+              <!-- option input with search  -->
+              <SelectWithSearch
+                v-if="field.type.toLowerCase() === 'optionwithsearch'"
+                :label="field.persianLabel"
+                :placeholder="field.placeholder || field.persianLabel"
+                :disabled="field.disabled"
+                :options="field.options"
+                :required="field.isRequired"
+                :outerValue="getProp(data, field.name)"
+                :isValid="field.validationFunction"
+                @update="
+                  (e) => {
+                    data[field.name] = e;
+                  }
+                "
+              />
+
               <!-- text area  -->
               <CTextarea
                 v-if="field.type === 'textarea'"
@@ -109,7 +133,9 @@
                 :required="field.isRequired"
                 :isValid="field.validationFunction"
                 :invalidFeedback="field.invalidFeedback"
-                :oninvalid="`this.setCustomValidity('${field.invalidFeedback}')`"
+                :oninvalid="
+                  `this.setCustomValidity('${field.invalidFeedback}')`
+                "
                 :validationMessage="field.invalidFeedback"
                 :name="field.name"
                 @update:checked="
@@ -175,8 +201,11 @@
 
 <script>
 import editPageMixin from "../../mixins/editPage";
+import SelectWithSearch from "../../components/base/SelectWithSearch.vue";
+
 export default {
   mixins: [editPageMixin],
+  components: { SelectWithSearch },
   props: {
     title: {
       type: String,
@@ -223,7 +252,22 @@ export default {
       type: Array,
       required: true,
     },
+    categoryUpdateActions: {
+      required: false,
+      type: Array,
+      default: () => [],
+    },
     deleteIdField: String,
+    showBreadCrumbs: {
+      required: false,
+      type: Boolean,
+      default: () => false
+    },
+    breadCrumbLinks: {
+      type: Array,
+      required: false,
+      default: () => []
+    }
   },
   data() {
     return {
@@ -249,8 +293,9 @@ export default {
       schema[pList[len - 1]] = value;
     },
     handleSubmit() {
-      const invalidInputs =
-        this.$refs.editFormElement.querySelectorAll(".is-invalid");
+      const invalidInputs = this.$refs.editFormElement.querySelectorAll(
+        ".is-invalid"
+      );
       const invalid = invalidInputs.length > 0;
       if (invalid)
         return this.$store.dispatch(

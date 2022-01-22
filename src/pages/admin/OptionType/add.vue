@@ -1,14 +1,15 @@
 <template>
   <AddDataCard
-    title="ثبت نوع تنظیم"
+    title="ثبت نوع آپشن جدید"
     icon="cil-applications"
     store-icon="cil-applications"
     store-link="/admin/optiontype/"
-    store-name="نوع آپشن ها"
+    store-name="تمام نوع آپشن ها"
     :fields="fields"
     storePageName="storeOptionType"
     :addInfoMethod="add"
     :keysToPost="keysToPost"
+    :categoryUpdateActions="categoryUpdateActions"
   />
 </template>
 
@@ -21,6 +22,7 @@ export default {
     return {
       add,
       keysToPost: ["title"],
+      categoryUpdateActions: ["fetchOptionTypes"],
     };
   },
   computed: {

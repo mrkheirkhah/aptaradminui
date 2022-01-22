@@ -3,12 +3,15 @@
     title="ثبت قیمت محصول جدید"
     icon="cil-applications"
     store-icon="cil-applications"
-    store-link="/admin/product/store"
+    store-link="/admin/productprice/store"
     store-name="همه محصولات"
     :fields="fields"
-    storePageName="storeProducts"
+    storePageName="storeProductPrice"
+    showBreadCrumbs
+    :breadCrumbLinks="[{ to: '/admin/product/store', text: 'محصولات' }, { to: '/admin/productprice', text: 'قیمت محصولات' }, { to: '/admin/productprice/add', text: 'اضافه کردن قیمت محصول' }]"
     :addInfoMethod="add"
     :keysToPost="keysToPost"
+    :categoryUpdateActions="categoryUpdateActions"
   />
 </template>
 
@@ -20,6 +23,7 @@ export default {
   data() {
     return {
       add,
+      categoryUpdateActions: ["fetchProducts"],
       keysToPost: [
         "productID",
         "subscriptionID",

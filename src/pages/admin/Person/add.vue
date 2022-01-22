@@ -8,6 +8,7 @@
     :fields="fields"
     storePageName="storePersons"
     :addInfoMethod="addPerson"
+    :categoryUpdateActions="categoryUpdateActions"
     :keysToPost="keysToPost"
   />
 </template>
@@ -22,9 +23,11 @@ export default {
   data() {
     return {
       addPerson,
+      categoryUpdateActions: ["fetchpersons"],
       keysToPost: [
         "userName",
         "password",
+        "profileID",
         "firstName",
         "lastName",
         "caption",
@@ -46,6 +49,12 @@ export default {
         value: stateObj.id,
       }));
     },
+    profilesArr() {
+      return this.$store.state.profilesArray.map((stateObj) => ({
+        label: stateObj.title,
+        value: stateObj.id,
+      }));
+    },
     fields() {
       const self = this;
       return [
@@ -53,21 +62,23 @@ export default {
           name: "userName",
           type: "text",
           persianLabel: "نام کاربری",
-          autocomplete: "username",
           col: "6",
           isRequired: true,
-          validationFunction: (val) => val && val !== "",
+          validationFunction: (val) => val,
           invalidFeedback: "نام کاربری را بصورت صحیح وارد کنید",
+          autocomplete: "off",
+          defaultVal: "",
         },
         {
           name: "password",
-          type: "password",
-          autocomplete: "new-password",
+          type: "text",
           persianLabel: "رمز‌عبور",
           col: "6",
           isRequired: true,
-          validationFunction: (val) => val && val !== "",
+          validationFunction: (val) => val,
           invalidFeedback: "رمز عبور را بصورت صحیح وارد کنید",
+          autocomplete: "off",
+          defaultVal: "",
         },
         {
           name: "firstName",
@@ -132,13 +143,23 @@ export default {
         },
         {
           name: "stateID",
-          type: "option",
+          type: "optionwithsearch",
           persianLabel: "استان",
           options: self.statesArr,
           col: "6",
           isRequired: false,
           validationFunction: (val) => !val || val,
           invalidFeedback: "استان را انتخاب کنید",
+        },
+        {
+          name: "profileID",
+          type: "optionwithsearch",
+          persianLabel: "خطی مشی",
+          options: self.profilesArr,
+          col: "6",
+          isRequired: false,
+          validationFunction: (val) => !val || val,
+          invalidFeedback: "خطی مشی را انتخاب کنید",
         },
         {
           name: "address",

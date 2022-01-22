@@ -40,6 +40,7 @@ export default {
       fetchAll: getAll,
       deleteInfoMethod: remove,
       deleteIdField: "storageID",
+      categoryUpdateActions: ["fetchStorages"],
       keysToPost: [
         "title",
         "price",
@@ -53,8 +54,8 @@ export default {
         { key: "title", label: "نام" },
         { key: "price", label: "قیمت" },
         { key: "value", label: "مقدار" },
-        { key: "enable", label: "فعالیت" },
         { key: "timePeriod", label: "بازه زمانی" },
+        { key: "isActive", label: "فعالیت" },
         { key: "actions", label: "عملیات" },
       ],
       gridTitle: "ذخیره سازی",
@@ -74,6 +75,7 @@ export default {
       }
       try {
         await update({ ...data });
+        this.updateCategoriesIfHave();
       } catch (ex) {
         console.log(ex);
       }

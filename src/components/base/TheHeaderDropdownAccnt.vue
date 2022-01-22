@@ -9,8 +9,8 @@
       <CHeaderNavLink>
         {{
           $store.state.adminUser.UserName ||
-          usernameInLocalStorage() ||
-          "No User"
+            usernameInLocalStorage() ||
+            "No User"
         }}
       </CHeaderNavLink>
     </template>
@@ -25,8 +25,12 @@
       <CIcon name="cil-envelope-open" /> Messages
       <CBadge color="success" class="mfs-auto">{{ itemsCount }}</CBadge>
     </CDropdownItem> -->
+    <CDropdownItem to="/admin/change-password">
+      <CIcon class="ml-3 mr-0" name="cil-lock-locked" /> تغییر رمز عبور
+    </CDropdownItem>
     <CDropdownItem @click="logout">
-      <CIcon class="ml-3 mr-0" name="cil-lock-locked" /> خروج
+      <CIcon class="ml-3 mr-0" name="cil-exit-to-app" />
+      خروج
     </CDropdownItem>
   </CDropdown>
 </template>

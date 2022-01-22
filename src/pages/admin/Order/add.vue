@@ -22,7 +22,7 @@
           </div>
         </slot>
       </CCardHeader>
-      <CCardBody>
+      <CCardBody style="max-height: calc(100vh - 240px); overflow: auto">
         <CForm @submit.prevent="addProductDetail" ref="addFormElement">
           <CRow>
             <CCol sm="12">
@@ -30,7 +30,7 @@
             </CCol>
             <CCol sm="6">
               <CSelect
-                label="کاربر"
+                label="کاربر*"
                 required
                 :isValid="(val) => val"
                 invalidFeedback="لطفا کاربر را انتخاب کنید"
@@ -97,7 +97,7 @@
                     code = e;
                   }
                 "
-                label="کد"
+                label="کد*"
                 :isValid="(val) => !val || (val && !Number.isNaN(val))"
                 invalidFeedback="کد را وارد کنید"
                 oninvalid="`this.setCustomValidity('کد را وارد کنید')`"
@@ -134,7 +134,7 @@
             </CCol>
             <CCol sm="6">
               <CSelect
-                label="محصول"
+                label="محصول*"
                 required
                 :isValid="(val) => val"
                 invalidFeedback="لطفا محصول را انتخاب کنید"
@@ -165,7 +165,7 @@
                     quantity = e;
                   }
                 "
-                label="تعداد"
+                label="تعداد*"
                 disabled
                 required
                 :isValid="(val) => val && !Number.isNaN(val)"
@@ -226,7 +226,10 @@
               >
                 <div class="d-flex w-100 justify-content-center">
                   <h6 class="mb-1 text-center">
-                    {{ getOptionTitle(productOptionID).label }}
+                    {{
+                      getOptionTitle(productOptionID) &&
+                        getOptionTitle(productOptionID).label
+                    }}
                     <CIcon class="text-white" name="cil-x" />
                   </h6>
                 </div>
@@ -280,14 +283,14 @@
             >
               <CIcon class="text-white" name="cil-x" color="white" /> </CButton
           ></CCardHeader>
-          <CCardBody>
+          <CCardBody style="max-height: calc(100vh - 240px); overflow: auto">
             <CRow
               ><CCol sm="6">
                 <div class="text-white">
                   <div class="d-flex">
                     <CIcon name="cil-user" />
                     <p class="mr-2">
-                      {{ personsObjectMappedById[userID] }}
+                      {{ personsObjectMappedById[userID] || "-" }}
                     </p>
                   </div>
                   <div class="d-flex">
@@ -312,7 +315,7 @@
         <CButton
           v-if="productDetails.length > 0"
           @click="handleSubmit"
-          :class="{ 'disabled-btn': performingAction }"
+          :class="{ 'disabled-btn': performingAction, 'mb-4': true }"
           color="success"
           style="width: 100%"
           type="submit"
@@ -352,6 +355,7 @@ export default {
       productDetails: [],
       selectedProductOptionIDs: [],
       selectedProducts: [],
+      cachedProductOptions: [],
     };
   },
   computed: {
@@ -406,16 +410,28 @@ export default {
       );
     },
   },
+  watch: {
+    productID(newVal) {
+      this.loadProductPriceAndOptions(newVal);
+    },
+  },
   methods: {
     removeSelectedOption(index) {
       this.productOptionIDs.splice(index, 1);
       this.selectedProductOptionIDs.splice(index, 1);
     },
     getOptionTitle(productOptionID) {
-      const matchingOptions = this.productOptions.filter(
+      let matchingOptions;
+      matchingOptions = this.productOptions.filter(
         (obj) => obj.value === productOptionID
       );
-      return matchingOptions[0];
+      if (matchingOptions[0]) return matchingOptions[0];
+      matchingOptions = this.cachedProductOptions.filter(
+        (obj) => obj.value === productOptionID
+      );
+      if (matchingOptions[0]) return matchingOptions[0];
+
+      return null
     },
     addProductDetail() {
       const self = this;
@@ -435,19 +451,21 @@ export default {
       this.selectedProducts.splice(index, 1);
     },
     async loadProductPriceAndOptions(id) {
+      this.productOptions = [];
+      this.selectedProductOptionIDs = [];
+      this.productOptionIDs = [];
       const self = this;
       try {
         const prices = await optionsApi.catalog(id);
         let temp = prices.data.data.map((option) => {
-          debugger;
           return {
-            label: option.option.title,
+            label: option.option.optionType.title + ": " + option.option.title,
             value: option.productOptionID,
             type: option.option.optionTypeID,
           };
         });
+        self.cachedProductOptions = [...self.cachedProductOptions, ...temp]
         self.productOptions = temp;
-
         const options = await pricesApi.catalog(id);
         let temp2 = options.data.data.map((priceObj) => {
           return {

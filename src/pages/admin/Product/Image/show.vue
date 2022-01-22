@@ -10,9 +10,12 @@
           deleteField="productImageID"
           :deleteFieldVal="imageData.id"
           icon="cil-applications"
-          store-link="/admin/product/store"
+          store-link="/admin/productimage/store"
           store-name="همه محصولات"
+          showBreadCrumbs
+          :breadCrumbLinks="[{ to: '/admin/product/store', text: 'محصولات' }, { to: '/admin/productimage', text: 'تصویر محصولات' }, { to: `/admin/productimage/edit/${$route.params.id}`, text: 'ویرایش کردن تصویر محصول' }]"
           :fieldsToShow="fieldsToShow[imageData.id]"
+          :categoryUpdateActions="categoryUpdateActions"
         />
       </template>
     </div>
@@ -61,6 +64,7 @@ export default {
     return {
       properStatus,
       deleteMethod: remove,
+      categoryUpdateActions: ["fetchProducts", 'fetchProductImageTypes'],
       fetchInfoMethod: getOne,
       data: {
         id: "",

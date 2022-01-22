@@ -3,9 +3,10 @@
     <ShowDataCard
       :title="data.title"
       icon="cil-applications"
-      store-link="/admin/product/store"
+      store-link="/admin/productoption/store"
       store-name="همه محصولات"
       :fieldsToShow="fieldsToShow"
+      :categoryUpdateActions="categoryUpdateActions"
     />
   </div>
 </template>
@@ -22,6 +23,7 @@ export default {
     return {
       properStatus,
       fetchInfoMethod: getOne,
+      categoryUpdateActions: ["fetchProducts"],
       data: {
         productID: "",
         subscriptionID: "",

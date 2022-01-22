@@ -6,6 +6,7 @@
       store-link="/admin/option/"
       store-name="همه آپشن ها"
       :fieldsToShow="fieldsToShow"
+      :categoryUpdateActions="categoryUpdateActions"
     />
   </div>
 </template>
@@ -22,6 +23,7 @@ export default {
     return {
       properStatus,
       fetchInfoMethod: getOne,
+      categoryUpdateActions: ["fetchOptions"],
       data: {
         title: "",
         optionTypeID: "",

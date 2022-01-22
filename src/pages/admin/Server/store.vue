@@ -40,6 +40,7 @@ export default {
       fetchAll: getAll,
       deleteInfoMethod: remove,
       deleteIdField: "serverID",
+      categoryUpdateActions: ["fetchServers"],
       keysToPost: [
         "title",
         "loadBalance",
@@ -79,6 +80,7 @@ export default {
       }
       try {
         await update({ ...clonedData });
+        this.updateCategoriesIfHave();
       } catch (ex) {
         console.log(ex);
       }

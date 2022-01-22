@@ -18,6 +18,11 @@ const showPageMixin = {
       }
       this.loader.hide();
     },
+    updateCategoriesIfHave() {
+      for (const category of this.categoryUpdateActions) {
+        this.$store.dispatch(category, null, { root: true });
+      }
+    },
   },
 
   created() {

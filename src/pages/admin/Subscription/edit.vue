@@ -12,6 +12,7 @@
     :updateInfoMethod="update"
     :deleteInfoMethod="remove"
     :keysToPost="keysToPost"
+    :categoryUpdateActions="categoryUpdateActions"
   />
 </template>
 
@@ -26,6 +27,7 @@ export default {
       update,
       remove,
       getOne,
+      categoryUpdateActions: ["fetchSubscriptionTypes", "fetchSubscriptions"],
       keysToPost: [
         "title",
         "value",

@@ -8,8 +8,9 @@
     store-name="همه خط مشی‌ها"
     :fields="fields"
     storePageName="storeProfile"
-    :addInfoMethod="add"
+    :addInfoMethod="addInfo"
     :keysToPost="keysToPost"
+    :categoryUpdateActions="categoryUpdateActions"
   />
 </template>
 
@@ -20,10 +21,14 @@ export default {
   components: { AddGroupedDataCard },
   data() {
     return {
-      add,
+      addInfo: (a, b, c) => {
+        add(a, b, c);
+        this.$store.dispatch("fetchprofiles", null, { root: true });
+      },
+      categoryUpdateActions: ["fetchprofiles"],
       keysToPost: [
         "profileID",
-        "personID",
+        // "personID",
         "isDefault",
         "profileName",
         "autoRemote",
@@ -141,16 +146,16 @@ export default {
               validationFunction: (val) => val && val !== "",
               invalidFeedback: "عنوان خط مشی را وارد کنید",
             },
-            {
-              name: "personID",
-              type: "option",
-              persianLabel: "کاربر",
-              options: self.personsArr,
-              col: "6",
-              isRequired: true,
-              validationFunction: (val) => val,
-              invalidFeedback: "کاربر را انتخاب کنید",
-            },
+            // {
+            //   name: "personID",
+            //   type: "option",
+            //   persianLabel: "کاربر",
+            //   options: self.personsArr,
+            //   col: "6",
+            //   isRequired: true,
+            //   validationFunction: (val) => val,
+            //   invalidFeedback: "کاربر را انتخاب کنید",
+            // },
             {
               name: "isDefault",
               type: "switch",

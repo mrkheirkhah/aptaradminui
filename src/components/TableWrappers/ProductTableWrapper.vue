@@ -21,7 +21,7 @@
         </div>
       </slot>
     </CCardHeader>
-    <CCardBody>
+    <CCardBody style="max-height: calc(100vh - 240px); overflow: auto">
       <CDataTable
         v-if="showTable"
         :hover="hover"
@@ -52,102 +52,107 @@
         </template>
         <template #actions="{ item }">
           <td>
-            <CButton
-              name="cil-pencil"
-              @click="$emit('edit-action', item)"
-              size="sm"
-              v-bind="{ variant: 'ghost' }"
-              color="info"
-              class="btn-brand"
-            >
-              <CIcon size="sm" name="cil-pencil" />
-            </CButton>
-            <CButton
-              name="cil-options"
-              size="sm"
-              v-bind="{ variant: 'ghost' }"
-              @click="$emit('more-action', item)"
-              color="info"
-              class="btn-brand"
-            >
-              <CIcon size="sm" name="cil-options" />
-            </CButton>
-            <CButton
-              name="cil-trash"
-              size="sm"
-              v-bind="{ variant: 'ghost' }"
-              @click="$emit('delete-action', item)"
-              color="danger"
-              class="btn-brand"
-            >
-              <CIcon size="sm" name="cil-trash" />
-            </CButton>
-            <CButton
-              name="cil-dollar"
-              size="sm"
-              v-bind="{ variant: 'ghost' }"
-              @click="() => showPriceAction(item.productID)"
-              color="info"
-              class="btn-brand"
-            >
-              <CIcon size="sm" name="cil-dollar" />
-            </CButton>
-            <CButton
-              name="cil-settings"
-              size="sm"
-              v-bind="{ variant: 'ghost' }"
-              @click="() => showSettingAction(item.productID)"
-              color="info"
-              class="btn-brand"
-            >
-              <CIcon size="sm" name="cil-settings" />
-            </CButton>
-            <CButton
-              name="cil-image"
-              size="sm"
-              v-bind="{ variant: 'ghost' }"
-              @click="() => showImageAction(item.productID)"
-              color="info"
-              class="btn-brand"
-            >
-              <CIcon size="sm" name="cil-image" />
-            </CButton>
-            <CButton
-              name="cil-dollar"
-              size="sm"
-              v-bind="{ variant: 'ghost' }"
-              :to="`/admin/productprice/add?prodID=${item.productID}`"
-              color="info"
-              class="btn-brand add-action-button"
-            >
-              <CIcon size="sm" name="cil-dollar" />
-            </CButton>
-            <CButton
-              name="cil-settings"
-              size="sm"
-              v-bind="{ variant: 'ghost' }"
-              :to="`/admin/productoption/add?prodID=${item.productID}`"
-              color="info"
-              class="btn-brand add-action-button"
-            >
-              <CIcon size="sm" name="cil-settings" />
-            </CButton>
-            <CButton
-              name="cil-image"
-              size="sm"
-              v-bind="{ variant: 'ghost' }"
-              :to="`/admin/productimage/add?prodID=${item.productID}`"
-              color="info"
-              class="btn-brand add-action-button"
-            >
-              <CIcon size="sm" name="cil-image" />
-            </CButton>
+            <CDropdown color="secondary" togglerText="عملیات">
+              <CDropdownToggle color="secondary"
+                ><CDropdownMenu>
+                  <CDropdownItem
+                    @click="$emit('edit-action', item)"
+                    color="info"
+                  >
+                    <CIcon size="sm" name="cil-pencil" /><span
+                      class="d-inline-block mr-3"
+                      >ویرایش</span
+                    >
+                  </CDropdownItem>
+                  <CDropdownItem
+                    @click="$emit('more-action', item)"
+                    color="info"
+                  >
+                    <CIcon size="sm" name="cil-options" />
+                    <span class="d-inline-block mr-3"
+                      >مشاهده</span
+                    ></CDropdownItem
+                  >
+                  <CDropdownItem
+                    @click="$emit('delete-action', item)"
+                    color="danger"
+                  >
+                    <CIcon size="sm" name="cil-trash" /><span
+                      class="d-inline-block mr-3"
+                      >حذف</span
+                    >
+                  </CDropdownItem>
+                  <CDropdownItem
+                    @click="() => showPriceAction(item.productID)"
+                    color="info"
+                  >
+                    <CIcon size="sm" name="cil-dollar" /><span
+                      class="d-inline-block mr-3"
+                      >قیمت‌ها</span
+                    >
+                  </CDropdownItem>
+                  <CDropdownItem
+                    @click="() => showSettingAction(item.productID)"
+                    color="info"
+                  >
+                    <CIcon size="sm" name="cil-settings" />
+                    <span class="d-inline-block mr-3"
+                      >آپشن‌ها</span
+                    ></CDropdownItem
+                  >
+                  <CDropdownItem
+                    @click="() => showImageAction(item.productID)"
+                    color="info"
+                  >
+                    <CIcon size="sm" name="cil-image" /><span
+                      class="d-inline-block mr-3"
+                      >تصویر‌ها</span
+                    >
+                  </CDropdownItem>
+                  <CDropdownItem
+                    class="add-action-button"
+                    :to="`/admin/productprice/add?prodID=${item.productID}`"
+                    color="info"
+                  >
+                    <CIcon size="sm" name="cil-dollar" />
+                    <span class="d-inline-block mr-3"
+                      >اضافه کردن قیمت</span
+                    ></CDropdownItem
+                  >
+                  <CDropdownItem
+                    class="add-action-button"
+                    :to="`/admin/productoption/add?prodID=${item.productID}`"
+                    color="info"
+                  >
+                    <CIcon size="sm" name="cil-settings" />
+                    <span class="d-inline-block mr-3"
+                      >اضافه کردن آپشن</span
+                    ></CDropdownItem
+                  >
+                  <CDropdownItem
+                    class="add-action-button"
+                    :to="`/admin/productimage/add?prodID=${item.productID}`"
+                    color="info"
+                  >
+                    <CIcon size="sm" name="cil-image" /><span
+                      class="d-inline-block mr-3"
+                      >اضافه کردن تصویر</span
+                    >
+                  </CDropdownItem>
+                </CDropdownMenu></CDropdownToggle
+              >
+            </CDropdown>
           </td>
         </template>
         <template #index="{ index }">
           <td>
             {{ index + 1 }}
           </td>
+        </template>
+        <template #index-filter>
+          <CButton color="danger" size="sm" @click="clearAllFilters">
+            <CIcon name="cil-filter-x" class="ml-1" />
+          </CButton>
         </template>
         <template #isActive="{ item }">
           <td>
@@ -175,14 +180,9 @@
           />
         </template>
         <template #createDate-filter>
-          <date-picker
-            range
-            clearable
-            locale="fa"
-            format="YYYY-MM-DD HH:mm"
-            display-format="jYYYY/jM/jD"
-            label=""
-            v-model="range"
+          <TheDatePickerFilter
+            column="createDate"
+            @filter-changed="(data) => changeDateFilter(data)"
           />
         </template>
         <template #categoryID="{ item }">
@@ -237,22 +237,52 @@
     >
       <CRow>
         <template v-if="priceLinks && priceLinks.length > 0">
-          <template v-for="priceObj in priceLinks">
-            <CCol col="6" sm="6" :key="priceObj.productPriceID">
-              <router-link
-                :to="`/admin/productprice/edit/${priceObj.productPriceID}`"
-              >
-                <CCallout color="info">
-                  <small class="text-muted">قیمت</small><br />
-                  <strong>{{ priceObj.price.toLocaleString() }}</strong> <br />
-                  <small class="text-muted">اشتراک:</small><br />
-                  <strong>{{
-                    subscriptionsObjectMappedById[priceObj.subscriptionID]
-                  }}</strong>
-                </CCallout>
-              </router-link>
-            </CCol>
-          </template>
+          <CCol sm="12">
+            <CDataTable
+              :hover="hover"
+              :striped="striped"
+              :border="border"
+              :small="small"
+              :fixed="fixed"
+              :items="priceLinks"
+              :fields="[
+                { key: 'price', label: 'قیمت' },
+                { key: 'subscriptionID', label: 'اشتراک' },
+                { key: 'actions', label: 'عملیات' },
+              ]"
+              :dark="dark"
+              responsive
+              :noItemsView="{
+                noResults: 'دیتایی برای نمایش یافت نشد',
+                noItems: 'دیتایی برای نمایش وجود ندارد',
+              }"
+            >
+              <template #price="{ item }">
+                <td>
+                  {{ (+item.price).toLocaleString() }}
+                </td>
+              </template>
+
+              <template #subscriptionID="{ item }">
+                <td>
+                  {{ subscriptionsObjectMappedById[item.subscriptionID] }}
+                </td>
+              </template>
+
+              <template #actions="{ item }">
+                <CButton
+                  name="cil-pencil"
+                  :to="`/admin/productprice/edit/${item.productPriceID}`"
+                  size="sm"
+                  v-bind="{ variant: 'ghost' }"
+                  color="info"
+                  class="btn-brand"
+                >
+                  <CIcon size="sm" name="cil-pencil" />
+                </CButton>
+              </template>
+            </CDataTable>
+          </CCol>
         </template>
         <template v-else>
           <CCol sm="12">
@@ -268,6 +298,21 @@
         </template>
       </CRow>
       <template #footer>
+        <CButton
+          color="success"
+          size="sm"
+          class="m-2"
+          link
+          exact
+          :to="
+            priceLinks && priceLinks[0]
+              ? `/admin/productprice/add?prodID=${priceLinks[0].productID}`
+              : `/admin/productprice/add`
+          "
+        >
+          <CIcon name="cil-dollar" class="ml-1" />
+          اضافه کردن قیمت‌ جدید
+        </CButton>
         <CButton
           color="success"
           size="sm"
@@ -302,21 +347,52 @@
     >
       <CRow>
         <template v-if="optionLinks && optionLinks.length > 0">
-          <template v-for="optionObj in optionLinks">
-            <CCol col="12" sm="6" :key="optionObj.productOptionID">
-              <router-link :to="`/admin/option/edit/${optionObj.optionID}`">
-                <CCallout color="info">
-                  <small class="text-muted">نام:</small><br />
-                  <strong>{{ optionObj.option.optionType.title }}</strong>
-                  <br />
-                  <small class="text-muted">اشتراک:</small><br />
-                  <strong>{{
-                    subscriptionsObjectMappedById[optionObj.subscriptionID]
-                  }}</strong>
-                </CCallout>
-              </router-link>
-            </CCol>
-          </template>
+          <CCol sm="12">
+            <CDataTable
+              :hover="hover"
+              :striped="striped"
+              :border="border"
+              :small="small"
+              :fixed="fixed"
+              :items="optionLinks"
+              :fields="[
+                { key: 'title', label: 'نام' },
+                { key: 'subscriptionID', label: 'اشتراک' },
+                { key: 'actions', label: 'عملیات' },
+              ]"
+              :dark="dark"
+              responsive
+              :noItemsView="{
+                noResults: 'دیتایی برای نمایش یافت نشد',
+                noItems: 'دیتایی برای نمایش وجود ندارد',
+              }"
+            >
+              <template #title="{ item }">
+                <td>
+                  {{ item.option.optionType.title }}
+                </td>
+              </template>
+
+              <template #subscriptionID="{ item }">
+                <td>
+                  {{ subscriptionsObjectMappedById[item.subscriptionID] }}
+                </td>
+              </template>
+
+              <template #actions="{ item }">
+                <CButton
+                  name="cil-pencil"
+                  :to="`/admin/productoption/edit/${item.productOptionID}`"
+                  size="sm"
+                  v-bind="{ variant: 'ghost' }"
+                  color="info"
+                  class="btn-brand"
+                >
+                  <CIcon size="sm" name="cil-pencil" />
+                </CButton>
+              </template>
+            </CDataTable>
+          </CCol>
         </template>
         <template v-else>
           <CCol sm="12">
@@ -332,6 +408,21 @@
         </template>
       </CRow>
       <template #footer>
+        <CButton
+          color="success"
+          size="sm"
+          class="m-2"
+          link
+          exact
+          :to="
+            optionLinks && optionLinks[0]
+              ? `/admin/productoption/add?prodID=${optionLinks[0].productID}`
+              : `/admin/productoption/add`
+          "
+        >
+          <CIcon name="cil-dollar" class="ml-1" />
+          اضافه کردن آپشن جدید
+        </CButton>
         <CButton
           color="success"
           size="sm"
@@ -357,7 +448,9 @@
 
 <script>
 import { getOptions, getPrices } from "../../services/product";
+import TheDatePickerFilter from "../base/TheDatePickerFilter.vue";
 export default {
+  components: { TheDatePickerFilter },
   name: "Table",
   props: {
     items: Array,
@@ -440,6 +533,11 @@ export default {
     },
   },
   methods: {
+    changeDateFilter(data) {
+      if (!this.columnFilters) this.columnFilters = {};
+      this.columnFilters.createDate = data;
+      this.$emit("column-filter-change", this.columnFilters);
+    },
     pageChange(pageNumber) {
       this.$emit("page-change", pageNumber);
     },
@@ -480,6 +578,10 @@ export default {
         path: `/admin/productimage/show/${productId}`,
       });
     },
+    clearAllFilters() {
+      const eve = new Event("clearAllDataGridFilters");
+      window.dispatchEvent(eve);
+    },
   },
 };
 </script>
@@ -515,5 +617,8 @@ export default {
 
 .add-action-button::after {
   content: "+";
+  position: absolute;
+  top: 5px;
+  right: 10px;
 }
 </style>

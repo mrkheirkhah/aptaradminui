@@ -14,31 +14,31 @@
               <address class="m-t-5 m-b-5" v-if="invoice && invoice.seller">
                 <div>
                   <strong class="text-inverse">فروشنده: </strong>
-                  {{ invoice.seller.title }}<br />
+                  {{ invoice.seller.title || "-" }}<br />
                 </div>
                 <div>
                   <strong class="text-inverse">شناسه ملی: </strong>
-                  {{ invoice.seller.nationalCode }}<br />
+                  {{ invoice.seller.nationalCode || "-" }}<br />
                 </div>
                 <div>
                   <strong class="text-inverse">شماره ثبت: </strong>
-                  {{ invoice.seller.registerCode }}<br />
+                  {{ invoice.seller.registerCode || "-" }}<br />
                 </div>
                 <div>
                   <strong class="text-inverse">شماره اقتصادی: </strong>
-                  {{ invoice.seller.eNumber }}<br />
+                  {{ invoice.seller.eNumber || "-" }}<br />
                 </div>
                 <div>
                   <strong class="text-inverse">نشانی شرکت: </strong
-                  >{{ invoice.seller.address }}<br />
+                  >{{ invoice.seller.address || "-" }}<br />
                 </div>
                 <div>
                   <strong class="text-inverse">کد پستی: </strong>
-                  {{ invoice.seller.postalcode }}<br />
+                  {{ invoice.seller.postalcode || "-" }}<br />
                 </div>
                 <div>
                   <strong class="text-inverse">تلفن: </strong>
-                  {{ invoice.seller.tel }}<br />
+                  {{ invoice.seller.tel || "-" }}<br />
                 </div>
               </address>
             </div>
@@ -46,33 +46,33 @@
               <address class="m-t-5 m-b-5" v-if="invoice && invoice.customer">
                 <div>
                   <strong class="text-inverse">خریدار: </strong>
-                  {{ invoice.customer.title }}<br />
+                  {{ invoice.customer.title || "-" }}<br />
                 </div>
                 <div>
                   <strong class="text-inverse">شناسه ملی: </strong>
-                  {{ invoice.customer.nationalCode }}<br />
+                  {{ invoice.customer.nationalCode || "-" }}<br />
                 </div>
                 <div>
                   <strong class="text-inverse">شماره ثبت: </strong>
-                  {{ invoice.customer.registerCode }}<br />
+                  {{ invoice.customer.registerCode || "-" }}<br />
                 </div>
                 <div>
                   <strong class="text-inverse"
                     >شماره اقتصادی / شماره ملی:
                   </strong>
-                  {{ invoice.customer.code }}<br />
+                  {{ invoice.customer.code || "-" }}<br />
                 </div>
                 <div>
                   <strong class="text-inverse">نشانی: </strong>
-                  {{ invoice.customer.address }}<br />
+                  {{ invoice.customer.address || "-" }}<br />
                 </div>
                 <div>
                   <strong class="text-inverse">کد پستی: </strong>
-                  {{ invoice.customer.postalcode }}<br />
+                  {{ invoice.customer.postalcode || "-" }}<br />
                 </div>
                 <div>
                   <strong class="text-inverse">شماره تماس: </strong>
-                  <span dir="ltr">{{ invoice.customer.tel }}</span
+                  <span dir="ltr">{{ invoice.customer.tel || "-" }}</span
                   ><br />
                 </div>
               </address>
@@ -101,13 +101,13 @@
               </div>
               <div class="invoice-detail">
                 <strong class="text-inverse">شماره فاکتور: </strong
-                >{{ invoice.invoiceNumber }}
+                >{{ invoice.invoiceNumber || "-" }}
               </div>
             </div>
             <div class="invoice-date">
               <div class="invoice-detail">
                 <strong class="text-inverse">شماره پیگیری: </strong
-                >{{ invoice.traceCode }}
+                >{{ invoice.traceCode || "-" }}
               </div>
               <div class="m-t-5">
                 <strong class="text-inverse">تاریخ پیگیری: </strong
@@ -155,25 +155,27 @@
                 v-if="invoice && invoice.items && invoice.items.length > 0"
               >
                 <tr v-for="item in invoice.items" :key="item.row">
-                  <td class="text-center">{{ item.row }}</td>
-                  <td class="text-center">{{ item.productCode }}</td>
-                  <td class="text-center">{{ item.title }}</td>
-                  <td class="text-right">{{ item.count }}</td>
+                  <td class="text-center">{{ item.row || "-" }}</td>
+                  <td class="text-center">{{ item.productCode || "-" }}</td>
+                  <td class="text-center">{{ item.title || "-" }}</td>
+                  <td class="text-right">{{ item.count || "-" }}</td>
                   <td class="text-right">
-                    {{ item.unitPrice.toLocaleString() }}
+                    {{ item.unitPrice.toLocaleString() || "-" }}
                   </td>
                   <td class="text-right">
-                    {{ item.totalPrice.toLocaleString() }}
+                    {{ item.totalPrice.toLocaleString() || "-" }}
                   </td>
                   <td class="text-right">
-                    {{ item.discount.toLocaleString() }}
+                    {{ item.discount.toLocaleString() || "-" }}
                   </td>
                   <td class="text-right">
-                    {{ item.totalPriceWithDiscount.toLocaleString() }}
+                    {{ item.totalPriceWithDiscount.toLocaleString() || "-" }}
                   </td>
-                  <td class="text-right">{{ item.tax.toLocaleString() }}</td>
                   <td class="text-right">
-                    {{ item.purePrice.toLocaleString() }}
+                    {{ item.tax.toLocaleString() || "-" }}
+                  </td>
+                  <td class="text-right">
+                    {{ item.purePrice.toLocaleString() || "-" }}
                   </td>
                 </tr>
               </tbody>
@@ -185,21 +187,22 @@
                     جمع کل (تومان)
                   </th>
                   <th class="text-right" id="4" style="width: 12%">
-                    {{ invoice.summery.totalPrice.toLocaleString() }}
+                    {{ invoice.summery.totalPrice.toLocaleString() || "-" }}
                   </th>
                   <th class="text-right" id="5" style="width: 12%">
-                    {{ invoice.summery.discount.toLocaleString() }}
+                    {{ invoice.summery.discount.toLocaleString() || "-" }}
                   </th>
                   <th class="text-right" id="6" style="width: 12%">
                     {{
-                      invoice.summery.totalPriceWithDiscount.toLocaleString()
+                      invoice.summery.totalPriceWithDiscount.toLocaleString() ||
+                        "-"
                     }}
                   </th>
                   <th class="text-right" id="7" style="width: 12%">
-                    {{ invoice.summery.tax.toLocaleString() }}
+                    {{ invoice.summery.tax.toLocaleString() || "-" }}
                   </th>
                   <th class="text-right" id="8" style="width: 12%">
-                    {{ invoice.summery.purePrice.toLocaleString() }}
+                    {{ invoice.summery.purePrice.toLocaleString() || "-" }}
                   </th>
                 </tr>
               </thead>
@@ -494,4 +497,12 @@ body {
 .hidden-print {
   display: none;
 }
+</style>
+
+<style type="text/css" media="print">
+  @page { size: landscape; }
+
+  * { float: none !important; }
+
+  @page { margin: 2cm 2cm 0 2cm }
 </style>

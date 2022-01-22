@@ -1,5 +1,5 @@
 <template>
-  <CCard>
+  <CCard style="min-height: calc(100vh - 150px); overflow: auto">
     <CCardHeader>
       <slot name="header">
         <div class="d-flex align-items-center justify-content-between">
@@ -24,7 +24,7 @@
     <div class="py-4 px-4">
       <CTabs variant="pills" :active-tab="0">
         <CTab title="ویرایش">
-          <CCardBody>
+          <CCardBody style="max-height: calc(100vh - 240px); overflow: auto">
             <CForm
               v-if="infoFetched"
               @submit.prevent="handleSubmit"
@@ -109,7 +109,7 @@
           </CCardBody>
         </CTab>
         <CTab title="پاسخ">
-          <CCardBody>
+          <CCardBody style="max-height: calc(100vh - 240px); overflow: auto">
             <CRow class="px-3">
               <CForm
                 v-if="infoFetched"
@@ -117,20 +117,6 @@
                 ref="replyFormElement"
               >
                 <CRow class="pb-2">
-                  <CCol sm="12">
-                    <div class="pt-4">
-                      <CInput
-                        :value="replyTitle"
-                        @input="(e) => (replyTitle = e)"
-                        label="عنوان"
-                        :isValid="(val) => val"
-                        :oninvalid="`this.setCustomValidity(عنوان نمیتواند خالی باشد)`"
-                        validationMessage="عنوان نمیتواند خالی باشد"
-                        invalidFeedback="عنوان نمیتواند خالی باشد"
-                        placeholder="عنوان"
-                      />
-                    </div>
-                  </CCol>
                   <CCol sm="12">
                     <div class="pt-2 pb-4">
                       <quill-editor
@@ -168,12 +154,12 @@
           </CCardBody>
         </CTab>
         <CTab title="جواب‌ها">
-          <CCardBody>
+          <CCardBody style="max-height: calc(100vh - 240px); overflow: auto">
             <CRow>
               <CCol sm="12">
                   <CListGroup>
                         <template v-if="data.replies && data.replies.length > 0">
-                          <template v-for="reply in data.replies">
+                          <template v-for="reply in [...data.replies].reverse()">
                             <CListGroupItem
                               :to="'/admin/ticket/edit/' + reply.ticketID"
                               color="info"
@@ -244,7 +230,7 @@
           </CCardBody>
         </CTab>
         <CTab title="پیوست‌ها">
-          <CCardBody>
+          <CCardBody style="max-height: calc(100vh - 240px); overflow: auto">
             <CRow>
               <CCol sm="3" v-if="data && data.attachments && data.attachments.length > 0">
                 <a  
@@ -356,6 +342,7 @@ export default {
     },
     handleSubmit() {
       this.updateInfo.call(this);
+      this.fetchInfo()
     },
     async submitReply() {
       this.performingAction = true;
@@ -371,6 +358,7 @@ export default {
         console.log(ex);
       }
       self.performingAction = false;
+      self.fetchInfo();
     },
     async updateInfo() {
       this.performingAction = true;
@@ -385,6 +373,7 @@ export default {
         console.log(ex);
       }
       self.performingAction = false;
+      self.fetchInfo();
     },
     onEditorChange({ html }) {
       this.replyDescription = html;

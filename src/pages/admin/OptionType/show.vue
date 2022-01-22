@@ -6,6 +6,7 @@
       store-link="/admin/optiontype/"
       store-name="نوع آپشن ها"
       :fieldsToShow="fieldsToShow"
+      :categoryUpdateActions="categoryUpdateActions"
     />
   </div>
 </template>
@@ -20,6 +21,7 @@ export default {
   data() {
     return {
       fetchInfoMethod: getOne,
+      categoryUpdateActions: ["fetchOptionTypes"],
       data: {
         title: "",
         optionTypeID: 0,

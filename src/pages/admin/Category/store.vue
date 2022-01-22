@@ -38,6 +38,7 @@ export default {
   data() {
     return {
       fetchAll: getAll,
+      categoryUpdateActions: ["fetchCategories"],
       deleteInfoMethod: remove,
       deleteIdField: "categoryID",
       keysToPost: ["title", "isActive", "categoryID"],
@@ -65,6 +66,7 @@ export default {
       }
       try {
         await update({ ...clonedData });
+        this.updateCategoriesIfHave();
       } catch (ex) {
         console.log(ex);
       }

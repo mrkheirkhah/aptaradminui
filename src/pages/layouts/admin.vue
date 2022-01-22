@@ -17,6 +17,7 @@
         </main>
       </div>
       <TheFooter class="footer" />
+      <TheConfirmationModal />
     </CWrapper>
   </div>
 </template>
@@ -25,12 +26,14 @@
 import TheSidebar from "../../components/base/TheSidebar.vue";
 import TheHeader from "../../components/base/TheHeader.vue";
 import TheFooter from "../../components/base/TheFooter.vue";
+import TheConfirmationModal from "../../components/base/TheConfirmationModal.vue";
 export default {
   name: "AdminLAyout",
   components: {
     TheSidebar,
     TheHeader,
     TheFooter,
+    TheConfirmationModal,
   },
   methods: {
     fetchBaseInfo() {

@@ -11,6 +11,7 @@
                 {{ title }}
               </div>
               <CButton
+                v-if="storeLink && !showBreadCrumbs"
                 color="info"
                 size="sm"
                 class="m-2"
@@ -21,10 +22,15 @@
                 <CIcon :name="icon" class="ml-1" />
                 {{ storeName }}
               </CButton>
+              <template v-if="showBreadCrumbs">
+                <div>
+                  <CBreadcrumb :items="breadCrumbLinks" />
+                </div>
+              </template>
             </div>
           </slot>
         </CCardHeader>
-        <CCardBody>
+        <CCardBody style="max-height: calc(100vh - 240px); overflow: auto">
           <CRow>
             <template v-for="field in fieldsToShow">
               <CCol
@@ -132,6 +138,21 @@ export default {
       type: [String, Number],
       default: () => "",
     },
+    showBreadCrumbs: {
+      required: false,
+      type: Boolean,
+      default: () => false,
+    },
+    breadCrumbLinks: {
+      type: Array,
+      required: false,
+      default: () => [],
+    },
+    categoryUpdateActions: {
+      type: Array,
+      required: false,
+      default: () => [],
+    },
   },
   data() {
     return {
@@ -151,6 +172,11 @@ export default {
         this.$router.push({ path: this.storeLink });
       } catch (ex) {
         console.log(ex);
+      }
+      if(this.categoryUpdateActions && this.categoryUpdateActions.length > 0) {
+        for (const category of this.categoryUpdateActions) {
+          this.$store.dispatch(category, null, { root: true });
+        }
       }
       this.performingAction = false;
     },
